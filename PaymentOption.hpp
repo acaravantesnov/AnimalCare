@@ -1,11 +1,22 @@
 #ifndef PAYMENTOPTION_HPP
-#define PAYMENTOPTION_HPP
+# define PAYMENTOPTION_HPP
 
+# include "Address.hpp"
+# include <string>
 
 class PaymentOption
 {
-public:
-    PaymentOption();
+    protected:
+        int         _id;
+        Address*    _billing_address;
+        PaymentOption();
+    public:
+        int                     &getId();
+        void                    setId(int id);
+        Address                 getAddress();
+        void                    setAddress(Address billing_address);
+        PaymentOption(int id, Address* billing_address);
+        virtual std::string     show() = 0;
 };
 
 #endif // PAYMENTOPTION_HPP

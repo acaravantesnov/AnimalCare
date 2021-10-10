@@ -1,6 +1,8 @@
 #ifndef PUBLICUSERDATA_HPP
 # define PUBLICUSERDATA_HPP
 
+# include <string>
+
 class PublicUserData
 {
     protected:

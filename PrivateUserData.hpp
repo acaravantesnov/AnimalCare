@@ -3,6 +3,8 @@
 
 # include <iostream>
 # include <vector>
+# include "Address.hpp"
+# include "PaymentOption.hpp"
 
 class PrivateUserData
 {
