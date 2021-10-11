@@ -6,6 +6,7 @@
 # include "Admin.hpp"
 # include "Address.hpp"
 # include "CreditCard.hpp"
+# include <cstdlib>
 
 class Manager
 {

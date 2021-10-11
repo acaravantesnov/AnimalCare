@@ -147,20 +147,34 @@ unsigned long &_reference, float &_price)
 
 std::vector<PublicUserData*>    Manager::showUsers()
 {
-    std::vector<PublicUserData*>    data;
     if ((isLogged() == true) && (users[current_user]->isAdmin() == true))
     {
-        for(int i = 0; i < users.size(); i++)
-            data[i] = users[i]->PublicUserData;
-        return (data);
+
     }
-    return ();
 }
 
 bool    Manager::makeOrder(std::vector<unsigned long> &_products,
 int &_delivery_address, int &_payment_option)
 {
-
+    unsigned long ref = (unsigned long)rand();
+    float   total = 0;
+    if (isLogged() == true)
+    {
+        for(int i = 0; i < _products.size(); i++)
+        {
+            for(int j = 0; j < products.size(); j++)
+            {
+                if (_products[j] == products[i]->reference)
+                    total += products[i]->price;
+            }
+        }
+    }
+    else
+        return (false);
+    if (users[current_user]->isAdmin() == true)
+        total = total - (total * 0.075);
+    users[current_user]->orders.push_back(new Order(ref, _products, _delivery_address, _payment_option, total));
+    return (true);
 }
 
 bool    Manager::createReview(unsigned long &_reference, int &_rating,
