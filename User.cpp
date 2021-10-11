@@ -2,11 +2,11 @@
 
 User::User() {}
 
-User::User(std::string username, std::string email, std::string password)
+User::User(const std::string &_username, const std::string &_email, const std::string &_password)
 {
-    _username = username;
-    _email = email;
-    _password = password;
+    username = _username;
+    email = _email;
+    password = _password;
 }
 
-virtual bool    User::isAdmin() {}
+bool    User::isAdmin() {return (false);}

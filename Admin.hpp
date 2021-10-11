@@ -6,12 +6,12 @@
 class Admin : public User
 {
     protected:
-        unsigned long   _worker_id;
+        unsigned long   worker_id;
     private:
         Admin();
     public:
-        Admin(std::string username, std::string email, std::string password,
-        unsigned long worker_id);
+        Admin(std::string const &_username, std::string const &_email, std::string const &_password,
+        unsigned long const &_worker_id);
 };
 
 #endif // ADMIN_HPP

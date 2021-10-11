@@ -10,26 +10,26 @@
 class Review : public User
 {
     private:
-        unsigned long   _id;
-        std::time_t     _date;
-        int             _rating;
-        std::string     _text;
-        int             _votes;
-        PublicUserData* _author;
+        unsigned long   id;
+        std::time_t     date;
+        int             rating;
+        std::string     text;
+        int             votes;
+        PublicUserData* author;
         Review();
     public:
         unsigned long   &getId();
         std::time_t     &getDate();
-        void            setDate(std::time_t &date);
+        void            setDate(std::time_t &_date);
         int             &getRating();
-        void            setRating(int &rating);
+        void            setRating(int &_rating);
         std::string     &getText();
-        void            setText(std::string &text);
+        void            setText(std::string &_text);
         int             &getVotes();
         void            incrementVotes();
         void            decrementVotes();
         PublicUserData  getAuthor();
-        Review(unsigned long id, int rating, std::string text, PublicUserData* author);
+        Review(unsigned long const &_id, int const _rating, std::string const &_text, PublicUserData* _author);
         std::string     show();
 };
 

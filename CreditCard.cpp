@@ -2,27 +2,27 @@
 
 CreditCard::CreditCard() {}
 
-unsigned long   &CreditCard::getNumber() {return (_number);}
+unsigned long   &CreditCard::getNumber() {return (number);}
 
-void            CreditCard::setNumber(unsigned long &number) {_number = number;}
+void            CreditCard::setNumber(unsigned long &_number) {number = _number;}
 
-std::string     &CreditCard::getCardholder() {return (_cardholder);}
+std::string     &CreditCard::getCardholder() {return (cardholder);}
 
-void            CreditCard::setCardholder(std::string &cardholder) {_cardholder = cardholder;}
+void            CreditCard::setCardholder(std::string &_cardholder) {cardholder = _cardholder;}
 
-CreditCard::CreditCard(int id, Address* billing_address, unsigned long number,
-std::string cardholder)
+CreditCard::CreditCard(const int &_id, Address* _billing_address, const unsigned long &_number,
+const std::string &_cardholder)
 {
-    _id = id;
-    _billing_address = billing_address;
-    _number = number;
-    _cardholder = cardholder;
+    id = _id;
+    billing_address = _billing_address;
+    number = _number;
+    cardholder = _cardholder;
 }
 
 std::string CreditCard::show()
 {
     std::string info;
-    info = "\tid " + _id + " - Credit Card:\nBilling address: " + PaymentOption::show() +
-    '\t' + _number + " - " + _cardholder;
+    info = "\tid " + id + " - Credit Card:\nBilling address: " + PaymentOption::show() +
+    '\t' + number + " - " + cardholder;
     return (info);
 }

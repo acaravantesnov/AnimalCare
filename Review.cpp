@@ -2,42 +2,42 @@
 
 Review::Review() {}
 
-unsigned long   &Review::getId() {return (_id);}
+unsigned long   &Review::getId() {return (id);}
 
-std::time_t &Review::getDate() {return (_date);}
+std::time_t &Review::getDate() {return (date);}
 
-void    Review::setDate(std::time_t &date) {_date = date;}
+void    Review::setDate(std::time_t &_date) {date = _date;}
 
-int &Review::getRating() {return (_rating);}
+int &Review::getRating() {return (rating);}
 
-void    Review::setRating(int &rating) {_rating = rating;}
+void    Review::setRating(int &_rating) {rating = _rating;}
 
-std::string &Review::getText() {return (_text);}
+std::string &Review::getText() {return (text);}
 
-void    Review::setText(std::string &text) {_text = text;}
+void    Review::setText(std::string &_text) {text = _text;}
 
-int &Review::getVotes() {return (_votes);}
+int &Review::getVotes() {return (votes);}
 
-void    Review::incrementVotes() {_votes++;}
+void    Review::incrementVotes() {votes++;}
 
-void    Review::decrementVotes() {_votes--;}
+void    Review::decrementVotes() {votes--;}
 
-PublicUserData  Review::getAuthor() {return (_author);}
+PublicUserData  Review::getAuthor() {return (author);}
 
-Review::Review(unsigned long id, int rating, std::string text, PublicUserData* author)
+Review::Review(const unsigned long &_id, const int &_rating, const std::string &_text, PublicUserData* _author)
 {
-    _id = id;
-    _rating = rating;
-    _text = text;
-    _author = author;
-    _date = time_t(0);
-    _votes = 0;
+    id = _id;
+    rating = _rating;
+    text = _text;
+    author = _author;
+    date = time_t(0);
+    votes = 0;
 }
 
 std::string Review::show()
 {
     std::string str;
-    str = '\t' + _rating + " starts on " + _date + " by " + _username + " \t" + _text +
-    '\t' + _votes + " votes";
+    str = '\t' + rating + " starts on " + date + " by " + username + " \t" + text +
+    '\t' + votes + " votes";
     return (str);
 }

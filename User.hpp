@@ -7,7 +7,7 @@
 class   User : public PrivateUserData, public PublicUserData
 {
     public:
-        User(std::string username, std::string email, std::string password);
+        User(std::string const &_username, std::string const &_email, std::string const &_password);
         virtual bool    isAdmin();
     protected:
         User();

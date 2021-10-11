@@ -2,22 +2,22 @@
 
 PublicUserData::PublicUserData() {}
 
-std::string &PublicUserData::getUsername() {return (_username);}
+std::string &PublicUserData::getUsername() {return (username);}
 
-void    PublicUserData::setUsername(std::string &username) {_username = username;}
+void    PublicUserData::setUsername(std::string &_username) {username = _username;}
 
-int &PublicUserData::getReputation() {return (_reputation);}
+int &PublicUserData::getReputation() {return (reputation);}
 
-void    PublicUserData::increaseReputation() {_reputation++;}
+void    PublicUserData::increaseReputation() {reputation++;}
 
 void    PublicUserData::decreaseReputation()
 {
-    if (_reputation >= 1)
-        _reputation--;
+    if (reputation >= 1)
+        reputation--;
 }
 
-PublicUserData::PublicUserData(std::string username)
+PublicUserData::PublicUserData(const std::string &_username)
 {
-    _username = username;
-    _reputation = 0;
+    username = _username;
+    reputation = 0;
 }

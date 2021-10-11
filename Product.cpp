@@ -2,23 +2,23 @@
 
 Product::Product() {}
 
-std::string &Product::getName() {return (_name);}
+std::string &Product::getName() {return (name);}
 
-void    Product::setName(std::string &name) {_name = name;}
+void    Product::setName(std::string &_name) {name = _name;}
 
-std::string &Product::getDescription() {return (_description);}
+std::string &Product::getDescription() {return (description);}
 
-void    Product::setDescription(std::string &description) {_description = description;}
+void    Product::setDescription(std::string &_description) {description = _description;}
 
-unsigned long   &Product::getReference() {return (_reference);}
+unsigned long   &Product::getReference() {return (reference);}
 
-void    Product::setReference(unsigned long &reference) {_reference = reference;}
+void    Product::setReference(unsigned long &_reference) {reference = _reference;}
 
-float   &Product::getPrice() {return (_price);}
+float   &Product::getPrice() {return (price);}
 
-void    Product::setPrice(float &price) {_price = price;}
+void    Product::setPrice(float &_price) {price = _price;}
 
-std::vector<Review*>    &Product::getReviews() {return (_reviews);}
+std::vector<Review*>    &Product::getReviews() {return (reviews);}
 
 void    Product::addReview(Review* review)
 {
@@ -26,13 +26,13 @@ void    Product::addReview(Review* review)
     //
 }
 
-Product::Product(std::string &name, std::string &description, unsigned long &reference,
-float &price)
+Product::Product(const std::string &_name, const std::string &_description,const unsigned long &_reference,
+const float &_price)
 {
-    _name = name;
-    _description = description;
-    _reference = reference;
-    _price = price;
+    name = _name;
+    description = _description;
+    reference = _reference;
+    price = _price;
 }
 
 Product::Product&   operator<<()

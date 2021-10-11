@@ -7,15 +7,15 @@
 class PaymentOption
 {
     protected:
-        int         _id;
-        Address*    _billing_address;
+        int         id;
+        Address*    billing_address;
         PaymentOption();
     public:
         int                     &getId();
-        void                    setId(int id);
-        Address                 getAddress();
-        void                    setAddress(Address billing_address);
-        PaymentOption(int id, Address* billing_address);
+        void                    setId(int &_id);
+        Address*                getBillingAddress();
+        void                    setBillingAddress(Address* _billing_address);
+        PaymentOption(int const &_id, Address* _billing_address);
         virtual std::string     show() = 0;
 };
 

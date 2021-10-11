@@ -2,45 +2,45 @@
 
 Order::Order() {}
 
-unsigned long   &Order::getReference() {return (_reference);}
+unsigned long   &Order::getReference() {return (reference);}
 
-void    Order::setReference(unsigned long &reference) {_reference = reference;}
+void    Order::setReference(unsigned long &_reference) {reference = _reference;}
 
-std::time_t &Order::getTime() {return (_date);}
+std::time_t &Order::getTime() {return (date);}
 
-void    Order::setTime(std::time_t &date) {_date = date;}
+void    Order::setTime(std::time_t &_date) {date = _date;}
 
-int &Order::getDeliveryAddress() {return (_delivery_address);}
+int &Order::getDeliveryAddress() {return (delivery_address);}
 
-void    Order::setDeliveryAddress(int &delivery_address) {_delivery_address = delivery_address;}
+void    Order::setDeliveryAddress(int &_delivery_address) {delivery_address = _delivery_address;}
 
-int &Order::getPaymentOption() {return (_payment_option);}
+int &Order::getPaymentOption() {return (payment_option);}
 
-void    Order::setPaymentOption(int &payment_option) {_payment_option = payment_option;}
+void    Order::setPaymentOption(int &_payment_option) {payment_option = _payment_option;}
 
-float   &Order::getTotal() {return (_total);}
+float   &Order::getTotal() {return (total);}
 
-void    Order::setTotal(float &total) {_total = total;}
+void    Order::setTotal(float &_total) {total = _total;}
 
-std::vector<unsigned long>  &Order::getProducts() {return (_products);}
+std::vector<unsigned long>  &Order::getProducts() {return (products);}
 
-void    Order::addProduct(unsigned long &newProduct) {}
+void    Order::addProduct(unsigned long &_newProduct) {}
 
-Order::Order(unsigned long &reference, std::vector<unsigned long> &products,
-int &delivery_address, int &payment_option, float &total)
+Order::Order(const unsigned long &_reference, const std::vector<unsigned long> &_products,
+const int &_delivery_address, const int &_payment_option, const float &_total)
 {
-    _reference = reference;
-    _products = products;
-    _delivery_address = delivery_address;
-    _payment_option = payment_option;
-    _total = total;
-    _date = time_t(0);
+    reference = _reference;
+    products = _products;
+    delivery_address = _delivery_address;
+    payment_option = _payment_option;
+    total = _total;
+    date = time_t(0);
 }
 
-Order::Order(unsigned long &reference, int &delivery_address, int &payment_option)
+Order::Order(const unsigned long &_reference, const int &_delivery_address, const int &_payment_option)
 {
-    _reference = reference;
-    _delivery_address = delivery_address;
-    _payment_option = payment_option;
-    _date = time_t(0);
+    reference = _reference;
+    delivery_address = _delivery_address;
+    payment_option = _payment_option;
+    date = time_t(0);
 }

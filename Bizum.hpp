@@ -6,12 +6,12 @@
 class Bizum : public PaymentOption
 {
     private:
-        unsigned int    _number;
+        unsigned int    number;
         Bizum();
     public:
         unsigned int    &getNumber();
-        void            setNumber(unsigned int number);
-        Bizum(int id, Address* billing_address, unsigned int number);
+        void            setNumber(unsigned int &_number);
+        Bizum(int const &_id, Address* _billing_address, unsigned int const &_number);
 };
 
 #endif // BIZUM_HPP

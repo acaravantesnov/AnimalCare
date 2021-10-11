@@ -6,25 +6,25 @@
 class Address
 {
     private:
-        int _id;
-        std::string     _address;
-        std::string     _city;
-        std::string     _province;
-        unsigned int    _postal_code;
+        int             id;
+        std::string     address;
+        std::string     city;
+        std::string     province;
+        unsigned int    postal_code;
         Address();
     public:
         int         &getId();
-        void        setId(int &id);
+        void        setId(int &_id);
         std::string &getAddress();
-        void        setAddress(std::string &address);
+        void        setAddress(std::string &_address);
         std::string &getCity();
-        void        setCity(std::string &city);
+        void        setCity(std::string &_city);
         std::string &getProvince();
-        void        setProvince(std::string &province);
+        void        setProvince(std::string &_province);
         std::string &getPostalCode();
-        void        setPostalCode(std::string &postal_code);
-        Address(int id, std::string address, std::string city, std::string province,
-        std::string postal_code);
+        void        setPostalCode(std::string &_postal_code);
+        Address(int const &_id, std::string const &_address, std::string const &_city, std::string const &_province,
+        std::string const &_postal_code);
         std::string show();
 };
 

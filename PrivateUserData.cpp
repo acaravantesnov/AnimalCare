@@ -2,20 +2,22 @@
 
 PrivateUserData::PrivateUserData(){}
 
-PrivateUserData::PrivateUserData(std::string email, std::string password)
+PrivateUserData::PrivateUserData(const std::string &_email, const std::string &_password)
 {
-    _email = email;
-    _password = password;
+    email = _email;
+    password = _password;
 }
 
-std::string &PrivateUserData::getEmail() {return(_email);}
+std::string &PrivateUserData::getEmail() {return(email);}
 
-void    PrivateUserData::setEmail(std::string &email) {_email = email;}
+void    PrivateUserData::setEmail(std::string &_email) {email = _email;}
 
-std::string &PrivateUserData::getPassWord() {return(_password);}
+std::string &PrivateUserData::getPassWord() {return(password);}
 
-void    PrivateUserData::setPassword(std::string &password) {_password = password;}
+void    PrivateUserData::setPassword(std::string &_password) {password = _password;}
 
-std::vector<Address*>           &getAdress();
-std::vector<PaymentOption*>     &getPaymentOption();
-std::vector<Order*>             &getOrder();
+std::vector<Address*>   &PrivateUserData::getAddresses() {return (addresses);}
+
+std::vector<PaymentOption*> &PrivateUserData::getPaymentOptions() {return (payment_options);}
+
+std::vector<Order*> &PrivateUserData::getOrders() {return (orders);}

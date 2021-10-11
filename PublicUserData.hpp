@@ -6,16 +6,16 @@
 class PublicUserData
 {
     protected:
-        std::string _username;
-        int         _reputation;
+        std::string username;
+        int         reputation;
         PublicUserData();
     public:
         std::string &getUsername();
-        void        setUsername(std::string &username);
+        void        setUsername(std::string &_username);
         int         &getReputation();
         void        increaseReputation();
         void        decreaseReputation();
-        PublicUserData(std::string username);
+        PublicUserData(std::string const &_username);
 };
 
 #endif // PUBLICUSERDATA_HPP

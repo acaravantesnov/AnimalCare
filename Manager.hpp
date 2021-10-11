@@ -10,46 +10,46 @@
 class Manager
 {
     private:
-        std::vector<User*>      _users;
-        std::vector<Product*>   _products;
-        int                     _current_user;
+        std::vector<User*>      users;
+        std::vector<Product*>   products;
+        int                     current_user;
     public:
         std::vector<User*>              &getUsers();
         std::vector<Product*>           &getProducts();
         Manager();
         ~Manager();
-        bool                            login(std::string &email, std::string &password);
+        bool                            login(std::string &_email, std::string &_password);
         bool                            logout();
         bool                            isLogged();
         User*                           getCurrentUser();
-        bool                            addUser(std::string &username, std::string &email,
-        std::string &password);
-        bool                            addAdmin(std::string &username, std::string &email,
-        std::string &password, unsigned long &worker_id);
+        bool                            addUser(std::string &_username, std::string &_email,
+        std::string &_password);
+        bool                            addAdmin(std::string &_username, std::string &_email,
+        std::string &_password, unsigned long &_worker_id);
         bool                            eraseCurrentUser();
-        bool                            editUsername(std::string &username);
-        bool                            editEmail(std::string &email);
-        bool                            editPassword(std::string &password);
-        bool                            addAddress(std::string address, std::string city,
-        std::string province, unsigned int postal_code);
-        bool                            addCreditCard(Address* billing_address,
-        unsigned long number, std::string cardholder);
-        bool                            addBizum(Address* billing_address, unsigned int number);
+        bool                            editUsername(std::string &_username);
+        bool                            editEmail(std::string &_email);
+        bool                            editPassword(std::string &_password);
+        bool                            addAddress(std::string &_address, std::string &_city,
+        std::string &_province, unsigned int &_postal_code);
+        bool                            addCreditCard(Address* _billing_address,
+        unsigned long &_number, std::string &_cardholder);
+        bool                            addBizum(Address* _billing_address, unsigned int &_number);
 
         //Segunda entrega
-        bool                            addProduct(std::string name, std::string description,
-        unsigned long reference, float price);
+        bool                            addProduct(std::string &_name, std::string &_description,
+        unsigned long &_reference, float &_price);
         std::vector<PublicUserData*>    showUsers();
-        bool                            makeOrder(std::vector<unsigned long> products,
-        int delivery_address, int payment_option);
-        bool                            createReview(unsigned long reference, int rating,
-        std::string text);
-        std::vector<Review*>            getReviewsByRating(unsigned long reference, int rating);
-        bool                            upvoteReview(unsigned long id);
-        bool                            downvoteReview(unsigned long id);
-        bool                            modifyReviewRating(unsigned long id, int rating);
-        bool                            modifyReviewText(unsigned long id, std::string text);
-        bool                            deleteReview(unsigned long id);
+        bool                            makeOrder(std::vector<unsigned long> &_products,
+        int &_delivery_address, int &_payment_option);
+        bool                            createReview(unsigned long &_reference, int &_rating,
+        std::string &_text);
+        std::vector<Review*>            getReviewsByRating(unsigned long &_reference, int &_rating);
+        bool                            upvoteReview(unsigned long &_id);
+        bool                            downvoteReview(unsigned long &_id);
+        bool                            modifyReviewRating(unsigned long &_id, int &_rating);
+        bool                            modifyReviewText(unsigned long &_id, std::string &_text);
+        bool                            deleteReview(unsigned long &_id);
 
         //Tercera entrega
         void                            saveToFile(std::string fileAddress);

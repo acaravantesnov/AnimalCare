@@ -8,25 +8,25 @@
 class Product
 {
     private:
-        std::string             _name;
-        std::string             _description;
-        unsigned long           _reference;
-        float                   _price;
-        std::vector<Review*>    _reviews;
+        std::string             name;
+        std::string             description;
+        unsigned long           reference;
+        float                   price;
+        std::vector<Review*>    reviews;
         Product();
     public:
         std::string             &getName();
-        void                    setName(std::string &name);
+        void                    setName(std::string &_name);
         std::string             &getDescription();
-        void                    setDescription(std::string &description);
+        void                    setDescription(std::string &_description);
         unsigned long           &getReference();
-        void                    setReference(unsigned long &reference);
+        void                    setReference(unsigned long &_reference);
         float                   &getPrice();
-        void                    setPrice(float &price);
+        void                    setPrice(float &_price);
         std::vector<Review*>    &getReviews();
         void                    addReview(Review* review);
-        Product(std::string &name, std::string &description, unsigned long &reference,
-        float &price);
+        Product(std::string const &_name, std::string const &_description, unsigned long const &_reference,
+        float const &_price);
         Product&                operator<<(); //
 };
 

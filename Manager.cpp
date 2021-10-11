@@ -1,11 +1,6 @@
 #include "Manager.hpp"
 
 // Primera entrega
-Manager::Manager()
-{
-
-}
-
 std::vector<User*>  &Manager::getUsers()
 {
 
@@ -26,7 +21,7 @@ Manager::~Manager()
 
 }
 
-bool    Manager::login(std::string &email, std::string &password)
+bool    Manager::login(std::string &_email, std::string &_password)
 {
 
 }
@@ -46,14 +41,14 @@ User*   Manager::getCurrentUser()
 
 }
 
-bool    Manager::addUser(std::string &username, std::string &email,
-std::string &password)
+bool    Manager::addUser(std::string &_username, std::string &_email,
+std::string &_password)
 {
 
 }
 
-bool    Manager::addAdmin(std::string &username, std::string &email,
-std::string &password, unsigned long &worker_id)
+bool    Manager::addAdmin(std::string &_username, std::string &_email,
+std::string &_password, unsigned long &_worker_id)
 {
 
 }
@@ -63,41 +58,41 @@ bool    Manager::eraseCurrentUser()
 
 }
 
-bool    Manager::editUsername(std::string &username)
+bool    Manager::editUsername(std::string &_username)
 {
 
 }
 
-bool    Manager::editEmail(std::string &email)
+bool    Manager::editEmail(std::string &_email)
 {
 
 }
 
-bool    Manager::editPassword(std::string &password)
+bool    Manager::editPassword(std::string &_password)
 {
 
 }
 
-bool    Manager::addAddress(std::string address, std::string city,
-std::string province, unsigned int postal_code)
+bool    Manager::addAddress(std::string &_address, std::string &_city,
+std::string &_province, unsigned int &_postal_code)
 {
 
 }
 
-bool    Manager::addCreditCard(Address* billing_address,
-unsigned long number, std::string cardholder)
+bool    Manager::addCreditCard(Address* _billing_address,
+unsigned long &_number, std::string &_cardholder)
 {
 
 }
 
-bool    Manager::addBizum(Address* billing_address, unsigned int number)
+bool    Manager::addBizum(Address* _billing_address, unsigned int &_number)
 {
 
 }
 
 //Segunda entrega
-bool    Manager::addProduct(std::string name, std::string description,
-unsigned long reference, float price)
+bool    Manager::addProduct(std::string &_name, std::string &_description,
+unsigned long &_reference, float &_price)
 {
 
 }
@@ -107,44 +102,44 @@ std::vector<PublicUserData*>    Manager::showUsers()
 
 }
 
-bool    Manager::makeOrder(std::vector<unsigned long> products,
-int delivery_address, int payment_option)
+bool    Manager::makeOrder(std::vector<unsigned long> &_products,
+int &_delivery_address, int &_payment_option)
 {
 
 }
 
-bool    Manager::createReview(unsigned long reference, int rating,
-std::string text)
+bool    Manager::createReview(unsigned long &_reference, int &_rating,
+std::string &_text)
 {
 
 }
 
-std::vector<Review*>    Manager::getReviewsByRating(unsigned long reference, int rating)
+std::vector<Review*>    Manager::getReviewsByRating(unsigned long &_reference, int &_rating)
 {
 
 }
 
-bool    Manager::upvoteReview(unsigned long id)
+bool    Manager::upvoteReview(unsigned long &_id)
 {
 
 }
 
-bool    Manager::downvoteReview(unsigned long id)
+bool    Manager::downvoteReview(unsigned long &_id)
 {
 
 }
 
-bool    Manager::modifyReviewRating(unsigned long id, int rating)
+bool    Manager::modifyReviewRating(unsigned long &_id, int &_rating)
 {
 
 }
 
-bool    Manager::modifyReviewText(unsigned long id, std::string text)
+bool    Manager::modifyReviewText(unsigned long &_id, std::string &_text)
 {
 
 }
 
-bool    Manager::deleteReview(unsigned long id)
+bool    Manager::deleteReview(unsigned long &_id)
 {
 
 }

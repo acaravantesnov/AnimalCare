@@ -5,25 +5,26 @@
 # include <vector>
 # include "Address.hpp"
 # include "PaymentOption.hpp"
+# include "Order.hpp"
 
 class PrivateUserData
 {
     protected:
-        std::string                 _email;
-        std::string                 _password;
-        std::vector<Address*>       _addresses;
-        std::vector<PaymentOption*> _payment_options;
-        std::vector<Order*>         _orders;
+        std::string                 email;
+        std::string                 password;
+        std::vector<Address*>       addresses;
+        std::vector<PaymentOption*> payment_options;
+        std::vector<Order*>         orders;
         PrivateUserData();
-        PrivateUserData(std::string email, std::string password);
     public:
+        PrivateUserData(std::string const &_email, std::string const &_password);
         std::string                     &getEmail();
-        void                            setEmail(std::string &email);
+        void                            setEmail(std::string &_email);
         std::string                     &getPassWord();
-        void                            setPassword(std::string &password);
-        std::vector<Address*>           &getAdress();
-        std::vector<PaymentOption*>     &getPaymentOption();
-        std::vector<Order*>             &getOrder();
+        void                            setPassword(std::string &_password);
+        std::vector<Address*>           &getAddresses();
+        std::vector<PaymentOption*>     &getPaymentOptions();
+        std::vector<Order*>             &getOrders();
 };
 
 #endif // PRIVATEUSERDATA_HPP
