@@ -36,8 +36,8 @@ Review::Review(const unsigned long &_id, const int &_rating, const std::string &
 
 std::string Review::show()
 {
-    std::string str;
-    str = '\t' + rating + " starts on " + date + " by " + username + " \t" + text +
+    std::string showstr;
+    showstr = '\t' + rating + " starts on " + date + " by " + author->username + " \t" + text +
     '\t' + votes + " votes";
-    return (str);
+    return (showstr);
 }

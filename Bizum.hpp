@@ -12,6 +12,7 @@ class Bizum : public PaymentOption
         unsigned int    &getNumber();
         void            setNumber(unsigned int &_number);
         Bizum(int const &_id, Address* _billing_address, unsigned int const &_number);
+        std::string     show();
 };
 
 #endif // BIZUM_HPP

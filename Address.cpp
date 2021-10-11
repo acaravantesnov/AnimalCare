@@ -35,6 +35,6 @@ const std::string &_postal_code)
 std::string Address::show()
 {
     std::string addressStr;
-    addressStr = address + ' ' + city + ' ' + province + ' ' + postal_code;
+    addressStr = address + ", " + city + ", " + province + ", " + postal_code;
     return (addressStr);
 }

@@ -9,7 +9,7 @@ class Order
     private:
         unsigned long               reference;
         std::vector<unsigned long>  products;
-        std::time_t                 date; //= std::time(0)
+        std::time_t                 date;
         int                         delivery_address;
         int                         payment_option;
         float                       total;

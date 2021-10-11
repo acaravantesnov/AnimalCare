@@ -21,8 +21,8 @@ const std::string &_cardholder)
 
 std::string CreditCard::show()
 {
-    std::string info;
-    info = "\tid " + id + " - Credit Card:\nBilling address: " + PaymentOption::show() +
+    std::string showstr;
+    showstr = "\tid " + id + " - Credit Card:\nBilling address: " + PaymentOption::show() +
     '\t' + number + " - " + cardholder;
     return (info);
 }

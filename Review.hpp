@@ -7,7 +7,7 @@
 # include "User.hpp"
 
 
-class Review : public User
+class Review
 {
     private:
         unsigned long   id;

@@ -20,11 +20,7 @@ void    Product::setPrice(float &_price) {price = _price;}
 
 std::vector<Review*>    &Product::getReviews() {return (reviews);}
 
-void    Product::addReview(Review* review)
-{
-    review = new Review;
-    //
-}
+void    Product::addReview(Review* review) {reviews.push_back(review);}
 
 Product::Product(const std::string &_name, const std::string &_description,const unsigned long &_reference,
 const float &_price)
@@ -35,7 +31,13 @@ const float &_price)
     price = _price;
 }
 
-Product::Product&   operator<<()
+std::ostream&   Product::operator<<(std::ostream& stream)
 {
-    //
+    stream << reference << " - " << name << '\n' << description << '\n' << price;
+    if (reviews.size() == 0)
+        return (stream);
+    stream << "\n\t-- User reviews --\n";
+    for(int i = 0; i < reviews.size(); i++)
+        stream << "\t" << reviews[i] << "\n\t----\n";
+    return (stream);
 }
