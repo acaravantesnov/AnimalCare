@@ -28,8 +28,8 @@ class Review
         int             &getVotes();
         void            incrementVotes();
         void            decrementVotes();
-        PublicUserData  getAuthor();
-        Review(unsigned long const &_id, int const _rating, std::string const &_text, PublicUserData* _author);
+        PublicUserData* getAuthor();
+        Review(unsigned long const &_id, int const &_rating, std::string const &_text, PublicUserData* _author);
         std::string     show();
 };
 

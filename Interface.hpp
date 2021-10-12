@@ -1,4 +1,4 @@
-/*#ifndef INTERFACE_HPP
+#ifndef INTERFACE_HPP
 #define INTERFACE_HPP
 
 # include <iostream>
@@ -8,7 +8,6 @@
 # include "PrivateUserData.hpp"
 # include "PublicUserData.hpp"
 # include "User.hpp"
+# include "Manager.hpp"
 
-void    interface();
-
-#endif // INTERFACE_HPP */
+#endif // INTERFACE_HPP

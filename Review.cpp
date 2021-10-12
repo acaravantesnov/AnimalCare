@@ -22,7 +22,7 @@ void    Review::incrementVotes() {votes++;}
 
 void    Review::decrementVotes() {votes--;}
 
-PublicUserData  Review::getAuthor() {return (author);}
+PublicUserData*  Review::getAuthor() {return (author);}
 
 Review::Review(const unsigned long &_id, const int &_rating, const std::string &_text, PublicUserData* _author)
 {
@@ -37,7 +37,7 @@ Review::Review(const unsigned long &_id, const int &_rating, const std::string &
 std::string Review::show()
 {
     std::string showstr;
-    showstr = '\t' + rating + " starts on " + date + " by " + author->username + " \t" + text +
-    '\t' + votes + " votes";
+    showstr = '\t' + std::to_string(rating) + " starts on " + std::to_string(date) + " by " + getAuthor()->getUsername() + " \t" + text +
+    '\t' + std::to_string(votes) + " votes";
     return (showstr);
 }

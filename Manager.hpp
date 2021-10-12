@@ -5,7 +5,9 @@
 # include "Product.hpp"
 # include "Admin.hpp"
 # include "Address.hpp"
+# include "Bizum.hpp"
 # include "CreditCard.hpp"
+# include "Order.hpp"
 # include <cstdlib>
 
 class Manager

@@ -15,7 +15,7 @@ class CreditCard : public PaymentOption
         void            setNumber(unsigned long &_number);
         std::string     &getCardholder();
         void            setCardholder(std::string &_cardholder);
-        CreditCard(int const &_id, Address* &_billing_address, unsigned long const &_number,
+        CreditCard(int const &_id, Address* _billing_address, unsigned long const &_number,
         std::string const &_cardholder);
         std::string show();
 };
