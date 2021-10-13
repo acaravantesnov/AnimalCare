@@ -37,7 +37,7 @@ std::ostream&   Product::operator<<(std::ostream& stream)
     if (reviews.size() == 0)
         return (stream);
     stream << "\n\t-- User reviews --\n";
-    for(int i = 0; i < reviews.size(); i++)
+    for(long unsigned int i = 0; i < reviews.size(); i++)
         stream << "\t" << reviews[i] << "\n\t----\n";
     return (stream);
 }

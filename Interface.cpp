@@ -14,9 +14,9 @@ void    interface::headerLoggedUser()
     std::cout << "*------------------------------------------------*" << std::endl;
     std::cout << "|                  AnimalCare                    |" << std::endl;
     std::cout << "*------------------------------------------------*\n" << std::endl;
-    std::cout << "--- USER ---" << std::endl;
-    std::cout << "* UserName: " << getCurrentUser()->getUsername() << std::endl;
-    std::cout << "* Email: " << getCurrentUser()->getEmail() << std::endl;
+    std::cout << "\t\t--- USER ---" << std::endl;
+    std::cout << "\t UserName: " << getCurrentUser()->getUsername() << std::endl;
+    std::cout << "\t Email: " << getCurrentUser()->getEmail() << std::endl;
 }
 
 void    interface::headerLoggedAdmin()
@@ -25,8 +25,8 @@ void    interface::headerLoggedAdmin()
     std::cout << "|                  AnimalCare                    |" << std::endl;
     std::cout << "*------------------------------------------------*\n" << std::endl;
     std::cout << "\t\t--- ADMIN ---" << std::endl;
-    std::cout << "\t\t UserName: " << getCurrentUser()->getUsername() << std::endl;
-    std::cout << "\t\t Email: " << getCurrentUser()->getEmail() << std::endl;
+    std::cout << "\t UserName: " << getCurrentUser()->getUsername() << std::endl;
+    std::cout << "\t Email: " << getCurrentUser()->getEmail() << std::endl;
 }
 
 void    interface::clearscreen() {system("clear");}
@@ -49,6 +49,8 @@ bool    interface::Ilogin()
         std::cout << "  Press any key to return to main menu." << std::endl;
         if (getCurrentUser()->isAdmin() == true)
             adminMenu();
+        else
+            userMenu();
         return (true);
     }
     else
@@ -79,6 +81,59 @@ bool    interface::IaddAdmin()
     return (false);
 }
 
+void    interface::Icreateacc()
+{
+    std::string username, email, password;
+    std::cout << "  Username: "; std::cin >> username;
+    std::cout << "  Email: "; std:: cin >> email;
+    std::cout << "  Password: "; std::cin >> password;
+    addUser(username, email, password);
+}
+
+void    interface::userMenu()
+{
+    while (exitUserMenu != 1)
+    {
+        clearscreen();
+        headerLoggedUser();
+        std::cout << std::endl;
+        std::cout << "  1. Make order                                   " << std::endl;
+        std::cout << "  2. Create review                                " << std::endl;
+        std::cout << "  3. Get reviews by rating                        " << std::endl;
+        std::cout << "  4. Up/Downvote review                           " << std::endl;
+        std::cout << "  5. Modify review                                " << std::endl;
+        std::cout << "  6. Delete review                                " << std::endl;
+        std::cout << "  7. Save to file                                 " << std::endl;
+        std::cout << "  8. Load from file                               " << std::endl;
+        std::cout << "  9. Exit                                         " << std::endl;
+        std::cout << std::endl;
+        opt = "";
+        std::cin.clear();
+        std::cout << "  Choose a valid option: "; std::cin >> opt;
+        if (opt == "1") //Make order
+        {
+            std::cout << "*---------------------------------------------*" << std::endl;
+            for (long unsigned int i = 0; i < getProducts().size(); i++)
+                std::cout << "*  " << getProducts()[i]->getName() << " " << getProducts()[i]->getReference() << " " << getProducts()[i]->getPrice() << std::endl;
+        }
+        else if (opt == "2") //Create review
+        {
+        }
+        else if (opt == "3")  //Get reviews
+        {
+        }
+        else if (opt == "4")
+        {
+
+        }
+        else if (opt == "5") {}
+        else if (opt == "6") {}
+        else if (opt == "7") {}
+        else if (opt == "8") {}
+        else if (opt == "9") {exitUserMenu = 1;}
+    }
+}
+
 void    interface::Menu()
 {
     useroradmin = 1;
@@ -98,7 +153,9 @@ void    interface::Menu()
     }
     else if (opt == "2")
     {
-
+        clearscreen();
+        header();
+        Icreateacc();
     }
     else if (opt == "3")
     {
@@ -109,18 +166,19 @@ void    interface::Menu()
 
 void    interface::adminMenu()
 {
-    int exitfct = 0;
     std::string name;
     std::string description;
     unsigned long reference;
     float price;
-    while (exitfct != 1)
+    while (exitAdminMenu != 1)
     {
         clearscreen();
         headerLoggedAdmin();
         std::cout << std::endl;
+        std::cout << "- Admin commands: " << std::endl;
         std::cout << "  1. Add product                                  " << std::endl;
         std::cout << "  2. Show users                                   " << std::endl;
+        std::cout << "\n- User commands:                                  " << std::endl;
         std::cout << "  3. Make order                                   " << std::endl;
         std::cout << "  4. Create review                                " << std::endl;
         std::cout << "  5. Get reviews by rating                        " << std::endl;
@@ -150,13 +208,14 @@ void    interface::adminMenu()
         {
             clearscreen();
             headerLoggedAdmin();
-            for (int i = 0; i < getUsers().size(); i++)
+            for (long unsigned int i = 0; i < getUsers().size(); i++)
                 std::cout << i << ".-  Username: " <<  getUsers()[i]->getUsername() << " | Reputation = " << getUsers()[i]->getReputation() << std::endl;
-            exitfct = 0;
+            exitAdminMenu = 0;
         }
         else if (opt == "3")  //Make order
         {
-            makeOrder(getCurrentUser()->getOrders()[getCurrentUser()->getOrders().size() - 1]->getProducts(), getCurrentUser()->getAddresses()[getCurrentUser()->getAddresses().size() - 1]->getId(), getCurrentUser()->getPaymentOptions()[getCurrentUser()->getPaymentOptions().size() - 1]->getId());
+            if (getCurrentUser()->getOrders().size() != 0)
+                makeOrder(getCurrentUser()->getOrders()[getCurrentUser()->getOrders().size() - 1]->getProducts(), getCurrentUser()->getAddresses()[getCurrentUser()->getAddresses().size() - 1]->getId(), getCurrentUser()->getPaymentOptions()[getCurrentUser()->getPaymentOptions().size() - 1]->getId());
         }
         else if (opt == "4")
         {
@@ -169,7 +228,7 @@ void    interface::adminMenu()
         else if (opt == "9") {}
         else if (opt == "10") {}
         else if (opt == "11")
-            exitfct = 1;
+            exitAdminMenu = 1;
     }
 }
 
@@ -177,16 +236,15 @@ void    interface::inter()
 {
     opt = "";
     useroradmin = 1;
-    int exitfct = 0;
+    exitMenu = 0;
     clearscreen();
     wellcome();
     if (IaddAdmin() == true)
     {
         useroradmin = 2;
-        while (exitfct != 1)
+        while (exitMenu != 1)
         {
             Menu();
-            exitfct = 0;
         }
     }
     exit(0);

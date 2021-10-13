@@ -16,7 +16,7 @@ bool    Manager::login(std::string &_email, std::string &_password)
 {
     if (isLogged() == true)
         return (false);
-    for(int i = 0; i < users.size(); i++)
+    for(long unsigned int i = 0; i < users.size(); i++)
     {
         if ((users[i]->getEmail() == _email) && (users[i]->getPassWord() == _password))
         {
@@ -52,7 +52,7 @@ User*   Manager::getCurrentUser()
 bool    Manager::addUser(std::string &_username, std::string &_email,
 std::string &_password)
 {
-    for (int i = 0; i < users.size(); i++)
+    for (long unsigned int i = 0; i < users.size(); i++)
     {
         if ((users[i]->getUsername() == _username) || (users[i]->getEmail() == _email))
             return (false);
@@ -64,7 +64,7 @@ std::string &_password)
 bool    Manager::addAdmin(std::string &_username, std::string &_email,
 std::string &_password, unsigned long &_worker_id)
 {
-    for (int i = 0; i < users.size(); i++)
+    for (long unsigned int i = 0; i < users.size(); i++)
     {
         if ((users[i]->getUsername() == _username) || (users[i]->getEmail() == _email))
             return (false);
@@ -163,7 +163,7 @@ std::vector<PublicUserData*>    Manager::showUsers()
     PublicUserData* ptr;
     if ((isLogged() == true) && (users[current_user]->isAdmin() == true))
     {
-        for(int i = 0; i < users.size(); i++)
+        for(long unsigned int i = 0; i < users.size(); i++)
         {
             ptr = users[i];
             data[i] = ptr;
@@ -179,9 +179,9 @@ int &_delivery_address, int &_payment_option)
     float   total = 0;
     if (isLogged() == true)
     {
-        for(int i = 0; i < _products.size(); i++)
+        for(long unsigned int i = 0; i < _products.size(); i++)
         {
-            for(int j = 0; j < products.size(); j++)
+            for(long unsigned int j = 0; j < products.size(); j++)
             {
                 if (_products[j] == products[i]->getReference())
                     total += products[i]->getPrice();
@@ -202,13 +202,13 @@ std::string &_text)
     unsigned long id = (unsigned long)rand;
     if (isLogged() == true)
     {
-        for (int i = 0; i < users[current_user]->getOrders().size(); i++)
+        for (long unsigned int i = 0; i < users[current_user]->getOrders().size(); i++)
         {
-            for (int j = 0; j < users[current_user]->getOrders()[i]->getProducts().size(); j++)
+            for (long unsigned int j = 0; j < users[current_user]->getOrders()[i]->getProducts().size(); j++)
             {
                 if (_reference == users[current_user]->getOrders()[i]->getProducts()[j])
                 {
-                    for(int k = 0; k < products.size(); k++)
+                    for(long unsigned int k = 0; k < products.size(); k++)
                     {
                         if (_reference == products[k]->getReference())
                         {
@@ -227,11 +227,11 @@ std::vector<Review*>    Manager::getReviewsByRating(unsigned long &_reference, i
 {
     std::vector<Review*> filter;
     Review* ptr = nullptr;
-    for (int i = 0; i < products.size(); i++)
+    for (long unsigned int i = 0; i < products.size(); i++)
     {
         if (_reference == products[i]->getReference())
         {
-            for (int j = 0; j < products[i]->getReviews().size(); j++)
+            for (long unsigned int j = 0; j < products[i]->getReviews().size(); j++)
             {
                 if (_rating == products[i]->getReviews()[j]->getRating())
                 {
@@ -246,9 +246,9 @@ std::vector<Review*>    Manager::getReviewsByRating(unsigned long &_reference, i
 
 bool    Manager::upvoteReview(unsigned long &_id)
 {
-    for (int i = 0; i < products.size(); i++)
+    for (long unsigned int i = 0; i < products.size(); i++)
     {
-        for (int j = 0; j < products[i]->getReviews().size(); j++)
+        for (long unsigned int j = 0; j < products[i]->getReviews().size(); j++)
         {
             if ((_id == products[i]->getReviews()[j]->getId()) && (products[i]->getReviews()[j]->getAuthor()->getUsername() != users[current_user]->getUsername()))
             {
@@ -263,9 +263,9 @@ bool    Manager::upvoteReview(unsigned long &_id)
 
 bool    Manager::downvoteReview(unsigned long &_id)
 {
-    for (int i = 0; i < products.size(); i++)
+    for (long unsigned int i = 0; i < products.size(); i++)
     {
-        for (int j = 0; j < products[i]->getReviews().size(); j++)
+        for (long unsigned int j = 0; j < products[i]->getReviews().size(); j++)
         {
             if ((_id == products[i]->getReviews()[j]->getId()) && (products[i]->getReviews()[j]->getAuthor()->getUsername() != users[current_user]->getUsername()))
             {
@@ -282,9 +282,9 @@ bool    Manager::modifyReviewRating(unsigned long &_id, int &_rating)
 {
     if (isLogged() == false)
         return (false);
-    for (int i = 0; i < products.size(); i++)
+    for (long unsigned int i = 0; i < products.size(); i++)
     {
-        for (int j = 0; j < products[i]->getReviews().size(); j++)
+        for (long unsigned int j = 0; j < products[i]->getReviews().size(); j++)
         {
             if ((products[i]->getReviews()[j]->getId() == _id) && (products[i]->getReviews()[j]->getAuthor()->getUsername() == users[current_user]->getUsername()))
             {
@@ -300,9 +300,9 @@ bool    Manager::modifyReviewText(unsigned long &_id, std::string &_text)
 {
     if (isLogged() == false)
         return (false);
-    for (int i = 0; i < products.size(); i++)
+    for (long unsigned int i = 0; i < products.size(); i++)
     {
-        for (int j = 0; j < products[i]->getReviews().size(); j++)
+        for (long unsigned int j = 0; j < products[i]->getReviews().size(); j++)
         {
             if ((products[i]->getReviews()[j]->getId() == _id) && (products[i]->getReviews()[j]->getAuthor()->getUsername() == users[current_user]->getUsername()))
             {
@@ -316,11 +316,12 @@ bool    Manager::modifyReviewText(unsigned long &_id, std::string &_text)
 
 bool    Manager::deleteReview(unsigned long &_id)
 {
+    _id = 1;
     if (isLogged() == false)
         return (false);
-    for (int i = 0; i < products.size(); i++)
+    for (long unsigned int i = 0; i < products.size(); i++)
     {
-        for (int j = 0; j < products[i]->getReviews().size(); j++)
+        for (long unsigned int j = 0; j < products[i]->getReviews().size(); j++)
         {
             if (products[i]->getReviews()[j]->getAuthor()->getUsername() == users[current_user]->getUsername())
             {
@@ -335,10 +336,10 @@ bool    Manager::deleteReview(unsigned long &_id)
 //Tercera entrega
 void    Manager::saveToFile(std::string fileAddress)
 {
-
+    fileAddress = "";
 }
 
 void    Manager::loadFromFile(std::string fileAddress)
 {
-
+    fileAddress = "";
 }
