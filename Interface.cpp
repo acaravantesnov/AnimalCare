@@ -1,52 +1,54 @@
 #include "Interface.hpp"
 
-void    header()
+interface::interface() {}
+
+void    interface::header()
 {
     std::cout << "*------------------------------------------------*" << std::endl;
     std::cout << "|                  AnimalCare                    |" << std::endl;
     std::cout << "*------------------------------------------------*\n" << std::endl;
 }
 
-void    headerLoggedUser(Manager* only_manager)
+void    interface::headerLoggedUser()
 {
     std::cout << "*------------------------------------------------*" << std::endl;
     std::cout << "|                  AnimalCare                    |" << std::endl;
     std::cout << "*------------------------------------------------*\n" << std::endl;
     std::cout << "--- USER ---" << std::endl;
-    std::cout << "* UserName: " << only_manager->getCurrentUser()->getUsername() << std::endl;
-    std::cout << "* Email: " << only_manager->getCurrentUser()->getEmail() << std::endl;
+    std::cout << "* UserName: " << getCurrentUser()->getUsername() << std::endl;
+    std::cout << "* Email: " << getCurrentUser()->getEmail() << std::endl;
 }
 
-void    headerLoggedAdmin(Manager* only_manager)
+void    interface::headerLoggedAdmin()
 {
     std::cout << "*------------------------------------------------*" << std::endl;
     std::cout << "|                  AnimalCare                    |" << std::endl;
     std::cout << "*------------------------------------------------*\n" << std::endl;
-    std::cout << "--- ADMIN ---" << std::endl;
-    std::cout << "* UserName: " << only_manager->getCurrentUser()->getUsername() << std::endl;
-    std::cout << "* Email: " << only_manager->getCurrentUser()->getEmail() << std::endl;
+    std::cout << "\t\t--- ADMIN ---" << std::endl;
+    std::cout << "\t\t UserName: " << getCurrentUser()->getUsername() << std::endl;
+    std::cout << "\t\t Email: " << getCurrentUser()->getEmail() << std::endl;
 }
 
-void clearscreen() {system("clear");}
+void    interface::clearscreen() {system("clear");}
 
-void welcome()
+void    interface::wellcome()
 {
     std::cout << "*------------------------------------------------*" << std::endl;
     std::cout << "| Welcome to AnimalCare!                         |" << std::endl;
     std::cout << "*------------------------------------------------*\n" << std::endl;
 }
 
-bool    Ilogin(Manager* only_manager)
+bool    interface::Ilogin()
 {
     std::string email, password;
     std::cout << "\n  Email: "; std::cin >> email;
     std::cout << "  Password: "; std::cin >> password;
-    if (only_manager->login(email, password) == true)
+    if (login(email, password) == true)
     {
         std::cout << "\n  Successful login!" << std::endl;
         std::cout << "  Press any key to return to main menu." << std::endl;
-        if (only_manager->getCurrentUser()->isAdmin() == true)
-            adminMenu(only_manager);
+        if (getCurrentUser()->isAdmin() == true)
+            adminMenu();
         return (true);
     }
     else
@@ -57,7 +59,7 @@ bool    Ilogin(Manager* only_manager)
     return (false);
 }
 
-bool    IaddAdmin(Manager* only_manager)
+bool    interface::IaddAdmin()
 {
     std::string username;
     std::string email;
@@ -67,7 +69,7 @@ bool    IaddAdmin(Manager* only_manager)
     std::cout << "  Email: "; std:: cin >> email;
     std::cout << "  Password: "; std::cin >> password;
     std::cout << "  Worker Id: ";  std::cin >> worker_id;
-    if (only_manager->addAdmin(username, email, password, worker_id) == true)
+    if (addAdmin(username, email, password, worker_id) == true)
     {
         std::cout << "\n Created Admin! " << std::endl;
         return (true);
@@ -77,59 +79,113 @@ bool    IaddAdmin(Manager* only_manager)
     return (false);
 }
 
-void    Menu(Manager* only_manager)
+void    interface::Menu()
 {
+    useroradmin = 1;
     clearscreen();
-    welcome();
-    int opt;
+    wellcome();
     std::cout << std::endl;
     std::cout << "  1. Login                                        " << std::endl;
     std::cout << "  2. Create an account                            " << std::endl;
     std::cout << "  3. Exit                                         " << std::endl;
     std::cout << "                                                  " << std::endl;
     std::cout << "  Choose a valid option: "; std::cin >> opt;
-    switch (opt)
+    if (opt == "1")
     {
-        case 1:
-            clearscreen();
-            header();
-            Ilogin(only_manager);
-            break;
-        case 2:
-            break;
-        case 3:
-            clearscreen();
-            exit(0);
-            break;
+        clearscreen();
+        header();
+        Ilogin();
+    }
+    else if (opt == "2")
+    {
+
+    }
+    else if (opt == "3")
+    {
+        clearscreen();
+        exit(0);
     }
 }
 
-void    adminMenu(Manager* only_manager)
+void    interface::adminMenu()
 {
     int exitfct = 0;
-    int opt;
+    std::string name;
+    std::string description;
+    unsigned long reference;
+    float price;
     while (exitfct != 1)
     {
-        headerLoggedAdmin(only_manager);
+        clearscreen();
+        headerLoggedAdmin();
         std::cout << std::endl;
-        std::cout << "  1. Add Product                                  " << std::endl;
-        std::cout << "  2. Delete Product                               " << std::endl;
-        std::cout << "  3. Exit                                         " << std::endl;
-        std::cout << "                                                  " << std::endl;
+        std::cout << "  1. Add product                                  " << std::endl;
+        std::cout << "  2. Show users                                   " << std::endl;
+        std::cout << "  3. Make order                                   " << std::endl;
+        std::cout << "  4. Create review                                " << std::endl;
+        std::cout << "  5. Get reviews by rating                        " << std::endl;
+        std::cout << "  6. Up/Downvote review                           " << std::endl;
+        std::cout << "  7. Modify review                                " << std::endl;
+        std::cout << "  8. Delete review                                " << std::endl;
+        std::cout << "  9. Save to file                                 " << std::endl;
+        std::cout << "  10. Load from file                              " << std::endl;
+        std::cout << "  11. Exit                                        " << std::endl;
+        std::cout << std::endl;
+        opt = "";
         std::cout << "  Choose a valid option: "; std::cin >> opt;
+        if (opt == "1") //Add product
+        {
+            clearscreen();
+            headerLoggedAdmin();
+            std::cout << "\n  New product name: "; std::cin >> name;
+            std::cout << "  Brief description: "; std::cin >> description;
+            std::cout << "  Reference: "; std::cin >> reference;
+            std::cout << "  Price (in euros): "; std::cin >> price;
+            if (addProduct(name, description, reference, price) == false)
+                std::cout << "\nProduct Added!" << std::endl;
+            else
+                std::cout << "\n :-(" << std::endl;
+        }
+        else if (opt == "2") //Show users
+        {
+            clearscreen();
+            headerLoggedAdmin();
+            for (int i = 0; i < getUsers().size(); i++)
+                std::cout << i << ".-  Username: " <<  getUsers()[i]->getUsername() << " | Reputation = " << getUsers()[i]->getReputation() << std::endl;
+            exitfct = 0;
+        }
+        else if (opt == "3")  //Make order
+        {
+            makeOrder(getCurrentUser()->getOrders()[getCurrentUser()->getOrders().size() - 1]->getProducts(), getCurrentUser()->getAddresses()[getCurrentUser()->getAddresses().size() - 1]->getId(), getCurrentUser()->getPaymentOptions()[getCurrentUser()->getPaymentOptions().size() - 1]->getId());
+        }
+        else if (opt == "4")
+        {
+
+        }
+        else if (opt == "5") {}
+        else if (opt == "6") {}
+        else if (opt == "7") {}
+        else if (opt == "8") {}
+        else if (opt == "9") {}
+        else if (opt == "10") {}
+        else if (opt == "11")
+            exitfct = 1;
     }
 }
 
-void    interface(Manager* only_manager)
+void    interface::inter()
 {
+    opt = "";
+    useroradmin = 1;
     int exitfct = 0;
     clearscreen();
-    welcome();
-    if (IaddAdmin(only_manager) == true)
+    wellcome();
+    if (IaddAdmin() == true)
     {
+        useroradmin = 2;
         while (exitfct != 1)
         {
-            Menu(only_manager);
+            Menu();
             exitfct = 0;
         }
     }
@@ -138,10 +194,8 @@ void    interface(Manager* only_manager)
 
 int main()
 {
-    Manager only_manager;
-    Manager* ptr;
-    ptr = &only_manager;
-    interface(ptr);
+    interface i;
+    i.inter();
     return (0);
 }
 

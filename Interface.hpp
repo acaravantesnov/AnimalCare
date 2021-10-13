@@ -3,15 +3,25 @@
 
 # include <iostream>
 # include "Manager.hpp"
+# include <string>
 
-void    header();
-void    headerLoggedUser(Manager* only_manager);
-void    headerLoggedAdmin(Manager* only_manager);
-void    clearscreen();
-bool    Ilogin(Manager* only_manager);
-bool    IaddAdmin(Manager* only_manager);
-void    Menu(Manager* only_manager);
-void    adminMenu(Manager* only_manager);
-void    interface(Manager* only_manager);
+class interface : public Manager
+{
+    private:
+        int useroradmin;
+        std::string opt;
+    public:
+        interface();
+        void    inter();
+        void    wellcome();
+        void    header();
+        void    headerLoggedUser();
+        void    headerLoggedAdmin();
+        void    clearscreen();
+        bool    Ilogin();
+        bool    IaddAdmin();
+        void    Menu();
+        void    adminMenu();
+};
 
 #endif // INTERFACE_HPP
