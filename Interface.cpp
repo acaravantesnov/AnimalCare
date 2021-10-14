@@ -114,8 +114,14 @@ void    interface::orderMenu()
     }
     else if (opt == "2")
     {
-        //if (makeOrder(getCurrentUser()->getOrders().back()->getProducts(), getCurrentUser()->getAddresses().back(), getCurrentUser()->getPaymentOptions().back()) == true)
-            //std::cout << "  Order made!" << std::endl;
+        if (getCurrentUser()->getOrders().back()->getProducts().size() != 0)
+        {
+            makeOrder(getCurrentUser()->getOrders().back()->getProducts(), getCurrentUser()->getAddresses().back()->getId(), getCurrentUser()->getPaymentOptions().back()->getId());
+                std::cout << "  Order made!" << std::endl;
+        }
+        else
+            std::cout << "No products on cart, try again later!" << std::endl;
+        std::this_thread::sleep_for(g_timespan);
     }
     else if (opt == "3")
         exitorderMenu = 1;
@@ -138,9 +144,7 @@ void    interface::userMenu()
         std::cout << "  4. Up/Downvote review                           " << std::endl;
         std::cout << "  5. Modify review                                " << std::endl;
         std::cout << "  6. Delete review                                " << std::endl;
-        std::cout << "  7. Save to file                                 " << std::endl;
-        std::cout << "  8. Load from file                               " << std::endl;
-        std::cout << "  9. Exit                                         " << std::endl;
+        std::cout << "  7. Exit                                         " << std::endl;
         std::cout << std::endl;
         opt = "";
         std::cin.clear();
@@ -171,15 +175,19 @@ void    interface::userMenu()
         else if (opt == "3")  //Get reviews
         {
         }
-        else if (opt == "4")
+        else if (opt == "4") //Up/downvote review
         {
 
         }
-        else if (opt == "5") {}
-        else if (opt == "6") {}
-        else if (opt == "7") {}
-        else if (opt == "8") {}
-        else if (opt == "9")
+        else if (opt == "5") //Modify review
+        {
+
+        }
+        else if (opt == "6") //Delete review
+        {
+
+        }
+        else if (opt == "7") //Exit
         {
             logout();
             exitUserMenu = 1;
@@ -262,11 +270,11 @@ void    interface::adminMenu()
         }
         else if (opt == "2") //Show users
         {
-            headerLoggedAdmin();
-            std::cout << std::endl;
+            std::cout << "\n  USERS:" << std::endl;
             for (long unsigned int i = 0; i < getUsers().size(); i++)
-                std::cout << "\n  " << i + 1 << ".-  Username: " <<  getUsers()[i]->getUsername() << " | Reputation = " << getUsers()[i]->getReputation();
-            std::this_thread::sleep_for(g_timespan);
+                std::cout << "  " << i + 1 << ".-  Username: " <<  getUsers()[i]->getUsername() << " | Reputation = " << getUsers()[i]->getReputation() << std::endl;
+            std::cout << std::endl;
+            std::this_thread::sleep_for(g_timespan2);
         }
         else if (opt == "3") //Save to file
         {
