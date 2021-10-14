@@ -12,3 +12,6 @@ const unsigned long &_worker_id)
 }
 
 bool    Admin::isAdmin() {return (true);}
+
+unsigned long   &Admin::getworkerId() {return (worker_id);}
+

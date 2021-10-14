@@ -7,6 +7,13 @@ void    interface::header()
     std::cout << "*------------------------------------------------*" << std::endl;
     std::cout << "|                  AnimalCare                    |" << std::endl;
     std::cout << "*------------------------------------------------*\n" << std::endl;
+    std::cout << R"(
+      /\_/\  (
+     ( ^.^ ) _)
+       \"/  (
+     ( | | )
+    (__d b__)
+    )" << '\n';
 }
 
 void    interface::headerLoggedUser()
@@ -90,8 +97,36 @@ void    interface::Icreateacc()
     addUser(username, email, password);
 }
 
+void    interface::orderMenu()
+{
+    int prod = 0;
+    std::cout << "\n  1. Add product" << std::endl;
+    std::cout << "  2. Make order" << std::endl;
+    std::cout << "  3. Exit" << std::endl;
+    std::cout << "\n  Select a valid option: "; std::cin >> opt;
+    if (opt == "1")
+    {
+        std::cout << "\n  Which product? "; std::cin >> prod;
+        if (getProducts().size() >= 1)
+            getCurrentUser()->getOrders().back()->addProduct(getProducts()[prod - 1]->getReference());
+        else
+            std::cout << "  There are no products available!" << std::endl;
+    }
+    else if (opt == "2")
+    {
+        //if (makeOrder(getCurrentUser()->getOrders().back()->getProducts(), getCurrentUser()->getAddresses().back(), getCurrentUser()->getPaymentOptions().back()) == true)
+            //std::cout << "  Order made!" << std::endl;
+    }
+    else if (opt == "3")
+        exitorderMenu = 1;
+}
+
 void    interface::userMenu()
 {
+    unsigned long reference;
+    int rating;
+    std::string text;
+    exitUserMenu = 0;
     while (exitUserMenu != 1)
     {
         clearscreen();
@@ -112,12 +147,26 @@ void    interface::userMenu()
         std::cout << "  Choose a valid option: "; std::cin >> opt;
         if (opt == "1") //Make order
         {
+            clearscreen();
+            headerLoggedUser();
             std::cout << "*---------------------------------------------*" << std::endl;
             for (long unsigned int i = 0; i < getProducts().size(); i++)
-                std::cout << "*  " << getProducts()[i]->getName() << " " << getProducts()[i]->getReference() << " " << getProducts()[i]->getPrice() << std::endl;
+                std::cout << "  " << i + 1 << ".-  " << getProducts()[i]->getName() <<
+                " " << getProducts()[i]->getReference() << " " << getProducts()[i]->getPrice() << std::endl;
+            std::cout << "*---------------------------------------------*" << std::endl;
+            std::this_thread::sleep_for(g_timespan);
+            while(exitorderMenu != 1)
+                orderMenu();
         }
         else if (opt == "2") //Create review
         {
+            clearscreen();
+            headerLoggedUser();
+            std::cout << "\n  Product reference: "; std::cin >> reference;
+            while ((rating < 0) && (rating > 5))
+                std::cout << "  Rating [0-5]: "; std::cin >> rating;
+            std::cout << "  Introduce text:\n"; std::cin >> text;
+            createReview(reference, rating, text);
         }
         else if (opt == "3")  //Get reviews
         {
@@ -130,13 +179,16 @@ void    interface::userMenu()
         else if (opt == "6") {}
         else if (opt == "7") {}
         else if (opt == "8") {}
-        else if (opt == "9") {exitUserMenu = 1;}
+        else if (opt == "9")
+        {
+            logout();
+            exitUserMenu = 1;
+        }
     }
 }
 
 void    interface::Menu()
 {
-    useroradmin = 1;
     clearscreen();
     wellcome();
     std::cout << std::endl;
@@ -166,9 +218,12 @@ void    interface::Menu()
 
 void    interface::adminMenu()
 {
+    exitAdminMenu = 0;
     std::string name;
     std::string description;
     unsigned long reference;
+    int rating = -1;
+    std::string text;
     float price;
     while (exitAdminMenu != 1)
     {
@@ -178,15 +233,15 @@ void    interface::adminMenu()
         std::cout << "- Admin commands: " << std::endl;
         std::cout << "  1. Add product                                  " << std::endl;
         std::cout << "  2. Show users                                   " << std::endl;
+        std::cout << "  3. Save to file                                 " << std::endl;
+        std::cout << "  4. Load from file                              " << std::endl;
         std::cout << "\n- User commands:                                  " << std::endl;
-        std::cout << "  3. Make order                                   " << std::endl;
-        std::cout << "  4. Create review                                " << std::endl;
-        std::cout << "  5. Get reviews by rating                        " << std::endl;
-        std::cout << "  6. Up/Downvote review                           " << std::endl;
-        std::cout << "  7. Modify review                                " << std::endl;
-        std::cout << "  8. Delete review                                " << std::endl;
-        std::cout << "  9. Save to file                                 " << std::endl;
-        std::cout << "  10. Load from file                              " << std::endl;
+        std::cout << "  5. Make order                                   " << std::endl;
+        std::cout << "  6. Create review                                " << std::endl;
+        std::cout << "  7. Get reviews by rating                        " << std::endl;
+        std::cout << "  8. Up/Downvote review                           " << std::endl;
+        std::cout << "  9. Modify review                                " << std::endl;
+        std::cout << "  10. Delete review                                " << std::endl;
         std::cout << "  11. Exit                                        " << std::endl;
         std::cout << std::endl;
         opt = "";
@@ -199,53 +254,76 @@ void    interface::adminMenu()
             std::cout << "  Brief description: "; std::cin >> description;
             std::cout << "  Reference: "; std::cin >> reference;
             std::cout << "  Price (in euros): "; std::cin >> price;
-            if (addProduct(name, description, reference, price) == false)
+            if (addProduct(name, description, reference, price) == true)
                 std::cout << "\nProduct Added!" << std::endl;
             else
                 std::cout << "\n :-(" << std::endl;
+            std::this_thread::sleep_for(g_timespan);
         }
         else if (opt == "2") //Show users
         {
+            headerLoggedAdmin();
+            std::cout << std::endl;
+            for (long unsigned int i = 0; i < getUsers().size(); i++)
+                std::cout << "\n  " << i + 1 << ".-  Username: " <<  getUsers()[i]->getUsername() << " | Reputation = " << getUsers()[i]->getReputation();
+            std::this_thread::sleep_for(g_timespan);
+        }
+        else if (opt == "3") //Save to file
+        {
+            std::string fileAddress;
             clearscreen();
             headerLoggedAdmin();
-            for (long unsigned int i = 0; i < getUsers().size(); i++)
-                std::cout << i << ".-  Username: " <<  getUsers()[i]->getUsername() << " | Reputation = " << getUsers()[i]->getReputation() << std::endl;
-            exitAdminMenu = 0;
+            std::cout << "\n  FileAddress? "; std::cin >> fileAddress;
+            saveToFile(fileAddress);
         }
-        else if (opt == "3")  //Make order
-        {
-            if (getCurrentUser()->getOrders().size() != 0)
-                makeOrder(getCurrentUser()->getOrders()[getCurrentUser()->getOrders().size() - 1]->getProducts(), getCurrentUser()->getAddresses()[getCurrentUser()->getAddresses().size() - 1]->getId(), getCurrentUser()->getPaymentOptions()[getCurrentUser()->getPaymentOptions().size() - 1]->getId());
-        }
-        else if (opt == "4")
+        else if(opt == "4") //Load from file
         {
 
         }
-        else if (opt == "5") {}
-        else if (opt == "6") {}
+        else if (opt == "5")  //Make order
+        {
+            clearscreen();
+            headerLoggedAdmin();
+            std::cout << "*------------------------------------------------*" << std::endl;
+            for (long unsigned int i = 0; i < getProducts().size(); i++)
+                std::cout << "  " << i + 1 << ".-  " << getProducts()[i]->getName() << " " << getProducts()[i]->getReference() << " " << getProducts()[i]->getPrice() << std::endl;
+            std::cout << "*------------------------------------------------*" << std::endl;
+            std::this_thread::sleep_for(g_timespan);
+            while(exitorderMenu != 1)
+                orderMenu();
+        }
+        else if (opt == "6") //Create review
+        {
+            clearscreen();
+            headerLoggedAdmin();
+            std::cout << "\n  Product reference: "; std::cin >> reference;
+            while ((rating < 0) && (rating > 5))
+                std::cout << "  Rating [0-5]: "; std::cin >> rating;
+            std::cout << "  Introduce text:\n"; std::cin >> text;
+            createReview(reference, rating, text);
+        }
         else if (opt == "7") {}
         else if (opt == "8") {}
         else if (opt == "9") {}
         else if (opt == "10") {}
         else if (opt == "11")
+        {
+            logout();
             exitAdminMenu = 1;
+        }
     }
 }
 
 void    interface::inter()
 {
     opt = "";
-    useroradmin = 1;
     exitMenu = 0;
     clearscreen();
     wellcome();
     if (IaddAdmin() == true)
     {
-        useroradmin = 2;
         while (exitMenu != 1)
-        {
             Menu();
-        }
     }
     exit(0);
 }

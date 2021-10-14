@@ -4,15 +4,19 @@
 # include <iostream>
 # include "Manager.hpp"
 # include <string>
+# include <chrono>
+# include <thread>
+
+std::chrono::milliseconds g_timespan(1500);
 
 class interface : public Manager
 {
     private:
-        int useroradmin;
         std::string opt;
         int exitMenu = 0;
         int exitAdminMenu = 0;
         int exitUserMenu = 0;
+        int exitorderMenu = 0;
     public:
         interface();
         void    inter();
@@ -27,6 +31,7 @@ class interface : public Manager
         void    adminMenu();
         void    Icreateacc();
         void    userMenu();
+        void    orderMenu();
 };
 
 #endif // INTERFACE_HPP

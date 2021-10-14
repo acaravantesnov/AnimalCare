@@ -336,10 +336,69 @@ bool    Manager::deleteReview(unsigned long &_id)
 //Tercera entrega
 void    Manager::saveToFile(std::string fileAddress)
 {
-    fileAddress = "";
+    std::ofstream   fileWrite;
+    std::string     bshow, cshow;
+    fileWrite.open(fileAddress, std::ios::out);
+    for (long unsigned int i = 0; i < getUsers().size(); i++)
+    {
+        fileWrite << "User:\n";
+        fileWrite << getUsers()[i]->getUsername() << std::endl;
+        fileWrite << getUsers()[i]->getEmail() << std::endl;
+        fileWrite << getUsers()[i]->getPassWord() << std::endl;
+        fileWrite << getUsers()[i]->getReputation() << std::endl;
+        if (getUsers()[i]->isAdmin() == false)
+            fileWrite << "-1\n";
+        else
+            fileWrite << "0\n";
+        for (long unsigned int j = 0; j < getUsers()[i]->getAddresses().size(); j++)
+        {
+            fileWrite << getUsers()[i]->getAddresses()[j]->getId() << std::endl;
+            fileWrite << getUsers()[i]->getAddresses()[j]->getAddress() << std::endl;
+            fileWrite << getUsers()[i]->getAddresses()[j]->getCity() << std::endl;
+            fileWrite << getUsers()[i]->getAddresses()[j]->getProvince() << std::endl;
+            fileWrite << getUsers()[i]->getAddresses()[j]->getPostalCode() << std::endl;
+        }
+        for (long unsigned int k = 0; k < getUsers()[i]->getPaymentOptions().size(); k++)
+        {
+            bshow = getUsers()[i]->getPaymentOptions()[k]->show().std::string::find("Bizum");
+            cshow = getUsers()[i]->getPaymentOptions()[k]->show().std::string::find("Credit Card");
+            if ((bshow.std::string::find("Bizum") >= 0) && (bshow.std::string::find("Bizum") <= bshow.std::string::length()))
+                fileWrite << "Bizum\n";
+            else
+                fileWrite << "CreditCard:\n";
+            fileWrite << getUsers()[i]->getPaymentOptions()[k]->getBillingAddress()->getId();
+            fileWrite << getUsers()[i]->getPaymentOptions()[k]->getBillingAddress()->getAddress();
+            if ((bshow.std::string::find("Bizum") >= 0) && (bshow.std::string::find("Bizum") <= bshow.std::string::length()))
+                fileWrite << bshow.std::string::find_last_of("\t") << std::endl;
+            else
+            {
+                fileWrite << cshow.std::string::find_last_of("\t") << std::endl;
+                fileWrite << cshow.std::string::find_last_of("- ") << std::endl;
+            }
+        }
+        for (long unsigned int l = 0; l < getUsers()[i]->getOrders().size(); l++)
+        {
+            fileWrite << "Order:" << std::endl;
+            fileWrite << getUsers()[i]->getOrders()[l]->getReference() << std::endl;
+            for (long unsigned int m = 0; m < getUsers()[i]->getOrders()[l]->getProducts().size(); m++)
+            {
+                fileWrite << "order_product:" << std::endl;
+                fileWrite << getUsers()[i]->getOrders()[l]->getProducts()[m] << std::endl;
+            }
+            fileWrite << getUsers()[i]->getOrders()[l]->getTime() << std::endl;
+            fileWrite << getUsers()[i]->getOrders()[l]->getDeliveryAddress() << std::endl;
+            fileWrite << getUsers()[i]->getOrders()[l]->getPaymentOption() << std::endl;
+            fileWrite << getUsers()[i]->getOrders()[l]->getTotal();
+        }
+    }
+    fileWrite.close();
 }
 
 void    Manager::loadFromFile(std::string fileAddress)
 {
-    fileAddress = "";
+    std::ifstream   fileRead;
+    std::string     line = "";
+    fileRead.open(fileAddress, std::ios::in);
+    //if (getline(fileRead, line, '\n') == "User:")
+    fileRead.close();
 }

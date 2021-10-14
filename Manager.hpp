@@ -9,6 +9,7 @@
 # include "CreditCard.hpp"
 # include "Order.hpp"
 # include <cstdlib>
+# include <fstream>
 
 class Manager
 {
