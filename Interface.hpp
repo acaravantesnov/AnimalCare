@@ -18,6 +18,8 @@ class interface : public Manager
         int exitAdminMenu = 0;
         int exitUserMenu = 0;
         int exitorderMenu = 0;
+        int exituodMenu = 0;
+        int exitmodifyrevMenu = 0;
     public:
         interface();
         void    inter();
@@ -33,6 +35,8 @@ class interface : public Manager
         void    Icreateacc();
         void    userMenu();
         void    orderMenu();
+        void    uodMenu();
+        void    modifyrevMenu();
 };
 
 #endif // INTERFACE_HPP

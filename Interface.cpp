@@ -85,16 +85,25 @@ bool    interface::IaddAdmin()
     }
     else
         std::cout << "\n Wrong Admin creation :-( " << std::endl;
+    std::this_thread::sleep_for(g_timespan);
     return (false);
 }
 
 void    interface::Icreateacc()
 {
-    std::string username, email, password;
-    std::cout << "  Username: "; std::cin >> username;
-    std::cout << "  Email: "; std:: cin >> email;
-    std::cout << "  Password: "; std::cin >> password;
-    addUser(username, email, password);
+    std::string username, email, password, option;
+    std::cout << "  [Admin] or [User]? "; std::cin >> option;
+    if ((option == "Admin") || (option == "admin") || (option == "ADMIN"))
+        IaddAdmin();
+    else if ((option == "User") || (option == "user") || (option == "USER"))
+    {
+        std::cout << "\n  Username: "; std::cin >> username;
+        std::cout << "  Email: "; std:: cin >> email;
+        std::cout << "  Password: "; std::cin >> password;
+        addUser(username, email, password);
+    }
+    else
+        std::cout << "  Introduce a valid command!" << std::endl;
 }
 
 void    interface::orderMenu()
@@ -125,6 +134,89 @@ void    interface::orderMenu()
     }
     else if (opt == "3")
         exitorderMenu = 1;
+}
+
+void    interface::uodMenu()
+{
+    unsigned long id;
+    std::cout << "\n  Review id: "; std::cin >> id;
+    std::cout << "\n  Up or Down vote review?" << std::endl;
+    std::cout << "  1. Upvote" << std::endl;
+    std::cout << "  2. Downvote" << std::endl;
+    std::cout << "\n  Select a valid option: "; std::cin >> opt;
+    if (opt == "1")
+    {
+        if (upvoteReview(id) == true)
+            std::cout << "\n  Review votes changed!" << std::endl;
+    }
+    else if (opt == "2")
+    {
+        if (downvoteReview(id) == true)
+            std::cout << "\n  Review votes changed!" << std::endl;
+    }
+    else
+        std::cout << "\n  Review votes remain unchanged.." << std::endl;
+    std::this_thread::sleep_for(g_timespan);
+}
+
+void    interface::modifyrevMenu()
+{
+    unsigned long reference;
+    std::string option;
+    int rating;
+    std::string text;
+    std::cout << "\n  Review id: "; std::cin >> reference;
+    std::cout << "  Modify [Rating], [Text], or [Both]? "; std::cin >> option;
+    if ((option == "Rating") || (option == "rating") || (option == "RATING"))
+    {
+        std::cout << "\n  New Rating [0 - 5]: "; std::cin >> rating;
+        for (long unsigned int i = 0; i < getProducts().size(); i++)
+        {
+            for (long unsigned int j = 0; j < getProducts()[i]->getReviews().size(); j++)
+            {
+                if (getProducts()[i]->getReviews()[j]->getId() == reference)
+                    if ((modifyReviewRating(reference, rating) == true) && (rating >= 0) && (rating <= 5))
+                        std::cout << "\n  Successfully changed review rating!" << std::endl;
+                    else
+                        std::cout << "\n  Wrong review id or invalid rating [0-5]" << std::endl;
+            }
+        }
+    }
+    else if ((option == "Text") || (option == "text") || (option == "TEXT"))
+    {
+        std::cout << "\n  New Text: "; std::cin >> text;
+        for (long unsigned int i = 0; i < getProducts().size(); i++)
+        {
+            for (long unsigned int j = 0; j < getProducts()[i]->getReviews().size(); j++)
+            {
+                if (getProducts()[i]->getReviews()[j]->getId() == reference)
+                    if (modifyReviewText(reference, text) == true)
+                        std::cout << "\n  Successfully changed review text!" << std::endl;
+                    else
+                        std::cout << "\n  Wrong review id" << std::endl;            }
+        }
+    }
+    else if ((option == "Both") || (option == "both") || (option == "BOTH"))
+    {
+        std::cout << "\n  New Rating [0 - 5]: "; std::cin >> rating;
+        std::cout << "\n  New Text: "; std::cin >> text;
+        for (long unsigned int i = 0; i < getProducts().size(); i++)
+        {
+            for (long unsigned int j = 0; j < getProducts()[i]->getReviews().size(); j++)
+            {
+                if ((getProducts()[i]->getReviews()[j]->getId() == reference) && (rating >= 0) && (rating <= 5))
+                {
+                    modifyReviewRating(reference, rating);
+                    modifyReviewText(reference, text);
+                }
+                else
+                    std::cout << "\n  Wrong review id or invalid rating [0-5]" << std::endl;
+            }
+        }
+    }
+    else
+        std::cout << "  Introduce a valid command!" << std::endl;
+    std::this_thread::sleep_for(g_timespan);
 }
 
 void    interface::userMenu()
@@ -172,16 +264,37 @@ void    interface::userMenu()
             std::cout << "  Introduce text:\n"; std::cin >> text;
             createReview(reference, rating, text);
         }
-        else if (opt == "3")  //Get reviews
+        else if (opt == "3")  //Get reviews by rating
         {
+            clearscreen();
+            headerLoggedUser();
+            std::cout << "\nProduct reference: "; std::cin >>reference;
+            std::cout << "Rating: "; std::cin >> rating;
+            std::cout << "\nREVIEWS: \n" << std::endl;
+            for(long unsigned int i = 0; i < getReviewsByRating(reference, rating).size(); i++)
+            {
+                std::cout << "Id: " << getReviewsByRating(reference, rating)[i]->getId() << std::endl;
+                std::cout << "Rating: " << getReviewsByRating(reference, rating)[i]->getRating() << std::endl;
+                std::cout << "Text: " << getReviewsByRating(reference, rating)[i]->getText() << std::endl;
+                std::cout << "Author: " << getReviewsByRating(reference, rating)[i]->getAuthor() << std::endl;
+                std::cout << "Votes: " << getReviewsByRating(reference, rating)[i]->getVotes() << std::endl;
+                std::cout << "Date: " << getReviewsByRating(reference, rating)[i]->getDate() << std::endl;
+            }
+            std::this_thread::sleep_for(g_timespan2);
         }
         else if (opt == "4") //Up/downvote review
         {
-
+            clearscreen();
+            headerLoggedUser();
+            while (exituodMenu != 1)
+                uodMenu();
         }
         else if (opt == "5") //Modify review
         {
-
+            clearscreen();
+            headerLoggedUser();
+            while (exitmodifyrevMenu != 1)
+                modifyrevMenu();
         }
         else if (opt == "6") //Delete review
         {
@@ -310,11 +423,38 @@ void    interface::adminMenu()
             std::cout << "  Introduce text:\n"; std::cin >> text;
             createReview(reference, rating, text);
         }
-        else if (opt == "7") {}
-        else if (opt == "8") {}
-        else if (opt == "9") {}
-        else if (opt == "10") {}
-        else if (opt == "11")
+        else if (opt == "7") //Get reviews by rating
+        {
+            clearscreen();
+            headerLoggedAdmin();
+            std::cout << "\nProduct reference: "; std::cin >>reference;
+            std::cout << "Rating: "; std::cin >> rating;
+            std::cout << "\nREVIEWS: \n" << std::endl;
+            for(long unsigned int i = 0; i < getReviewsByRating(reference, rating).size(); i++)
+            {
+                std::cout << "Id: " << getReviewsByRating(reference, rating)[i]->getId() << std::endl;
+                std::cout << "Rating: " << getReviewsByRating(reference, rating)[i]->getRating() << std::endl;
+                std::cout << "Text: " << getReviewsByRating(reference, rating)[i]->getText() << std::endl;
+                std::cout << "Author: " << getReviewsByRating(reference, rating)[i]->getAuthor() << std::endl;
+                std::cout << "Votes: " << getReviewsByRating(reference, rating)[i]->getVotes() << std::endl;
+                std::cout << "Date: " << getReviewsByRating(reference, rating)[i]->getDate() << std::endl;
+            }
+            std::this_thread::sleep_for(g_timespan2);
+        }
+        else if (opt == "8") // Up/Downvote review
+        {
+            while (exituodMenu != 1)
+                uodMenu();
+        }
+        else if (opt == "9") //Modify review
+        {
+
+        }
+        else if (opt == "10") //Delete review
+        {
+
+        }
+        else if (opt == "11") //Exit
         {
             logout();
             exitAdminMenu = 1;
