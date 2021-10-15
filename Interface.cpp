@@ -76,13 +76,10 @@ bool    interface::IaddAdmin()
     unsigned long worker_id;
     std::cout << "\n  Username: "; std::cin >> username;
     std::cout << "  Email: "; std:: cin >> email;
-    if ((email.std::string::find("@") < 0) || (email.std::string::find("@") > email.std::string::length()))
+    while (email.std::string::find("@") > email.std::string::length())
     {
-        std::cout << "  Invalid email\n" << "  Email: "; std::cin >> email;
-    }
-    if ((email.std::string::find("@") < 0) || (email.std::string::find("@") > email.std::string::length()))
-    {
-        return (false);
+        std::cin.clear();
+        std::cout << "  Invalid Email, try again\n  Email: "; std:: cin >> email;
     }
     std::cout << "  Password: "; std::cin >> password;
     worker_id = (unsigned long)rand();
@@ -110,13 +107,10 @@ bool    interface::Icreateacc()
     {
         std::cout << "\n  Username: "; std::cin >> username;
         std::cout << "  Email: "; std:: cin >> email;
-        if ((email.std::string::find("@") < 0) || (email.std::string::find("@") > email.std::string::length()))
+        while (email.std::string::find("@") > email.std::string::length())
         {
-            std::cout << "  Invalid email\n" << "  Email: "; std::cin >> email;
-        }
-        if ((email.std::string::find("@") < 0) || (email.std::string::find("@") > email.std::string::length()))
-        {
-            return (false);
+            std::cin.clear();
+            std::cout << "  Invalid Email, try again\n  Email: "; std:: cin >> email;
         }
         std::cout << "  Password: "; std::cin >> password;
         if (addUser(username, email, password) == true)
@@ -133,7 +127,7 @@ bool    interface::Icreateacc()
 void    interface::orderMenu(int _address, int _payment)
 {
     int prod = 0;
-    unsigned long const reference = (unsigned long const)rand();
+    unsigned long const reference = static_cast<unsigned long>(rand());
     getCurrentUser()->getOrders().push_back(new Order(reference, getCurrentUser()->getAddresses()[_address]->getId(), getCurrentUser()->getPaymentOptions()[_payment]->getId()));
     std::cout << "\n  1. Add product to cart" << std::endl;
     std::cout << "  2. Make order" << std::endl;
@@ -201,10 +195,12 @@ void    interface::modifyrevMenu()
             for (long unsigned int j = 0; j < getProducts()[i]->getReviews().size(); j++)
             {
                 if (getProducts()[i]->getReviews()[j]->getId() == reference)
+                {
                     if ((modifyReviewRating(reference, rating) == true) && (rating >= 0) && (rating <= 5))
                         std::cout << "\n  Successfully changed review rating!" << std::endl;
                     else
                         std::cout << "\n  Wrong review id or invalid rating [0-5]" << std::endl;
+                }
             }
         }
     }
@@ -216,10 +212,13 @@ void    interface::modifyrevMenu()
             for (long unsigned int j = 0; j < getProducts()[i]->getReviews().size(); j++)
             {
                 if (getProducts()[i]->getReviews()[j]->getId() == reference)
+                {
                     if (modifyReviewText(reference, text) == true)
                         std::cout << "\n  Successfully changed review text!" << std::endl;
                     else
-                        std::cout << "\n  Wrong review id" << std::endl;            }
+                        std::cout << "\n  Wrong review id" << std::endl;
+                }
+            }
         }
     }
     else if ((option == "Both") || (option == "both") || (option == "BOTH"))
@@ -335,11 +334,13 @@ void    interface::paymentMenu()
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
                 std::cout << "\n  Select Billing address [Index]: "; std::cin >> billing_addressi;
             }
-            if ((billing_addressi >= 0) && (billing_addressi <= getCurrentUser()->getAddresses().size()))
+            if (billing_addressi <= getCurrentUser()->getAddresses().size())
                 ptr = getCurrentUser()->getAddresses()[billing_addressi - 1];
         }
         if (opt == "1")
         {
+            clearscreen();
+            header();
             std::cout << "  Phone number: "; std::cin >> number;
             while (!std::cin.good())
             {
@@ -352,6 +353,8 @@ void    interface::paymentMenu()
         }
         else if (opt == "2")
         {
+            clearscreen();
+            header();
             std::cout << "  Credit card number: "; std::cin >> creditnumber;
             while (!std::cin.good())
             {

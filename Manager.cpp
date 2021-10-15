@@ -362,13 +362,13 @@ void    Manager::saveToFile(std::string fileAddress)
         {
             bshow = getUsers()[i]->getPaymentOptions()[k]->show().std::string::find("Bizum");
             cshow = getUsers()[i]->getPaymentOptions()[k]->show().std::string::find("Credit Card");
-            if ((bshow.std::string::find("Bizum") >= 0) && (bshow.std::string::find("Bizum") <= bshow.std::string::length()))
+            if (bshow.std::string::find("Bizum") <= bshow.std::string::length())
                 fileWrite << "Bizum\n";
             else
                 fileWrite << "CreditCard:\n";
             fileWrite << getUsers()[i]->getPaymentOptions()[k]->getBillingAddress()->getId();
             fileWrite << getUsers()[i]->getPaymentOptions()[k]->getBillingAddress()->getAddress();
-            if ((bshow.std::string::find("Bizum") >= 0) && (bshow.std::string::find("Bizum") <= bshow.std::string::length()))
+            if (bshow.std::string::find("Bizum") <= bshow.std::string::length())
                 fileWrite << bshow.std::string::find_last_of("\t") << std::endl;
             else
             {
