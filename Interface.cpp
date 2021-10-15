@@ -271,6 +271,13 @@ void    interface::addressMenu()
         header();
         std::cout << "\n  Address: "; std::cin >> address;
         std::cout << "  Postal code: "; std::cin >> postal_code;
+        while (!std::cin.good())
+        {
+            std::cout << "  ERROR: Introduce numeric value\n";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+            std::cout << "  Postal code: "; std::cin >> postal_code;
+        }
         std::cout << "  City: "; std::cin >> city;
         std::cout << "  Province: "; std::cin >> province;
         id = rand();
@@ -321,18 +328,46 @@ void    interface::paymentMenu()
             }
             std::cout << "*------------------------------------------------*" << std::endl;
             std::cout << "\n  Select Billing address [Index]: "; std::cin >> billing_addressi;
+            while (!std::cin.good())
+            {
+                std::cout << "  ERROR: Introduce numeric value\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                std::cout << "\n  Select Billing address [Index]: "; std::cin >> billing_addressi;
+            }
             if ((billing_addressi >= 0) && (billing_addressi <= getCurrentUser()->getAddresses().size()))
                 ptr = getCurrentUser()->getAddresses()[billing_addressi - 1];
         }
         if (opt == "1")
         {
             std::cout << "  Phone number: "; std::cin >> number;
+            while (!std::cin.good())
+            {
+                std::cout << "  ERROR: Introduce numeric value\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                std::cout << "  Phone number: "; std::cin >> number;
+            }
             addBizum(ptr, number);
         }
         else if (opt == "2")
         {
             std::cout << "  Credit card number: "; std::cin >> creditnumber;
+            while (!std::cin.good())
+            {
+                std::cout << "  ERROR: Introduce numeric value\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                std::cout << "  Credit card number: "; std::cin >> creditnumber;
+            }
             std::cout << "  Cardholder: "; std::cin >> cardholder;
+            while (!std::cin.good())
+            {
+                std::cout << "  ERROR: Introduce numeric value\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                std::cout << "  Cardholder: "; std::cin >> cardholder;
+            }
             addCreditCard(ptr, creditnumber, cardholder);
         }
     }
@@ -360,7 +395,7 @@ void    interface::userMenu()
         std::cout << "\n  -- Profile options --                         " << std::endl;
         std::cout << "  7. View/Add addresses                           " << std::endl;
         std::cout << "  8. View/Add payment options                     " << std::endl;
-        std::cout << "  9. Exit                                         " << std::endl;
+        std::cout << "  9. Logout                                       " << std::endl;
         std::cout << std::endl;
         opt = "";
         std::cin.clear();
@@ -372,7 +407,21 @@ void    interface::userMenu()
             clearscreen();
             headerLoggedUser();
             std::cout << "\n  Introduce Address Id: ";  std::cin >> addressId;
+            while (!std::cin.good())
+            {
+                std::cout << "  ERROR: Introduce numeric value\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                std::cout << "\n  Introduce Address Id: ";  std::cin >> addressId;
+            }
             std::cout << "  Introduce Payment Id: "; std::cin >> paymentId;
+            while (!std::cin.good())
+            {
+                std::cout << "  ERROR: Introduce numeric value\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                std::cout << "  Introduce Payment Id: "; std::cin >> paymentId;
+            }
             for (long unsigned k = 0; k < getCurrentUser()->getAddresses().size(); k++)
             {
                 if (getCurrentUser()->getAddresses()[k]->getId() == addressId)
@@ -401,8 +450,24 @@ void    interface::userMenu()
             clearscreen();
             headerLoggedUser();
             std::cout << "\n  Product reference: "; std::cin >> reference;
+            while (!std::cin.good())
+            {
+                std::cout << "  ERROR: Introduce numeric value\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                std::cout << "\n  Product reference: "; std::cin >> reference;
+            }
             while ((rating < 0) && (rating > 5))
+            {
                 std::cout << "  Rating [0-5]: "; std::cin >> rating;
+                while (!std::cin.good())
+                {
+                    std::cout << "  ERROR: Introduce numeric value\n";
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                    std::cout << "  Rating [0-5]: "; std::cin >> rating;
+                }
+            }
             std::cout << "  Introduce text:\n"; std::cin >> text;
             createReview(reference, rating, text);
         }
@@ -411,7 +476,21 @@ void    interface::userMenu()
             clearscreen();
             headerLoggedUser();
             std::cout << "\nProduct reference: "; std::cin >>reference;
+            while (!std::cin.good())
+            {
+                std::cout << "  ERROR: Introduce numeric value\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                std::cout << "\nProduct reference: "; std::cin >>reference;
+            }
             std::cout << "Rating: "; std::cin >> rating;
+            while (!std::cin.good())
+            {
+                std::cout << "  ERROR: Introduce numeric value\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                std::cout << "Rating: "; std::cin >> rating;
+            }
             std::cout << "\nREVIEWS: \n" << std::endl;
             for(long unsigned int i = 0; i < getReviewsByRating(reference, rating).size(); i++)
             {
@@ -447,6 +526,13 @@ void    interface::userMenu()
             clearscreen();
             headerLoggedUser();
             std::cout << " \n Introduce review id: "; std::cin >> id;
+            while (!std::cin.good())
+            {
+                std::cout << "  ERROR: Introduce numeric value\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                std::cout << " \n Introduce review id: "; std::cin >> id;
+            }
             for (long unsigned int i = 0; i < getProducts().size(); i++)
             {
                 for (long unsigned int j = 0; j < getProducts()[i]->getReviews().size(); j++)
@@ -479,7 +565,7 @@ void    interface::userMenu()
                 paymentMenu();
             exitpaymentMenu = 0;
         }
-        else if (opt == "9") //Exit
+        else if (opt == "9") //Logout
         {
             logout();
             exitUserMenu = 1;
@@ -545,7 +631,7 @@ void    interface::adminMenu()
         std::cout << "\n  -- Profile options --                         " << std::endl;
         std::cout << "  11. View/Add addresses                          " << std::endl;
         std::cout << "  12. View/Add payment options                    " << std::endl;
-        std::cout << "  13. Exit                                        " << std::endl;
+        std::cout << "  13. Logout                                      " << std::endl;
         std::cout << std::endl;
         opt = "";
         std::cout << "  Choose a valid option: "; std::cin >> opt;
@@ -604,7 +690,21 @@ void    interface::adminMenu()
             clearscreen();
             headerLoggedUser();
             std::cout << "\n  Introduce Address Id: ";  std::cin >> addressId;
+            while (!std::cin.good())
+            {
+                std::cout << "  ERROR: Introduce numeric value\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                std::cout << "\n  Introduce Address Id: ";  std::cin >> addressId;
+            }
             std::cout << "  Introduce Payment Id: "; std::cin >> paymentId;
+            while (!std::cin.good())
+            {
+                std::cout << "  ERROR: Introduce numeric value\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                std::cout << "  Introduce Payment Id: "; std::cin >> paymentId;
+            }
             for (long unsigned k = 0; k < getCurrentUser()->getAddresses().size(); k++)
             {
                 if (getCurrentUser()->getAddresses()[k]->getId() == addressId)
@@ -632,8 +732,24 @@ void    interface::adminMenu()
             clearscreen();
             headerLoggedAdmin();
             std::cout << "\n  Product reference: "; std::cin >> reference;
+            while (!std::cin.good())
+            {
+                std::cout << "  ERROR: Introduce numeric value\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                std::cout << "\n  Product reference: "; std::cin >> reference;
+            }
             while ((rating < 0) && (rating > 5))
+            {
                 std::cout << "  Rating [0-5]: "; std::cin >> rating;
+                while (!std::cin.good())
+                {
+                    std::cout << "  ERROR: Introduce numeric value\n";
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                    std::cout << "  Rating [0-5]: "; std::cin >> rating;
+                }
+            }
             std::cout << "  Introduce text:\n"; std::cin >> text;
             createReview(reference, rating, text);
         }
@@ -642,7 +758,21 @@ void    interface::adminMenu()
             clearscreen();
             headerLoggedAdmin();
             std::cout << "\nProduct reference: "; std::cin >>reference;
+            while (!std::cin.good())
+            {
+                std::cout << "  ERROR: Introduce numeric value\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                std::cout << "\nProduct reference: "; std::cin >>reference;
+            }
             std::cout << "Rating: "; std::cin >> rating;
+            while (!std::cin.good())
+            {
+                std::cout << "  ERROR: Introduce numeric value\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                std::cout << "Rating: "; std::cin >> rating;
+            }
             std::cout << "\nREVIEWS: \n" << std::endl;
             for(long unsigned int i = 0; i < getReviewsByRating(reference, rating).size(); i++)
             {
@@ -676,6 +806,13 @@ void    interface::adminMenu()
             clearscreen();
             headerLoggedUser();
             std::cout << "  Introduce review id: "; std::cin >> id;
+            while (!std::cin.good())
+            {
+                std::cout << "  ERROR: Introduce numeric value\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                std::cout << "  Introduce review id: "; std::cin >> id;
+            }
             for (long unsigned int i = 0; i < getProducts().size(); i++)
             {
                 for (long unsigned int j = 0; j < getProducts()[i]->getReviews().size(); j++)
@@ -694,13 +831,21 @@ void    interface::adminMenu()
         }
         else if (opt == "11") //View/edit addresses
         {
-
+            clearscreen();
+            headerLoggedAdmin();
+            while (exitaddressMenu != 1)
+                addressMenu();
+            exitaddressMenu = 0;
         }
         else if (opt == "12") //View/edit payment options
         {
-
+            clearscreen();
+            headerLoggedAdmin();
+            while (exitpaymentMenu != 1)
+                paymentMenu();
+            exitpaymentMenu = 0;
         }
-        else if (opt == "13") //Exit
+        else if (opt == "13") //Logout
         {
             logout();
             exitAdminMenu = 1;
