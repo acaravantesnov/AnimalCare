@@ -22,6 +22,7 @@ class interface : public Manager
         int exitorderMenu = 0;
         int exituodMenu = 0;
         int exitmodifyrevMenu = 0;
+        int exitaddressMenu = 0;
     public:
         interface();
         void    inter();
@@ -36,9 +37,10 @@ class interface : public Manager
         void    adminMenu();
         bool    Icreateacc();
         void    userMenu();
-        void    orderMenu();
+        void    orderMenu(int _address, int _payment);
         void    uodMenu();
         void    modifyrevMenu();
+        void    addressMenu();
 };
 
 #endif // INTERFACE_HPP

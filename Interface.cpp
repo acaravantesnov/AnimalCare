@@ -130,10 +130,12 @@ bool    interface::Icreateacc()
     return (false);
 }
 
-void    interface::orderMenu()
+void    interface::orderMenu(int _address, int _payment)
 {
     int prod = 0;
-    std::cout << "\n  1. Add product" << std::endl;
+    unsigned long const reference = (unsigned long const)rand();
+    getCurrentUser()->getOrders().push_back(new Order(reference, getCurrentUser()->getAddresses()[_address]->getId(), getCurrentUser()->getPaymentOptions()[_payment]->getId()));
+    std::cout << "\n  1. Add product to cart" << std::endl;
     std::cout << "  2. Make order" << std::endl;
     std::cout << "  3. Exit" << std::endl;
     std::cout << "\n  Select a valid option: "; std::cin >> opt;
@@ -153,7 +155,7 @@ void    interface::orderMenu()
                 std::cout << "  Order made!" << std::endl;
         }
         else
-            std::cout << "No products on cart, try again later!" << std::endl;
+            std::cout << "  No products on cart, try again later!" << std::endl;
         std::this_thread::sleep_for(g_timespan);
     }
     else if (opt == "3")
@@ -243,6 +245,41 @@ void    interface::modifyrevMenu()
     std::this_thread::sleep_for(g_timespan);
 }
 
+void    interface::addressMenu()
+{
+    std::string address, province, city;
+    unsigned int postal_code;
+    int id;
+    if (getCurrentUser()->getAddresses().size() != 0)
+    {
+        std::cout << "*------------------------------------------------*" << std::endl;
+        for (long unsigned int i = 0; i < getCurrentUser()->getAddresses().size(); i++)
+        {
+            std::cout << i + 1 << ".-  " << getCurrentUser()->getAddresses()[i]->getAddress() << ", " <<
+            getCurrentUser()->getAddresses()[i]->getPostalCode() << ", " <<
+            getCurrentUser()->getAddresses()[i]->getProvince() << ", " <<
+            getCurrentUser()->getAddresses()[i]->getCity() << std::endl;
+        }
+        std::cout << "*------------------------------------------------*" << std::endl;
+    }
+    std::cout << "\n  1. Add address" << std::endl;
+    std::cout << "  2. Exit" << std::endl;
+    std::cout << "\n  Select a valid option: "; std::cin >> opt;
+    if (opt == "1")
+    {
+        clearscreen();
+        header();
+        std::cout << "\n  Address: "; std::cin >> address;
+        std::cout << "  Postal code: "; std::cin >> postal_code;
+        std::cout << "  City: "; std::cin >> city;
+        std::cout << "  Province: "; std::cin >> province;
+        id = rand();
+        getCurrentUser()->getAddresses().push_back(new Address(id, address, city, province, postal_code));
+    }
+    else if (opt == "2")
+        exitaddressMenu = 1;
+}
+
 void    interface::userMenu()
 {
     unsigned long reference;
@@ -260,23 +297,43 @@ void    interface::userMenu()
         std::cout << "  4. Up/Downvote review                           " << std::endl;
         std::cout << "  5. Modify review                                " << std::endl;
         std::cout << "  6. Delete review                                " << std::endl;
-        std::cout << "  7. Exit                                         " << std::endl;
+        std::cout << "\n  -- Profile options --                         " << std::endl;
+        std::cout << "  7. View/Add addresses                           " << std::endl;
+        std::cout << "  8. View/Add payment options                     " << std::endl;
+        std::cout << "  9. Exit                                         " << std::endl;
         std::cout << std::endl;
         opt = "";
         std::cin.clear();
         std::cout << "  Choose a valid option: "; std::cin >> opt;
         if (opt == "1") //Make order
         {
+            int addressId;
+            int paymentId;
             clearscreen();
             headerLoggedUser();
-            std::cout << "*---------------------------------------------*" << std::endl;
-            for (long unsigned int i = 0; i < getProducts().size(); i++)
-                std::cout << "  " << i + 1 << ".-  " << getProducts()[i]->getName() <<
-                " " << getProducts()[i]->getReference() << " " << getProducts()[i]->getPrice() << std::endl;
-            std::cout << "*---------------------------------------------*" << std::endl;
-            std::this_thread::sleep_for(g_timespan);
-            while(exitorderMenu != 1)
-                orderMenu();
+            std::cout << "\n  Introduce Address Id: ";  std::cin >> addressId;
+            std::cout << "  Introduce Payment Id: "; std::cin >> paymentId;
+            for (long unsigned k = 0; k < getCurrentUser()->getAddresses().size(); k++)
+            {
+                if (getCurrentUser()->getAddresses()[k]->getId() == addressId)
+                {
+                    for (long unsigned int l = 0; l < getCurrentUser()->getPaymentOptions().size(); l++)
+                    {
+                        if (getCurrentUser()->getPaymentOptions()[l]->getId() == paymentId)
+                        {
+                            std::cout << "\n  Ready to buy!\n" << std::endl;
+                            std::cout << "*---------------------------------------------*" << std::endl;
+                            for (long unsigned int i = 0; i < getProducts().size(); i++)
+                                std::cout << "  " << i + 1 << ".-  " << getProducts()[i]->getName() <<
+                                " " << getProducts()[i]->getReference() << " " << getProducts()[i]->getPrice() << std::endl;
+                            std::cout << "*---------------------------------------------*" << std::endl;
+                            std::this_thread::sleep_for(g_timespan);
+                            while(exitorderMenu != 1)
+                                orderMenu(k, l);
+                        }
+                    }
+                }
+            }
         }
         else if (opt == "2") //Create review
         {
@@ -322,9 +379,39 @@ void    interface::userMenu()
         }
         else if (opt == "6") //Delete review
         {
+            unsigned long id;
+            int exfor = 0;
+            clearscreen();
+            headerLoggedUser();
+            std::cout << " \n Introduce review id: "; std::cin >> id;
+            for (long unsigned int i = 0; i < getProducts().size(); i++)
+            {
+                for (long unsigned int j = 0; j < getProducts()[i]->getReviews().size(); j++)
+                {
+                    if (id == getProducts()[i]->getReviews()[j]->getId())
+                    {
+                        deleteReview(id);
+                        std::cout << " \n Review deleted!" << std::endl;
+                        exfor = 1;
+                    }
+                }
+            }
+            if (exfor == 0)
+                std::cout << "\n  Review not found." << std::endl;
+            std::this_thread::sleep_for(g_timespan);
+        }
+        else if (opt == "7") //View/Edit addresses
+        {
+            clearscreen();
+            headerLoggedUser();
+            while (exitaddressMenu != 1)
+                addressMenu();
+        }
+        else if (opt == "8") //View/Edit payment options
+        {
 
         }
-        else if (opt == "7") //Exit
+        else if (opt == "9") //Exit
         {
             logout();
             exitUserMenu = 1;
@@ -379,15 +466,18 @@ void    interface::adminMenu()
         std::cout << "  1. Add product                                  " << std::endl;
         std::cout << "  2. Show users                                   " << std::endl;
         std::cout << "  3. Save to file                                 " << std::endl;
-        std::cout << "  4. Load from file                              " << std::endl;
-        std::cout << "\n- User commands:                                  " << std::endl;
+        std::cout << "  4. Load from file                               " << std::endl;
+        std::cout << "\n- User commands:                                " << std::endl;
         std::cout << "  5. Make order                                   " << std::endl;
         std::cout << "  6. Create review                                " << std::endl;
         std::cout << "  7. Get reviews by rating                        " << std::endl;
         std::cout << "  8. Up/Downvote review                           " << std::endl;
         std::cout << "  9. Modify review                                " << std::endl;
-        std::cout << "  10. Delete review                                " << std::endl;
-        std::cout << "  11. Exit                                        " << std::endl;
+        std::cout << "  10. Delete review                               " << std::endl;
+        std::cout << "\n  -- Profile options --                         " << std::endl;
+        std::cout << "  11. View/Add addresses                          " << std::endl;
+        std::cout << "  12. View/Add payment options                    " << std::endl;
+        std::cout << "  13. Exit                                        " << std::endl;
         std::cout << std::endl;
         opt = "";
         std::cout << "  Choose a valid option: "; std::cin >> opt;
@@ -400,7 +490,7 @@ void    interface::adminMenu()
             std::cout << "  Reference: "; std::cin >> reference;
             std::cout << "  Price (in euros): "; std::cin >> price;
             if (addProduct(name, description, reference, price) == true)
-                std::cout << "\nProduct Added!" << std::endl;
+                std::cout << "\n  Product Added!" << std::endl;
             else
                 std::cout << "\n :-(" << std::endl;
             std::this_thread::sleep_for(g_timespan);
@@ -427,15 +517,33 @@ void    interface::adminMenu()
         }
         else if (opt == "5")  //Make order
         {
+            int addressId;
+            int paymentId;
             clearscreen();
-            headerLoggedAdmin();
-            std::cout << "*------------------------------------------------*" << std::endl;
-            for (long unsigned int i = 0; i < getProducts().size(); i++)
-                std::cout << "  " << i + 1 << ".-  " << getProducts()[i]->getName() << " " << getProducts()[i]->getReference() << " " << getProducts()[i]->getPrice() << std::endl;
-            std::cout << "*------------------------------------------------*" << std::endl;
-            std::this_thread::sleep_for(g_timespan);
-            while(exitorderMenu != 1)
-                orderMenu();
+            headerLoggedUser();
+            std::cout << "\n  Introduce Address Id: ";  std::cin >> addressId;
+            std::cout << "  Introduce Payment Id: "; std::cin >> paymentId;
+            for (long unsigned k = 0; k < getCurrentUser()->getAddresses().size(); k++)
+            {
+                if (getCurrentUser()->getAddresses()[k]->getId() == addressId)
+                {
+                    for (long unsigned int l = 0; l < getCurrentUser()->getPaymentOptions().size(); l++)
+                    {
+                        if (getCurrentUser()->getPaymentOptions()[l]->getId() == paymentId)
+                        {
+                            std::cout << "\n  Ready to buy!\n" << std::endl;
+                            std::cout << "*---------------------------------------------*" << std::endl;
+                            for (long unsigned int i = 0; i < getProducts().size(); i++)
+                                std::cout << "  " << i + 1 << ".-  " << getProducts()[i]->getName() <<
+                                " " << getProducts()[i]->getReference() << " " << getProducts()[i]->getPrice() << std::endl;
+                            std::cout << "*---------------------------------------------*" << std::endl;
+                            std::this_thread::sleep_for(g_timespan);
+                            while(exitorderMenu != 1)
+                                orderMenu(k, l);
+                        }
+                    }
+                }
+            }
         }
         else if (opt == "6") //Create review
         {
@@ -467,18 +575,50 @@ void    interface::adminMenu()
         }
         else if (opt == "8") // Up/Downvote review
         {
+            clearscreen();
+            headerLoggedAdmin();
             while (exituodMenu != 1)
                 uodMenu();
         }
         else if (opt == "9") //Modify review
         {
-
+            clearscreen();
+            headerLoggedAdmin();
+            while (exitmodifyrevMenu != 1)
+                modifyrevMenu();
         }
         else if (opt == "10") //Delete review
         {
+            unsigned long id;
+            int exfor = 0;
+            clearscreen();
+            headerLoggedUser();
+            std::cout << "  Introduce review id: "; std::cin >> id;
+            for (long unsigned int i = 0; i < getProducts().size(); i++)
+            {
+                for (long unsigned int j = 0; j < getProducts()[i]->getReviews().size(); j++)
+                {
+                    if (id == getProducts()[i]->getReviews()[j]->getId())
+                    {
+                        deleteReview(id);
+                        std::cout << " \n Review deleted!" << std::endl;
+                        exfor = 1;
+                    }
+                }
+            }
+            if (exfor == 0)
+                std::cout << "\n  Review not found." << std::endl;
+            std::this_thread::sleep_for(g_timespan);
+        }
+        else if (opt == "11") //View/edit addresses
+        {
 
         }
-        else if (opt == "11") //Exit
+        else if (opt == "12") //View/edit payment options
+        {
+
+        }
+        else if (opt == "13") //Exit
         {
             logout();
             exitAdminMenu = 1;
@@ -501,7 +641,7 @@ void    interface::inter()
     {
         clearscreen();
         header();
-        std::cout << "\n  Try again later :-C" << std::endl;
+        std::cout << "\n  Try again later :-(\n" << std::endl;
         std::this_thread::sleep_for(g_timespan);
     }
     exit(0);

@@ -323,7 +323,7 @@ bool    Manager::deleteReview(unsigned long &_id)
     {
         for (long unsigned int j = 0; j < products[i]->getReviews().size(); j++)
         {
-            if (products[i]->getReviews()[j]->getAuthor()->getUsername() == users[current_user]->getUsername())
+            if ((products[i]->getReviews()[j]->getAuthor()->getUsername() == users[current_user]->getUsername()) && (getProducts()[i]->getReviews()[j]->getId() == _id))
             {
                 delete products[i]->getReviews()[j];
                 return (true);
