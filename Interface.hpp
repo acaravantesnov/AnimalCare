@@ -9,6 +9,8 @@
 
 std::chrono::milliseconds g_timespan(1500);
 std::chrono::milliseconds g_timespan2(3000);
+std::chrono::milliseconds g_timespan3(5000);
+
 
 class interface : public Manager
 {
@@ -32,7 +34,7 @@ class interface : public Manager
         bool    IaddAdmin();
         void    Menu();
         void    adminMenu();
-        void    Icreateacc();
+        bool    Icreateacc();
         void    userMenu();
         void    orderMenu();
         void    uodMenu();

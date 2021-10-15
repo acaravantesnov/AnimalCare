@@ -76,20 +76,31 @@ bool    interface::IaddAdmin()
     unsigned long worker_id;
     std::cout << "\n  Username: "; std::cin >> username;
     std::cout << "  Email: "; std:: cin >> email;
+    if ((email.std::string::find("@") < 0) || (email.std::string::find("@") > email.std::string::length()))
+    {
+        std::cout << "  Invalid email\n" << "  Email: "; std::cin >> email;
+    }
+    if ((email.std::string::find("@") < 0) || (email.std::string::find("@") > email.std::string::length()))
+    {
+        return (false);
+    }
     std::cout << "  Password: "; std::cin >> password;
-    std::cout << "  Worker Id: ";  std::cin >> worker_id;
+    worker_id = (unsigned long)rand();
     if (addAdmin(username, email, password, worker_id) == true)
     {
-        std::cout << "\n Created Admin! " << std::endl;
+        clearscreen();
+        std::cout << "\n  Created Admin! \n" << std::endl;
+        std::cout << "  ID: " << worker_id << "\n  Keep it secret!!" << std::endl;
+        std::this_thread::sleep_for(g_timespan3);
         return (true);
     }
     else
-        std::cout << "\n Wrong Admin creation :-( " << std::endl;
+        std::cout << "\n  Wrong Admin creation (Username or email already existing?)" << std::endl;
     std::this_thread::sleep_for(g_timespan);
     return (false);
 }
 
-void    interface::Icreateacc()
+bool    interface::Icreateacc()
 {
     std::string username, email, password, option;
     std::cout << "  [Admin] or [User]? "; std::cin >> option;
@@ -99,11 +110,24 @@ void    interface::Icreateacc()
     {
         std::cout << "\n  Username: "; std::cin >> username;
         std::cout << "  Email: "; std:: cin >> email;
+        if ((email.std::string::find("@") < 0) || (email.std::string::find("@") > email.std::string::length()))
+        {
+            std::cout << "  Invalid email\n" << "  Email: "; std::cin >> email;
+        }
+        if ((email.std::string::find("@") < 0) || (email.std::string::find("@") > email.std::string::length()))
+        {
+            return (false);
+        }
         std::cout << "  Password: "; std::cin >> password;
-        addUser(username, email, password);
+        if (addUser(username, email, password) == true)
+            std::cout << "\n  Created User!" << std::endl;
+        else
+            std::cout << "\n  Wrong User creation (Username or email already existing?)" << std::endl;
+        std::this_thread::sleep_for(g_timespan);
     }
     else
         std::cout << "  Introduce a valid command!" << std::endl;
+    return (false);
 }
 
 void    interface::orderMenu()
@@ -473,10 +497,17 @@ void    interface::inter()
         while (exitMenu != 1)
             Menu();
     }
+    else
+    {
+        clearscreen();
+        header();
+        std::cout << "\n  Try again later :-C" << std::endl;
+        std::this_thread::sleep_for(g_timespan);
+    }
     exit(0);
 }
 
-int main()
+int main(void)
 {
     interface i;
     i.inter();
