@@ -250,7 +250,7 @@ void    interface::addressMenu()
     std::string address, province, city;
     unsigned int postal_code;
     int id;
-    if (getCurrentUser()->getAddresses().size() != 0)
+    if (getCurrentUser()->getAddresses().size() > 0)
     {
         std::cout << "*------------------------------------------------*" << std::endl;
         for (long unsigned int i = 0; i < getCurrentUser()->getAddresses().size(); i++)
@@ -275,9 +275,69 @@ void    interface::addressMenu()
         std::cout << "  Province: "; std::cin >> province;
         id = rand();
         getCurrentUser()->getAddresses().push_back(new Address(id, address, city, province, postal_code));
+        exitaddressMenu = 1;
     }
     else if (opt == "2")
         exitaddressMenu = 1;
+}
+
+void    interface::paymentMenu()
+{
+    std::string cardholder;
+    long unsigned int billing_addressi;
+    unsigned int number;
+    unsigned long creditnumber;
+    Address* ptr;
+    if (getCurrentUser()->getPaymentOptions().size() > 0)
+    {
+        std::cout << "*------------------------------------------------*" << std::endl;
+        for (long unsigned int i = 0; i < getCurrentUser()->getPaymentOptions().size(); i++)
+        {
+           std::cout << i + 1 << ".-  " << getCurrentUser()->getPaymentOptions()[i]->getId() << ", " <<
+           getCurrentUser()->getPaymentOptions()[i]->getBillingAddress() << std::endl;
+        }
+        std::cout << "*------------------------------------------------*" << std::endl;
+    }
+    std::cout << "\n  1. Add payment option" << std::endl;
+    std::cout << "  2. Exit" << std::endl;
+    std::cout << "\n  Select a valid option: "; std::cin >> opt;
+    if (opt == "1")
+    {
+        clearscreen();
+        headerLoggedUser();
+        std::cout << "\n  1. Bizum" << std::endl;
+        std::cout << "  2. Credit Card" << std::endl;
+        std::cout << "  3. Exit" << std::endl;
+        std::cout << "\n  Select a valid option: "; std::cin >> opt;
+        if (((opt == "1") || (opt == "2")) && (getCurrentUser()->getAddresses().size() > 0))
+        {
+            std::cout << "*------------------------------------------------*" << std::endl;
+            for (long unsigned int i = 0; i < getCurrentUser()->getAddresses().size(); i++)
+            {
+                std::cout << i + 1 << ".-  " << getCurrentUser()->getAddresses()[i]->getAddress() << ", " <<
+                getCurrentUser()->getAddresses()[i]->getPostalCode() << ", " <<
+                getCurrentUser()->getAddresses()[i]->getProvince() << ", " <<
+                getCurrentUser()->getAddresses()[i]->getCity() << std::endl;
+            }
+            std::cout << "*------------------------------------------------*" << std::endl;
+            std::cout << "\n  Select Billing address [Index]: "; std::cin >> billing_addressi;
+            if ((billing_addressi >= 0) && (billing_addressi <= getCurrentUser()->getAddresses().size()))
+                ptr = getCurrentUser()->getAddresses()[billing_addressi - 1];
+        }
+        if (opt == "1")
+        {
+            std::cout << "  Phone number: "; std::cin >> number;
+            addBizum(ptr, number);
+        }
+        else if (opt == "2")
+        {
+            std::cout << "  Credit card number: "; std::cin >> creditnumber;
+            std::cout << "  Cardholder: "; std::cin >> cardholder;
+            addCreditCard(ptr, creditnumber, cardholder);
+        }
+    }
+    else if (opt == "2")
+        exitpaymentMenu = 1;
 }
 
 void    interface::userMenu()
@@ -330,6 +390,7 @@ void    interface::userMenu()
                             std::this_thread::sleep_for(g_timespan);
                             while(exitorderMenu != 1)
                                 orderMenu(k, l);
+                            exitorderMenu = 0;
                         }
                     }
                 }
@@ -369,6 +430,7 @@ void    interface::userMenu()
             headerLoggedUser();
             while (exituodMenu != 1)
                 uodMenu();
+            exituodMenu = 0;
         }
         else if (opt == "5") //Modify review
         {
@@ -376,6 +438,7 @@ void    interface::userMenu()
             headerLoggedUser();
             while (exitmodifyrevMenu != 1)
                 modifyrevMenu();
+            exitmodifyrevMenu = 0;
         }
         else if (opt == "6") //Delete review
         {
@@ -406,10 +469,15 @@ void    interface::userMenu()
             headerLoggedUser();
             while (exitaddressMenu != 1)
                 addressMenu();
+            exitaddressMenu = 0;
         }
         else if (opt == "8") //View/Edit payment options
         {
-
+            clearscreen();
+            headerLoggedUser();
+            while (exitpaymentMenu != 1)
+                paymentMenu();
+            exitpaymentMenu = 0;
         }
         else if (opt == "9") //Exit
         {
@@ -488,7 +556,21 @@ void    interface::adminMenu()
             std::cout << "\n  New product name: "; std::cin >> name;
             std::cout << "  Brief description: "; std::cin >> description;
             std::cout << "  Reference: "; std::cin >> reference;
+            while (!std::cin.good())
+            {
+                std::cout << "  ERROR: Introduce numeric value\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                std::cout << "  Reference: "; std::cin >> reference;
+            }
             std::cout << "  Price (in euros): "; std::cin >> price;
+            while (!std::cin.good())
+            {
+                std::cout << "  ERROR: Introduce numeric value\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                std::cout << "  Price (in euros): "; std::cin >> price;
+            }
             if (addProduct(name, description, reference, price) == true)
                 std::cout << "\n  Product Added!" << std::endl;
             else
