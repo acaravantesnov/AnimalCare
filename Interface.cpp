@@ -478,15 +478,15 @@ void    interface::userMenu()
         {
             clearscreen();
             headerLoggedUser();
-            std::cout << "\nProduct reference: "; std::cin >>reference;
+            std::cout << "\n  Product reference: "; std::cin >>reference;
             while (!std::cin.good())
             {
                 std::cout << "  ERROR: Introduce numeric value\n";
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-                std::cout << "\nProduct reference: "; std::cin >>reference;
+                std::cout << "\n  Product reference: "; std::cin >>reference;
             }
-            std::cout << "Rating: "; std::cin >> rating;
+            std::cout << "  Rating: "; std::cin >> rating;
             while (!std::cin.good())
             {
                 std::cout << "  ERROR: Introduce numeric value\n";
@@ -528,13 +528,13 @@ void    interface::userMenu()
             int exfor = 0;
             clearscreen();
             headerLoggedUser();
-            std::cout << " \n Introduce review id: "; std::cin >> id;
+            std::cout << " \n  Introduce review id: "; std::cin >> id;
             while (!std::cin.good())
             {
                 std::cout << "  ERROR: Introduce numeric value\n";
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-                std::cout << " \n Introduce review id: "; std::cin >> id;
+                std::cout << " \n  Introduce review id: "; std::cin >> id;
             }
             for (long unsigned int i = 0; i < getProducts().size(); i++)
             {
@@ -543,7 +543,7 @@ void    interface::userMenu()
                     if (id == getProducts()[i]->getReviews()[j]->getId())
                     {
                         deleteReview(id);
-                        std::cout << " \n Review deleted!" << std::endl;
+                        std::cout << "\n  Review deleted!" << std::endl;
                         exfor = 1;
                     }
                 }
@@ -760,13 +760,13 @@ void    interface::adminMenu()
         {
             clearscreen();
             headerLoggedAdmin();
-            std::cout << "\nProduct reference: "; std::cin >>reference;
+            std::cout << "\n  Product reference: "; std::cin >>reference;
             while (!std::cin.good())
             {
                 std::cout << "  ERROR: Introduce numeric value\n";
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-                std::cout << "\nProduct reference: "; std::cin >>reference;
+                std::cout << "\n  Product reference: "; std::cin >>reference;
             }
             std::cout << "Rating: "; std::cin >> rating;
             while (!std::cin.good())
@@ -774,17 +774,17 @@ void    interface::adminMenu()
                 std::cout << "  ERROR: Introduce numeric value\n";
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-                std::cout << "Rating: "; std::cin >> rating;
+                std::cout << "  Rating: "; std::cin >> rating;
             }
-            std::cout << "\nREVIEWS: \n" << std::endl;
+            std::cout << "\n  REVIEWS: \n" << std::endl;
             for(long unsigned int i = 0; i < getReviewsByRating(reference, rating).size(); i++)
             {
-                std::cout << "Id: " << getReviewsByRating(reference, rating)[i]->getId() << std::endl;
-                std::cout << "Rating: " << getReviewsByRating(reference, rating)[i]->getRating() << std::endl;
-                std::cout << "Text: " << getReviewsByRating(reference, rating)[i]->getText() << std::endl;
-                std::cout << "Author: " << getReviewsByRating(reference, rating)[i]->getAuthor() << std::endl;
-                std::cout << "Votes: " << getReviewsByRating(reference, rating)[i]->getVotes() << std::endl;
-                std::cout << "Date: " << getReviewsByRating(reference, rating)[i]->getDate() << std::endl;
+                std::cout << "  Id: " << getReviewsByRating(reference, rating)[i]->getId() << std::endl;
+                std::cout << "  Rating: " << getReviewsByRating(reference, rating)[i]->getRating() << std::endl;
+                std::cout << "  Text: " << getReviewsByRating(reference, rating)[i]->getText() << std::endl;
+                std::cout << "  Author: " << getReviewsByRating(reference, rating)[i]->getAuthor() << std::endl;
+                std::cout << "  Votes: " << getReviewsByRating(reference, rating)[i]->getVotes() << std::endl;
+                std::cout << "  Date: " << getReviewsByRating(reference, rating)[i]->getDate() << std::endl;
             }
             std::this_thread::sleep_for(g_timespan2);
         }
@@ -823,7 +823,7 @@ void    interface::adminMenu()
                     if (id == getProducts()[i]->getReviews()[j]->getId())
                     {
                         deleteReview(id);
-                        std::cout << " \n Review deleted!" << std::endl;
+                        std::cout << "\n  Review deleted!" << std::endl;
                         exfor = 1;
                     }
                 }

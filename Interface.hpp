@@ -11,7 +11,6 @@ std::chrono::milliseconds g_timespan(1500);
 std::chrono::milliseconds g_timespan2(3000);
 std::chrono::milliseconds g_timespan3(5000);
 
-
 class interface : public Manager
 {
     private:
