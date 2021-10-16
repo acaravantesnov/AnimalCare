@@ -253,13 +253,7 @@ void    interface::addressMenu()
     {
         std::cout << "*------------------------------------------------*" << std::endl;
         for (long unsigned int i = 0; i < getCurrentUser()->getAddresses().size(); i++)
-        {
-            std::cout << i + 1 << ".-  ID:" << getCurrentUser()->getAddresses()[i]->getId() << ", " <<
-            getCurrentUser()->getAddresses()[i]->getAddress() << ", " <<
-            getCurrentUser()->getAddresses()[i]->getPostalCode() << ", " <<
-            getCurrentUser()->getAddresses()[i]->getProvince() << ", " <<
-            getCurrentUser()->getAddresses()[i]->getCity() << std::endl;
-        }
+            std::cout << i + 1 << ".- " << getCurrentUser()->getAddresses()[i]->show() << std::endl;
         std::cout << "*------------------------------------------------*" << std::endl;
     }
     std::cout << "\n  1. Add address" << std::endl;
@@ -317,12 +311,7 @@ void    interface::paymentMenu()
         {
             std::cout << "*------------------------------------------------*" << std::endl;
             for (long unsigned int i = 0; i < getCurrentUser()->getAddresses().size(); i++)
-            {
-                std::cout << i + 1 << ".-  " << getCurrentUser()->getAddresses()[i]->getAddress() << ", " <<
-                getCurrentUser()->getAddresses()[i]->getPostalCode() << ", " <<
-                getCurrentUser()->getAddresses()[i]->getProvince() << ", " <<
-                getCurrentUser()->getAddresses()[i]->getCity() << std::endl;
-            }
+                std::cout << i + 1 << ".-  " << getCurrentUser()->getAddresses()[i]->show() << std::endl;
             std::cout << "*------------------------------------------------*" << std::endl;
             std::cout << "\n  Select Billing address [Index]: "; std::cin >> billing_addressi;
             while (!std::cin.good())
