@@ -254,7 +254,8 @@ void    interface::addressMenu()
         std::cout << "*------------------------------------------------*" << std::endl;
         for (long unsigned int i = 0; i < getCurrentUser()->getAddresses().size(); i++)
         {
-            std::cout << i + 1 << ".-  " << getCurrentUser()->getAddresses()[i]->getAddress() << ", " <<
+            std::cout << i + 1 << ".-  ID:" << getCurrentUser()->getAddresses()[i]->getId() << ", " <<
+            getCurrentUser()->getAddresses()[i]->getAddress() << ", " <<
             getCurrentUser()->getAddresses()[i]->getPostalCode() << ", " <<
             getCurrentUser()->getAddresses()[i]->getProvince() << ", " <<
             getCurrentUser()->getAddresses()[i]->getCity() << std::endl;
@@ -268,7 +269,7 @@ void    interface::addressMenu()
     {
         clearscreen();
         header();
-        std::cout << "\n  Address: "; std::cin >> address;
+        std::cout << "\n  Address: "; std::getline(std::cin >> std::ws, address);
         std::cout << "  Postal code: "; std::cin >> postal_code;
         while (!std::cin.good())
         {
@@ -277,8 +278,8 @@ void    interface::addressMenu()
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
             std::cout << "  Postal code: "; std::cin >> postal_code;
         }
-        std::cout << "  City: "; std::cin >> city;
-        std::cout << "  Province: "; std::cin >> province;
+        std::cout << "  City: "; std::getline(std::cin >> std::ws, city);
+        std::cout << "  Province: "; std::getline(std::cin >> std::ws, province);
         id = rand();
         getCurrentUser()->getAddresses().push_back(new Address(id, address, city, province, postal_code));
         exitaddressMenu = 1;
@@ -298,10 +299,7 @@ void    interface::paymentMenu()
     {
         std::cout << "*------------------------------------------------*" << std::endl;
         for (long unsigned int i = 0; i < getCurrentUser()->getPaymentOptions().size(); i++)
-        {
-           std::cout << i + 1 << ".-  " << getCurrentUser()->getPaymentOptions()[i]->getId() << ", " <<
-           getCurrentUser()->getPaymentOptions()[i]->getBillingAddress() << std::endl;
-        }
+           std::cout << i + 1 << ".- " << getCurrentUser()->getPaymentOptions()[i]->show() << std::endl;
         std::cout << "*------------------------------------------------*" << std::endl;
     }
     std::cout << "\n  1. Add payment option" << std::endl;
@@ -642,8 +640,8 @@ void    interface::adminMenu()
         {
             clearscreen();
             headerLoggedAdmin();
-            std::cout << "\n  New product name: "; std::cin >> name;
-            std::cout << "  Brief description: "; std::cin >> description;
+            std::cout << "\n  New product name: "; std::getline(std::cin >> std::ws, name);
+            std::cout << "  Brief description: "; std::getline(std::cin >> std::ws, description);
             std::cout << "  Reference: "; std::cin >> reference;
             while (!std::cin.good())
             {

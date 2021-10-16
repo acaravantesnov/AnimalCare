@@ -116,9 +116,10 @@ bool    Manager::editPassword(std::string &_password)
 bool    Manager::addAddress(std::string &_address, std::string &_city,
 std::string &_province, unsigned int &_postal_code)
 {
+    int id = rand();
     if (isLogged() == true)
     {
-        users[current_user]->getAddresses().push_back(new Address(users[current_user]->getAddresses().size(), _address, _city, _province, _postal_code));
+        getCurrentUser()->getAddresses().push_back(new Address(id, _address, _city, _province, _postal_code));
         return (true);
     }
     return (false);
@@ -127,9 +128,10 @@ std::string &_province, unsigned int &_postal_code)
 bool    Manager::addCreditCard(Address* _billing_address,
 unsigned long &_number, std::string &_cardholder)
 {
+    int id = rand();
     if (isLogged() == true)
     {
-        users[current_user]->getPaymentOptions().push_back(new CreditCard(users[current_user]->getPaymentOptions().size(), _billing_address, _number, _cardholder));
+        getCurrentUser()->getPaymentOptions().push_back(new CreditCard(id, _billing_address, _number, _cardholder));
         return (true);
     }
     return (false);
@@ -137,9 +139,10 @@ unsigned long &_number, std::string &_cardholder)
 
 bool    Manager::addBizum(Address* _billing_address, unsigned int &_number)
 {
+    int id = rand();
     if (isLogged() == true)
     {
-        users[current_user]->getPaymentOptions().push_back(new Bizum(users[current_user]->getPaymentOptions().size(), _billing_address, _number));
+        getCurrentUser()->getPaymentOptions().push_back(new Bizum(id, _billing_address, _number));
         return (true);
     }
     return (false);
