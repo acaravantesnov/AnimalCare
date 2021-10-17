@@ -16,7 +16,7 @@ Bizum::Bizum(const int &_id, Address* _billing_address, const unsigned int &_num
 std::string Bizum::show()
 {
     std::string showstr;
-    showstr = "\tid " + std::to_string(id) + " - Bizum Account\n\tBilling address: " + PaymentOption::show() +
+    showstr = "\tid " + std::to_string(id) + " - Bizum Account:\n\tBilling address: " + PaymentOption::show() +
     "\n\t" + std::to_string(number);
     return (showstr);
 }
