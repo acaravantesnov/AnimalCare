@@ -24,7 +24,7 @@ void    Order::setTotal(float &_total) {total = _total;}
 
 std::vector<unsigned long>  &Order::getProducts() {return (products);}
 
-void    Order::addProduct(unsigned long &_newProduct) {products.push_back(_newProduct);}
+void    Order::addProduct(unsigned long &_newProduct) {products.push_back(new _newProduct);}
 
 Order::Order(const unsigned long &_reference, const std::vector<unsigned long> &_products,
 const int &_delivery_address, const int &_payment_option, const float &_total)

@@ -618,43 +618,31 @@ void    interface::makeorderMenu()
     }
     else
     {
-        std::cout << "\n  Introduce Address Id: ";  std::cin >> addressId;
-        while (!std::cin.good())
-        {
-            std::cout << "  ERROR: Introduce numeric value\n";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-            std::cout << "\n  Introduce Address Id: ";  std::cin >> addressId;
-        }
-        std::cout << "  Introduce Payment Id: "; std::cin >> paymentId;
-        while (!std::cin.good())
-        {
-            std::cout << "  ERROR: Introduce numeric value\n";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-            std::cout << "  Introduce Payment Id: "; std::cin >> paymentId;
-        }
-        for (long unsigned k = 0; k < getCurrentUser()->getAddresses().size(); k++)
-        {
-            if (getCurrentUser()->getAddresses()[k]->getId() == addressId)
-            {
-                for (long unsigned int l = 0; l < getCurrentUser()->getPaymentOptions().size(); l++)
-                {
-                    if (getCurrentUser()->getPaymentOptions()[l]->getId() == paymentId)
-                    {
-                        std::cout << "\n  Ready to buy!\n" << std::endl;
-                        std::cout << "*---------------------------------------------*" << std::endl;
-                        for (long unsigned int i = 0; i < getProducts().size(); i++)
-                            std::cout << "  " << i + 1 << ".-  " << getProducts()[i]->getName() <<
-                            " " << getProducts()[i]->getReference() << " " << getProducts()[i]->getPrice() << std::endl;
-                        std::cout << "*---------------------------------------------*" << std::endl;
-                        std::this_thread::sleep_for(g_timespan);
-                        while(exitorderMenu != 1)
-                            orderMenu(k, l);
-                    }
-                }
-            }
-        }
+        std::cout << "*------------------------------------------------*" << std::endl;
+        for (long unsigned int i = 0; i < getCurrentUser()->getAddresses().size(); i++)
+            std::cout << i + 1 << ".- id: " << getCurrentUser()->getAddresses()[i]->getId() << " " <<
+            getCurrentUser()->getAddresses()[i]->show() << std::endl;
+        std::cout << "*------------------------------------------------*" << std::endl;
+        std::cout << "\n  Select an address for the order [INDEX]: "; std::cin >> opt;
+        int addopt = std::stoi(opt);
+        std::cout << "\n*------------------------------------------------*" << std::endl;
+        for (long unsigned int i = 0; i < getCurrentUser()->getPaymentOptions().size(); i++)
+            std::cout << i + 1 << ".- " << getCurrentUser()->getPaymentOptions()[i]->show() << std::endl;
+        std::cout << "*------------------------------------------------*" << std::endl;
+        std::cout << "\n  Select an address for the order [INDEX]: "; std::cin >> opt;
+        int delopt = std::stoi(opt);
+        std::cout << "\n  Ready to buy!\n" << std::endl;
+        std::this_thread::sleep_for(g_timespan);
+        clearscreen();
+        header();
+        std::cout << "\n*---------------------------------------------*" << std::endl;
+        for (long unsigned int i = 0; i < getProducts().size(); i++)
+            std::cout << "  " << i + 1 << ".-  " << getProducts()[i]->getName() <<
+            " " << getProducts()[i]->getReference() << " " << getProducts()[i]->getPrice() << std::endl;
+        std::cout << "*---------------------------------------------*" << std::endl;
+        std::this_thread::sleep_for(g_timespan);
+        while(exitorderMenu != 1)
+            orderMenu(addopt - 1, delopt - 1);
     }
 }
 
