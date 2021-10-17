@@ -11,6 +11,7 @@ SOURCES += \
     Product.cpp \
     PublicUserData.cpp \
     Review.cpp \
+    ShoppingCart.cpp \
     User.cpp
 
 HEADERS += \
@@ -26,4 +27,5 @@ HEADERS += \
     Product.hpp \
     PublicUserData.hpp \
     Review.hpp \
+    ShoppingCart.hpp \
     User.hpp

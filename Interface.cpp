@@ -53,7 +53,7 @@ bool    interface::Ilogin()
     if (login(email, password) == true)
     {
         std::cout << "\n  Successful login!" << std::endl;
-        std::cout << "  Press any key to return to main menu." << std::endl;
+        std::this_thread::sleep_for(g_timespan);
         if (getCurrentUser()->isAdmin() == true)
             adminMenu();
         else
@@ -63,7 +63,7 @@ bool    interface::Ilogin()
     else
     {
         std::cout << "\n  Unsuccessful login :-(" << std::endl;
-        std::cout << "  Press any key to return to main menu." << std::endl;
+        std::this_thread::sleep_for(g_timespan);
     }
     return (false);
 }
@@ -136,14 +136,14 @@ void    interface::orderMenu(int _address, int _payment)
     if (opt == "1")
     {
         std::cout << "\n  Which product? "; std::cin >> prod;
-        if (getProducts().size() >= 1)
+        if ((getProducts().size() >= 1) && (prod >= 1))
             getCurrentUser()->getOrders().back()->addProduct(getProducts()[prod - 1]->getReference());
         else
             std::cout << "  There are no products available!" << std::endl;
     }
     else if (opt == "2")
     {
-        if (getCurrentUser()->getOrders().back()->getProducts().size() != 0)
+        if (getCurrentUser()->getOrders().back()->getProducts().size() > 0)
         {
             makeOrder(getCurrentUser()->getOrders().back()->getProducts(), getCurrentUser()->getAddresses().back()->getId(), getCurrentUser()->getPaymentOptions().back()->getId());
                 std::cout << "  Order made!" << std::endl;
@@ -153,7 +153,10 @@ void    interface::orderMenu(int _address, int _payment)
         std::this_thread::sleep_for(g_timespan);
     }
     else if (opt == "3")
+    {
         exitorderMenu = 1;
+        exitmakeorderMenu = 1;
+    }
 }
 
 void    interface::uodMenu()
