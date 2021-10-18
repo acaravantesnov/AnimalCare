@@ -128,7 +128,7 @@ void    interface::orderMenu(int _address, int _payment)
 {
     int prod = 0;
     unsigned long const reference = static_cast<unsigned long>(rand());
-    getCurrentUser()->getOrders().push_back(new Order(reference, getCurrentUser()->getAddresses()[_address]->getId(), getCurrentUser()->getPaymentOptions()[_payment]->getId()));
+    getCurrentUser()->getCart() = new ShoppingCart();
     std::cout << "\n  1. Add product to cart" << std::endl;
     std::cout << "  2. Make order" << std::endl;
     std::cout << "  3. Exit" << std::endl;
@@ -136,17 +136,18 @@ void    interface::orderMenu(int _address, int _payment)
     if (opt == "1")
     {
         std::cout << "\n  Which product? "; std::cin >> prod;
-        if ((getProducts().size() >= 1) && (prod >= 1))
-            getCurrentUser()->getOrders().back()->addProduct(getProducts()[prod - 1]->getReference());
-        else
-            std::cout << "  There are no products available!" << std::endl;
+        if ((getProducts().size() >= 1) && (prod >= 1) && (prod <= getProducts().size()))
+        {
+            getCurrentUser()->getCart()->addProduct(getProducts()[prod - 1]->getReference());
+            std::this_thread::sleep_for(g_timespan);
+        }
     }
     else if (opt == "2")
     {
-        if (getCurrentUser()->getOrders().back()->getProducts().size() > 0)
+        if (getCurrentUser()->getCart()->getProducts().size() > 0)
         {
-            makeOrder(getCurrentUser()->getOrders().back()->getProducts(), getCurrentUser()->getAddresses().back()->getId(), getCurrentUser()->getPaymentOptions().back()->getId());
-                std::cout << "  Order made!" << std::endl;
+            makeOrder(getCurrentUser()->getCart()->getProducts(), getCurrentUser()->getAddresses().back()->getId(), getCurrentUser()->getPaymentOptions().back()->getId());
+            std::cout << "  Order made!" << std::endl;
         }
         else
             std::cout << "  No products on cart, try again later!" << std::endl;
@@ -333,7 +334,7 @@ void    interface::paymentMenu()
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
                 std::cout << "\n  Select Billing address [Index]: "; std::cin >> billing_addressi;
             }
-            if (billing_addressi <= getCurrentUser()->getAddresses().size())
+            if ((billing_addressi <= getCurrentUser()->getAddresses().size()) && (billing_addressi > 0))
                 ptr = getCurrentUser()->getAddresses()[billing_addressi - 1];
         }
         if (getCurrentUser()->getAddresses().size() == 0)
@@ -341,7 +342,7 @@ void    interface::paymentMenu()
             std::cout << "\n  No addresses created!" << std::endl;
             std::this_thread::sleep_for(g_timespan);
         }
-        else if (opt == "1")
+        else if ((opt == "1") && (billing_addressi > 0) && (billing_addressi <= getCurrentUser()->getAddresses().size()))
         {
             clearscreen();
             header();
@@ -601,14 +602,24 @@ void    interface::makeorderMenu()
         std::this_thread::sleep_for(g_timespan);
         clearscreen();
         header();
-        std::cout << "\n*---------------------------------------------*" << std::endl;
-        for (long unsigned int i = 0; i < getProducts().size(); i++)
-            std::cout << "  " << i + 1 << ".-  " << getProducts()[i]->getName() <<
-            " " << getProducts()[i]->getReference() << " " << getProducts()[i]->getPrice() << std::endl;
-        std::cout << "*---------------------------------------------*" << std::endl;
-        std::this_thread::sleep_for(g_timespan);
-        while(exitorderMenu != 1)
-            orderMenu(addopt - 1, delopt - 1);
+        if (getProducts().size() > 0)
+        {
+            std::cout << "\n*---------------------------------------------*" << std::endl;
+            for (long unsigned int i = 0; i < getProducts().size(); i++)
+                std::cout << "  " << i + 1 << ".-  " << getProducts()[i]->getName() <<
+                " " << getProducts()[i]->getReference() << " " << getProducts()[i]->getPrice() << std::endl;
+            std::cout << "*---------------------------------------------*" << std::endl;
+            std::this_thread::sleep_for(g_timespan);
+            exitorderMenu = 0;
+            while(exitorderMenu != 1)
+                orderMenu(addopt - 1, delopt - 1);
+        }
+        else
+        {
+            std::cout << "\n No products available!" << std::endl;
+            std::this_thread::sleep_for(g_timespan);
+            exitmakeorderMenu = 1;
+        }
     }
 }
 

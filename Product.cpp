@@ -23,11 +23,10 @@ std::vector<Review*>    &Product::getReviews() {return (reviews);}
 void    Product::addReview(Review* review) {reviews.push_back(review);}
 
 Product::Product(const std::string &_name, const std::string &_description,const unsigned long &_reference,
-const float &_price)
+const float &_price) : reference(_reference)
 {
     name = _name;
     description = _description;
-    reference = _reference;
     price = _price;
 }
 

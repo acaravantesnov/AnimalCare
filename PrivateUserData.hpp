@@ -6,6 +6,7 @@
 # include "Address.hpp"
 # include "PaymentOption.hpp"
 # include "Order.hpp"
+# include "ShoppingCart.hpp"
 
 class PrivateUserData
 {
@@ -15,6 +16,7 @@ class PrivateUserData
         std::vector<Address*>       addresses;
         std::vector<PaymentOption*> payment_options;
         std::vector<Order*>         orders;
+        ShoppingCart*               cart;
         PrivateUserData();
     public:
         PrivateUserData(std::string const &_email, std::string const &_password);
@@ -25,6 +27,7 @@ class PrivateUserData
         std::vector<Address*>           &getAddresses();
         std::vector<PaymentOption*>     &getPaymentOptions();
         std::vector<Order*>             &getOrders();
+        ShoppingCart*                   &getCart();
 };
 
 #endif // PRIVATEUSERDATA_HPP

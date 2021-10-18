@@ -21,3 +21,5 @@ std::vector<Address*>   &PrivateUserData::getAddresses() {return (addresses);}
 std::vector<PaymentOption*> &PrivateUserData::getPaymentOptions() {return (payment_options);}
 
 std::vector<Order*> &PrivateUserData::getOrders() {return (orders);}
+
+ShoppingCart*   &PrivateUserData::getCart() {return (cart);}
