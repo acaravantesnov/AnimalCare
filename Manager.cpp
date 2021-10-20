@@ -77,7 +77,7 @@ bool    Manager::eraseCurrentUser()
 {
     if (isLogged() == true)
     {
-        delete users[current_user];
+        delete getCurrentUser();
         return (true);
     }
     return (false);
@@ -85,6 +85,11 @@ bool    Manager::eraseCurrentUser()
 
 bool    Manager::editUsername(std::string &_username)
 {
+    for (long unsigned int i = 0; i < getUsers().size(); i++)
+    {
+        if ((_username == getUsers()[i]->getUsername()) && (static_cast<int>(i) != current_user))
+            return (false);
+    }
     if (isLogged() == true)
     {
         users[current_user]->setUsername(_username);
@@ -95,6 +100,13 @@ bool    Manager::editUsername(std::string &_username)
 
 bool    Manager::editEmail(std::string &_email)
 {
+    for (long unsigned int i = 0; i < getUsers().size(); i++)
+    {
+        if ((_email == getUsers()[i]->getEmail()) && (static_cast<int>(i) != current_user))
+            return (false);
+    }
+    if (_email.std::string::find("@") > _email.std::string::length())
+        return (false);
     if (isLogged() == true)
     {
         users[current_user]->setEmail(_email);
@@ -178,7 +190,7 @@ std::vector<PublicUserData*>    Manager::showUsers()
 bool    Manager::makeOrder(std::vector<unsigned long> &_products,
 int &_delivery_address, int &_payment_option)
 {
-    unsigned long ref = (unsigned long)rand();
+    unsigned long const ref = static_cast<unsigned long>(rand());
     float   total = 0;
     if (isLogged() == true)
     {

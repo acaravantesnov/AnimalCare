@@ -126,8 +126,7 @@ bool    interface::Icreateacc()
 
 void    interface::orderMenu(int _address, int _payment)
 {
-    int prod = 0;
-    unsigned long const reference = static_cast<unsigned long>(rand());
+    long unsigned int prod = 0;
     getCurrentUser()->getCart() = new ShoppingCart();
     std::cout << "\n  1. Add product to cart" << std::endl;
     std::cout << "  2. Make order" << std::endl;
@@ -146,7 +145,7 @@ void    interface::orderMenu(int _address, int _payment)
     {
         if (getCurrentUser()->getCart()->getProducts().size() > 0)
         {
-            makeOrder(getCurrentUser()->getCart()->getProducts(), getCurrentUser()->getAddresses().back()->getId(), getCurrentUser()->getPaymentOptions().back()->getId());
+            makeOrder(getCurrentUser()->getCart()->getProducts(), _address, _payment);
             std::cout << "  Order made!" << std::endl;
         }
         else
@@ -401,9 +400,12 @@ void    interface::userMenu()
         std::cout << "  5. Modify review                                " << std::endl;
         std::cout << "  6. Delete review                                " << std::endl;
         std::cout << "\n  -- Profile options --                         " << std::endl;
-        std::cout << "  7. View/Add addresses                           " << std::endl;
-        std::cout << "  8. View/Add payment options                     " << std::endl;
-        std::cout << "  9. Logout                                       " << std::endl;
+        std::cout << "  7. Edit Username                                " << std::endl;
+        std::cout << "  8. Edit Email                                   " << std::endl;
+        std::cout << "  9. Edit Password                                " << std::endl;
+        std::cout << "  10. View/Add addresses                          " << std::endl;
+        std::cout << "  11. View/Add payment options                    " << std::endl;
+        std::cout << "  12. Logout                                      " << std::endl;
         std::cout << std::endl;
         opt = "";
         std::cin.clear();
@@ -520,7 +522,40 @@ void    interface::userMenu()
                 std::cout << "\n  Review not found." << std::endl;
             std::this_thread::sleep_for(g_timespan);
         }
-        else if (opt == "7") //View/Edit addresses
+        else if (opt == "7") //Edit Username
+        {
+            std::string username;
+            clearscreen();
+            headerLoggedUser();
+            std::cout << "\n  Introduce new USERNAME: "; std::cin >> username;
+            if(editUsername(username) == true)
+                std::cout << "\n  Successfully changed actual username." << std::endl;
+            else
+                std::cout << "\n  Error: Already existing username." << std::endl;
+            std::this_thread::sleep_for(g_timespan);
+        }
+        else if (opt == "8") //Edit Email
+        {
+            std::string email;
+            clearscreen();
+            headerLoggedUser();
+            std::cout << "\n  Introduce new EMAIL: "; std::cin >> email;
+            if(editEmail(email) == true)
+                std::cout << "\n  Successfully changed actual email." << std::endl;
+            else
+                std::cout << "\n  Error: Invalid email." << std::endl;
+        }
+        else if (opt == "9") //Edit Password
+        {
+            std::string password;
+            clearscreen();
+            headerLoggedUser();
+            std::cout << "\n  Introduce new PASSWORD: "; std::cin >> password;
+            editPassword(password);
+            std::cout << "\n  Successfully changed actual password." << std::endl;
+            std::this_thread::sleep_for(g_timespan);
+        }
+        else if (opt == "10") //View/Edit addresses
         {
             clearscreen();
             headerLoggedUser();
@@ -528,7 +563,7 @@ void    interface::userMenu()
                 addressMenu();
             exitaddressMenu = 0;
         }
-        else if (opt == "8") //View/Edit payment options
+        else if (opt == "11") //View/Edit payment options
         {
             clearscreen();
             headerLoggedUser();
@@ -536,7 +571,7 @@ void    interface::userMenu()
                 paymentMenu();
             exitpaymentMenu = 0;
         }
-        else if (opt == "9") //Logout
+        else if (opt == "12") //Logout
         {
             logout();
             exitUserMenu = 1;
@@ -575,8 +610,6 @@ void    interface::Menu()
 
 void    interface::makeorderMenu()
 {
-    int addressId;
-    int paymentId;
     if ((getCurrentUser()->getAddresses().size() == 0) || (getCurrentUser()->getPaymentOptions().size() == 0))
     {
         std::cout << "\n  You must have at least 1 address\n  and 1 payment option" << std::endl;
@@ -650,9 +683,12 @@ void    interface::adminMenu()
         std::cout << "  9. Modify review                                " << std::endl;
         std::cout << "  10. Delete review                               " << std::endl;
         std::cout << "\n  -- Profile options --                         " << std::endl;
-        std::cout << "  11. View/Add addresses                          " << std::endl;
-        std::cout << "  12. View/Add payment options                    " << std::endl;
-        std::cout << "  13. Logout                                      " << std::endl;
+        std::cout << "  11. Edit Username                               " << std::endl;
+        std::cout << "  12. Edit Email                                  " << std::endl;
+        std::cout << "  13. Edit Password                               " << std::endl;
+        std::cout << "  14. View/Add addresses                          " << std::endl;
+        std::cout << "  15. View/Add payment options                    " << std::endl;
+        std::cout << "  16. Logout                                      " << std::endl;
         std::cout << std::endl;
         opt = "";
         std::cout << "  Choose a valid option: "; std::cin >> opt;
@@ -814,7 +850,41 @@ void    interface::adminMenu()
                 std::cout << "\n  Review not found." << std::endl;
             std::this_thread::sleep_for(g_timespan);
         }
-        else if (opt == "11") //View/edit addresses
+        else if (opt == "11") //Edit Username
+        {
+            std::string username;
+            clearscreen();
+            headerLoggedAdmin();
+            std::cout << "\n  Introduce new USERNAME: "; std::cin >> username;
+            if(editUsername(username) == true)
+                std::cout << "\n  Successfully changed actual username." << std::endl;
+            else
+                std::cout << "\n  Error: Already existing username." << std::endl;
+            std::this_thread::sleep_for(g_timespan);
+        }
+        else if (opt == "12") //Edit Email
+        {
+            std::string email;
+            clearscreen();
+            headerLoggedAdmin();
+            std::cout << "\n  Introduce new EMAIL: "; std::cin >> email;
+            if(editEmail(email) == true)
+                std::cout << "\n  Successfully changed actual email." << std::endl;
+            else
+                std::cout << "\n  Error: Invalid email" << std::endl;
+            std::this_thread::sleep_for(g_timespan);
+        }
+        else if (opt == "13") //Edit Password
+        {
+            std::string password;
+            clearscreen();
+            headerLoggedAdmin();
+            std::cout << "\n  Introduce new PASSWORD: "; std::cin >> password;
+            editPassword(password);
+            std::cout << "\n  Successfully changed actual password." << std::endl;
+            std::this_thread::sleep_for(g_timespan);
+        }
+        else if (opt == "14") //View/edit addresses
         {
             clearscreen();
             headerLoggedAdmin();
@@ -822,7 +892,7 @@ void    interface::adminMenu()
                 addressMenu();
             exitaddressMenu = 0;
         }
-        else if (opt == "12") //View/edit payment options
+        else if (opt == "15") //View/edit payment options
         {
             clearscreen();
             headerLoggedAdmin();
@@ -830,7 +900,7 @@ void    interface::adminMenu()
                 paymentMenu();
             exitpaymentMenu = 0;
         }
-        else if (opt == "13") //Logout
+        else if (opt == "16") //Logout
         {
             logout();
             exitAdminMenu = 1;
