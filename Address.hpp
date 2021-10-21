@@ -23,8 +23,8 @@ class Address
         void            setProvince(std::string &_province);
         unsigned int    &getPostalCode();
         void            setPostalCode(unsigned int &_postal_code);
-        Address(int const &_id, std::string const &_address, std::string const &_city, std::string const &_province,
-        unsigned int const &_postal_code);
+        Address(int const &id, std::string const &address, std::string const &city, std::string const &province,
+        unsigned int const &postal_code);
         std::string show();
 };
 

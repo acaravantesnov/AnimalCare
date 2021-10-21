@@ -2,10 +2,10 @@
 
 PrivateUserData::PrivateUserData(){}
 
-PrivateUserData::PrivateUserData(const std::string &_email, const std::string &_password)
+PrivateUserData::PrivateUserData(const std::string &email, const std::string &password)
 {
-    email = _email;
-    password = _password;
+    this->email = email;
+    this->password = password;
 }
 
 std::string &PrivateUserData::getEmail() {return(email);}

@@ -10,13 +10,13 @@ std::string     &CreditCard::getCardholder() {return (cardholder);}
 
 void            CreditCard::setCardholder(std::string &_cardholder) {cardholder = _cardholder;}
 
-CreditCard::CreditCard(const int &_id, Address* _billing_address, const unsigned long &_number,
-const std::string &_cardholder)
+CreditCard::CreditCard(const int &_id, Address* billing_address, const unsigned long &number,
+const std::string &cardholder)
 {
-    id = _id;
-    billing_address = _billing_address;
-    number = _number;
-    cardholder = _cardholder;
+    this->id = id;
+    this->billing_address = billing_address;
+    this->number = number;
+    this->cardholder = cardholder;
 }
 
 std::string CreditCard::show()

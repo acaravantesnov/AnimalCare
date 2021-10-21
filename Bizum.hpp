@@ -11,7 +11,7 @@ class Bizum : public PaymentOption
     public:
         unsigned int    &getNumber();
         void            setNumber(unsigned int &_number);
-        Bizum(int const &_id, Address* _billing_address, unsigned int const &_number);
+        Bizum(int const &id, Address* billing_address, unsigned int const &number);
         std::string     show();
 };
 

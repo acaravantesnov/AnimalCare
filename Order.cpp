@@ -26,21 +26,21 @@ std::vector<unsigned long>  &Order::getProducts() {return (products);}
 
 void    Order::addProduct(unsigned long &_newProduct) {getProducts().push_back(_newProduct);}
 
-Order::Order(const unsigned long &_reference, const std::vector<unsigned long> &_products,
-const int &_delivery_address, const int &_payment_option, const float &_total)
+Order::Order(const unsigned long &reference, const std::vector<unsigned long> &products,
+const int &delivery_address, const int &payment_option, const float &total)
 {
-    reference = _reference;
-    products = _products;
-    delivery_address = _delivery_address;
-    payment_option = _payment_option;
-    total = _total;
+    this->reference = reference;
+    this->products = products;
+    this->delivery_address = delivery_address;
+    this->payment_option = payment_option;
+    this->total = total;
     date = time_t(0);
 }
 
-Order::Order(const unsigned long &_reference, const int &_delivery_address, const int &_payment_option)
+Order::Order(const unsigned long &reference, const int &delivery_address, const int &payment_option)
 {
-    reference = _reference;
-    delivery_address = _delivery_address;
-    payment_option = _payment_option;
+    this->reference = reference;
+    this->delivery_address = delivery_address;
+    this->payment_option = payment_option;
     date = time_t(0);
 }

@@ -19,7 +19,7 @@ class PrivateUserData
         ShoppingCart*               cart;
         PrivateUserData();
     public:
-        PrivateUserData(std::string const &_email, std::string const &_password);
+        PrivateUserData(std::string const &email, std::string const &password);
         std::string                     &getEmail();
         void                            setEmail(std::string &_email);
         std::string                     &getPassWord();

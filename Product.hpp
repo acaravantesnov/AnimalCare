@@ -25,8 +25,8 @@ class Product
         void                    setPrice(float &_price);
         std::vector<Review*>    &getReviews();
         void                    addReview(Review* review);
-        Product(std::string const &_name, std::string const &_description, unsigned long const &_reference,
-        float const &_price);
+        Product(std::string const &name, std::string const &description, unsigned long const &reference,
+        float const &price);
         std::ostream&           operator<<(std::ostream& stream);
 };
 

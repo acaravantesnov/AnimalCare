@@ -6,11 +6,11 @@ unsigned int    &Bizum::getNumber() {return (number);}
 
 void            Bizum::setNumber(unsigned int &_number) {number = _number;}
 
-Bizum::Bizum(const int &_id, Address* _billing_address, const unsigned int &_number)
+Bizum::Bizum(const int &id, Address* billing_address, const unsigned int &number)
 {
-    id = _id;
-    billing_address = _billing_address;
-    number = _number;
+    this->id = id;
+    this->billing_address = billing_address;
+    this->number = number;
 }
 
 std::string Bizum::show()

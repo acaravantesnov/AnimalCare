@@ -15,7 +15,7 @@ class PublicUserData
         int         &getReputation();
         void        increaseReputation();
         void        decreaseReputation();
-        PublicUserData(std::string const &_username);
+        PublicUserData(std::string const &username);
 };
 
 #endif // PUBLICUSERDATA_HPP

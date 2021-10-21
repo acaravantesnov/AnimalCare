@@ -2,13 +2,13 @@
 
 Admin::Admin() {}
 
-Admin::Admin(const std::string &_username, const std::string &_email, const std::string &_password,
-const unsigned long &_worker_id)
+Admin::Admin(const std::string &username, const std::string &email, const std::string &password,
+const unsigned long &worker_id)
 {
-    username = _username;
-    email = _email;
-    password = _password;
-    worker_id = _worker_id;
+    this->username = username;
+    this->email = email;
+    this->password = password;
+    this->worker_id = worker_id;
 }
 
 bool    Admin::isAdmin() {return (true);}

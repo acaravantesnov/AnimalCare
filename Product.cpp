@@ -22,12 +22,12 @@ std::vector<Review*>    &Product::getReviews() {return (reviews);}
 
 void    Product::addReview(Review* review) {reviews.push_back(review);}
 
-Product::Product(const std::string &_name, const std::string &_description,const unsigned long &_reference,
-const float &_price) : reference(_reference)
+Product::Product(const std::string &name, const std::string &description,const unsigned long &reference,
+const float &price) : reference(reference)
 {
-    name = _name;
-    description = _description;
-    price = _price;
+    this->name = name;
+    this->description = description;
+    this->price = price;
 }
 
 std::ostream&   Product::operator<<(std::ostream& stream)

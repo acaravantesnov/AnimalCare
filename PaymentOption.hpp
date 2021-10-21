@@ -15,7 +15,7 @@ class PaymentOption
         void                    setId(int &_id);
         Address*                getBillingAddress();
         void                    setBillingAddress(Address* _billing_address);
-        PaymentOption(int const &_id, Address* _billing_address);
+        PaymentOption(int const &id, Address* billing_address);
         virtual std::string     show() = 0;
 };
 

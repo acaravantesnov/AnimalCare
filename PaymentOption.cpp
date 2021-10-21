@@ -10,10 +10,10 @@ Address* PaymentOption::getBillingAddress() {return (billing_address);}
 
 void    PaymentOption::setBillingAddress(Address* _billing_address) {billing_address = _billing_address;}
 
-PaymentOption::PaymentOption(const int &_id, Address* _billing_address)
+PaymentOption::PaymentOption(const int &id, Address* billing_address)
 {
-    id = _id;
-    billing_address = _billing_address;
+    this->id = id;
+    this->billing_address = billing_address;
 }
 
 std::string PaymentOption::show()

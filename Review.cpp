@@ -24,12 +24,12 @@ void    Review::decrementVotes() {votes--;}
 
 PublicUserData*  Review::getAuthor() {return (author);}
 
-Review::Review(const unsigned long &_id, const int &_rating, const std::string &_text, PublicUserData* _author)
+Review::Review(const unsigned long &id, const int &rating, const std::string &text, PublicUserData* author)
 {
-    id = _id;
-    rating = _rating;
-    text = _text;
-    author = _author;
+    this->id = id;
+    this->rating = rating;
+    this->text = text;
+    this->author = author;
     date = time_t(0);
     votes = 0;
 }

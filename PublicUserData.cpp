@@ -16,8 +16,8 @@ void    PublicUserData::decreaseReputation()
         reputation--;
 }
 
-PublicUserData::PublicUserData(const std::string &_username)
+PublicUserData::PublicUserData(const std::string &username)
 {
-    username = _username;
+    this->username = username;
     reputation = 0;
 }

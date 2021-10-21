@@ -27,9 +27,9 @@ class Order
         void                        setTotal(float &_total);
         std::vector<unsigned long>  &getProducts();
         void                        addProduct(unsigned long &_newProduct);
-        Order(unsigned long const &_reference, std::vector<unsigned long> const &_products,
-        int const &_delivery_address, int const &_payment_option, float const &_total);
-        Order(unsigned long const &_reference, int const &_delivery_address, int const &_payment_option);
+        Order(unsigned long const &reference, std::vector<unsigned long> const &products,
+        int const &delivery_address, int const &payment_option, float const &total);
+        Order(unsigned long const &reference, int const &delivery_address, int const &payment_option);
 };
 
 #endif // ORDER_HPP

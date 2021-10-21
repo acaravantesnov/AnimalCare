@@ -11,8 +11,8 @@ class Admin : public User
         Admin();
     public:
         bool    isAdmin();
-        Admin(std::string const &_username, std::string const &_email, std::string const &_password,
-        unsigned long const &_worker_id);
+        Admin(std::string const &username, std::string const &email, std::string const &password,
+        unsigned long const &worker_id);
         unsigned long   &getworkerId();
 };
 
