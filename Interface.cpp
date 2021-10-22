@@ -135,7 +135,11 @@ void    interface::orderMenu(int _address, int _payment)
     {
         std::cout << "\n  Which product? "; std::cin >> prod;
         if ((getProducts().size() >= 1) && (prod >= 1) && (prod <= getProducts().size()))
+        {
             getCurrentUser()->getCart()->addProduct(getProducts()[prod - 1]->getReference());
+            clearscreen();
+            header();
+        }
     }
     else if (opt == "2")
     {
@@ -426,7 +430,7 @@ void    interface::userMenu()
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
                 std::cout << "\n  Product reference: "; std::cin >> reference;
             }
-            while ((rating < 0) && (rating > 5))
+            do
             {
                 std::cout << "  Rating [0-5]: "; std::cin >> rating;
                 while (!std::cin.good())
@@ -436,8 +440,8 @@ void    interface::userMenu()
                     std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
                     std::cout << "  Rating [0-5]: "; std::cin >> rating;
                 }
-            }
-            std::cout << "  Introduce text:\n"; std::cin >> text;
+            }while ((rating < 0) && (rating > 5));
+            std::cout << "  Introduce text: "; std::getline(std::cin >> std::ws, text);
             createReview(reference, rating, text);
         }
         else if (opt == "3")  //Get reviews by rating
@@ -452,7 +456,7 @@ void    interface::userMenu()
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
                 std::cout << "\n  Product reference: "; std::cin >>reference;
             }
-            std::cout << "  Rating: "; std::cin >> rating;
+            std::cout << "  Rating [0-5]: "; std::cin >> rating;
             while (!std::cin.good())
             {
                 std::cout << "  ERROR: Introduce numeric value\n";
@@ -466,7 +470,7 @@ void    interface::userMenu()
                 std::cout << "Id: " << getReviewsByRating(reference, rating)[i]->getId() << std::endl;
                 std::cout << "Rating: " << getReviewsByRating(reference, rating)[i]->getRating() << std::endl;
                 std::cout << "Text: " << getReviewsByRating(reference, rating)[i]->getText() << std::endl;
-                std::cout << "Author: " << getReviewsByRating(reference, rating)[i]->getAuthor() << std::endl;
+                std::cout << "Author: " << getReviewsByRating(reference, rating)[i]->getAuthor()->getUsername() << std::endl;
                 std::cout << "Votes: " << getReviewsByRating(reference, rating)[i]->getVotes() << std::endl;
                 std::cout << "Date: " << getReviewsByRating(reference, rating)[i]->getDate() << std::endl;
             }
@@ -758,7 +762,7 @@ void    interface::adminMenu()
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
                 std::cout << "\n  Product reference: "; std::cin >> reference;
             }
-            while ((rating < 0) && (rating > 5))
+            do
             {
                 std::cout << "  Rating [0-5]: "; std::cin >> rating;
                 while (!std::cin.good())
@@ -768,8 +772,8 @@ void    interface::adminMenu()
                     std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
                     std::cout << "  Rating [0-5]: "; std::cin >> rating;
                 }
-            }
-            std::cout << "  Introduce text:\n"; std::cin >> text;
+            }while ((rating < 0) && (rating > 5));
+            std::cout << "  Introduce text: "; std::getline(std::cin >> std::ws, text);
             createReview(reference, rating, text);
         }
         else if (opt == "7") //Get reviews by rating
@@ -784,7 +788,7 @@ void    interface::adminMenu()
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
                 std::cout << "\n  Product reference: "; std::cin >>reference;
             }
-            std::cout << "Rating: "; std::cin >> rating;
+            std::cout << "  Rating: "; std::cin >> rating;
             while (!std::cin.good())
             {
                 std::cout << "  ERROR: Introduce numeric value\n";
@@ -798,7 +802,7 @@ void    interface::adminMenu()
                 std::cout << "  Id: " << getReviewsByRating(reference, rating)[i]->getId() << std::endl;
                 std::cout << "  Rating: " << getReviewsByRating(reference, rating)[i]->getRating() << std::endl;
                 std::cout << "  Text: " << getReviewsByRating(reference, rating)[i]->getText() << std::endl;
-                std::cout << "  Author: " << getReviewsByRating(reference, rating)[i]->getAuthor() << std::endl;
+                std::cout << "  Author: " << getReviewsByRating(reference, rating)[i]->getAuthor()->getUsername() << std::endl;
                 std::cout << "  Votes: " << getReviewsByRating(reference, rating)[i]->getVotes() << std::endl;
                 std::cout << "  Date: " << getReviewsByRating(reference, rating)[i]->getDate() << std::endl;
             }
