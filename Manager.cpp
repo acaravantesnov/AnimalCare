@@ -408,7 +408,25 @@ void    Manager::saveToFile(std::string fileAddress)
             fileWrite << getUsers()[i]->getOrders()[l]->getTime() << std::endl;
             fileWrite << getUsers()[i]->getOrders()[l]->getDeliveryAddress() << std::endl;
             fileWrite << getUsers()[i]->getOrders()[l]->getPaymentOption() << std::endl;
-            fileWrite << getUsers()[i]->getOrders()[l]->getTotal();
+            fileWrite << getUsers()[i]->getOrders()[l]->getTotal() << std::endl;
+        }
+        for (long unsigned int m = 0; m < getProducts().size(); m++)
+        {
+            fileWrite << "Product:" << std::endl;
+            fileWrite << getProducts()[m]->getName() << std::endl;
+            fileWrite << getProducts()[m]->getDescription() << std::endl;
+            fileWrite << getProducts()[m]->getReference() << std::endl;
+            fileWrite << getProducts()[m]->getPrice() << std::endl;
+            for (long unsigned int n = 0; n < getProducts()[m]->getReviews().size(); n++)
+            {
+                fileWrite << "Review:" << std::endl;
+                fileWrite << getProducts()[m]->getReviews()[n]->getId() << std::endl;
+                fileWrite << getProducts()[m]->getReviews()[n]->getDate() << std::endl;
+                fileWrite << getProducts()[m]->getReviews()[n]->getRating() << std::endl;
+                fileWrite << getProducts()[m]->getReviews()[n]->getText() << std::endl;
+                fileWrite << getProducts()[m]->getReviews()[n]->getVotes() << std::endl;
+                fileWrite << getProducts()[m]->getReviews()[n]->getAuthor()->getUsername() << std::endl;
+            }
         }
     }
     fileWrite.close();
@@ -416,9 +434,65 @@ void    Manager::saveToFile(std::string fileAddress)
 
 void    Manager::loadFromFile(std::string fileAddress)
 {
-    std::ifstream   fileRead;
-    std::string     line = "";
+    std::ifstream fileRead;
+    std::string line;
+    std::string username, email, password;
+    int reputation;
+    std::string useroradmin;
+    std::string address, city, province;
+    unsigned int postal_code;
+    int id, addressid;
+    unsigned long number;
+    std::string cardholder;
+
     fileRead.open(fileAddress, std::ios::in);
-    //if (getline(fileRead, line, '\n') == "User:")
+    if (!fileRead)
+        std::cout << "  No such file" << std::endl;
+    else
+    {
+        while (fileRead)
+        {
+            fileRead >> line;
+            if (line == "User:")
+            {
+                fileRead >> username;
+                fileRead >> email;
+                fileRead >> password;
+                fileRead >> reputation;
+                fileRead >> useroradmin;
+                if (useroradmin == "-1")
+                    addUser(username, email, password);
+                else
+                {
+                    unsigned long useroradminul = std::stoul(useroradmin);
+                    addAdmin(username, email, password, useroradminul);
+                }
+            }
+            if (line == "Address:")
+            {
+                fileRead >> address;
+                fileRead >> city;
+                fileRead >> province;
+                fileRead >> postal_code;
+                addAddress(address, city, province, postal_code);
+            }
+            if ((line == "CreditCard:") || (line == "Bizum:"))
+            {
+                fileRead >> id;
+                fileRead >> addressid;
+            }
+            if (line == "CreditCard:")
+            {
+                fileRead >> number;
+                fileRead >> cardholder;
+                //addCreditCard();
+            }
+            if (line == "Bizum:")
+            {
+                fileRead >> number;
+                //addBizum();
+            }
+        }
+    }
     fileRead.close();
 }

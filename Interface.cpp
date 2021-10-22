@@ -137,6 +137,8 @@ void    interface::orderMenu(int _address, int _payment)
         if ((getProducts().size() >= 1) && (prod >= 1) && (prod <= getProducts().size()))
         {
             getCurrentUser()->getCart()->addProduct(getProducts()[prod - 1]->getReference());
+            std::cout << "  Added product to Shopping Cart." << std::endl;
+            std::this_thread::sleep_for(g_timespan);
             clearscreen();
             header();
         }
@@ -147,6 +149,9 @@ void    interface::orderMenu(int _address, int _payment)
         {
             makeOrder(getCurrentUser()->getCart()->getProducts(), _address, _payment);
             std::cout << "  Order made!" << std::endl;
+            std::this_thread::sleep_for(g_timespan);
+            exitorderMenu = 1;
+            exitmakeorderMenu = 1;
         }
         else
             std::cout << "  No products on cart, try again later!" << std::endl;
@@ -162,24 +167,38 @@ void    interface::orderMenu(int _address, int _payment)
 void    interface::uodMenu()
 {
     unsigned long id;
+    int ok = 0;
     std::cout << "\n  Review id: "; std::cin >> id;
-    std::cout << "\n  Up or Down vote review?" << std::endl;
-    std::cout << "  1. Upvote" << std::endl;
-    std::cout << "  2. Downvote" << std::endl;
-    std::cout << "\n  Select a valid option: "; std::cin >> opt;
-    if (opt == "1")
+    for (long unsigned int i = 0; i < getProducts().size(); i++)
     {
-        if (upvoteReview(id) == true)
-            std::cout << "\n  Review votes changed!" << std::endl;
+        for (long unsigned int j = 0; j < getProducts()[i]->getReviews().size(); j++)
+        {
+            if (getProducts()[i]->getReviews()[j]->getId() == id)
+                ok = 1;
+        }
     }
-    else if (opt == "2")
-    {
-        if (downvoteReview(id) == true)
-            std::cout << "\n  Review votes changed!" << std::endl;
-    }
+    if (ok == 0)
+        exituodMenu = 1;
     else
-        std::cout << "\n  Review votes remain unchanged.." << std::endl;
-    std::this_thread::sleep_for(g_timespan);
+    {
+        std::cout << "\n  Up or Down vote review?" << std::endl;
+        std::cout << "  1. Upvote" << std::endl;
+        std::cout << "  2. Downvote" << std::endl;
+        std::cout << "\n  Select a valid option: "; std::cin >> opt;
+        if (opt == "1")
+        {
+            if (upvoteReview(id) == true)
+                std::cout << "\n  Review votes changed!" << std::endl;
+        }
+        else if (opt == "2")
+        {
+            if (downvoteReview(id) == true)
+                std::cout << "\n  Review votes changed!" << std::endl;
+        }
+        else
+            std::cout << "\n  Review votes remain unchanged.." << std::endl;
+        std::this_thread::sleep_for(g_timespan);
+    }
 }
 
 void    interface::modifyrevMenu()
@@ -472,7 +491,7 @@ void    interface::userMenu()
                 std::cout << "Text: " << getReviewsByRating(reference, rating)[i]->getText() << std::endl;
                 std::cout << "Author: " << getReviewsByRating(reference, rating)[i]->getAuthor()->getUsername() << std::endl;
                 std::cout << "Votes: " << getReviewsByRating(reference, rating)[i]->getVotes() << std::endl;
-                std::cout << "Date: " << getReviewsByRating(reference, rating)[i]->getDate() << std::endl;
+                std::cout << "Date: " << getReviewsByRating(reference, rating)[i]->getDate() << "\n" << std::endl;
             }
             std::this_thread::sleep_for(g_timespan2);
         }
@@ -740,7 +759,11 @@ void    interface::adminMenu()
         }
         else if(opt == "4") //Load from file
         {
-
+            std::string fileAddress;
+            clearscreen();
+            headerLoggedAdmin();
+            std::cout << "\n  FileAddress? "; std::cin >> fileAddress;
+            loadFromFile(fileAddress);
         }
         else if (opt == "5")  //Make order
         {
@@ -804,7 +827,7 @@ void    interface::adminMenu()
                 std::cout << "  Text: " << getReviewsByRating(reference, rating)[i]->getText() << std::endl;
                 std::cout << "  Author: " << getReviewsByRating(reference, rating)[i]->getAuthor()->getUsername() << std::endl;
                 std::cout << "  Votes: " << getReviewsByRating(reference, rating)[i]->getVotes() << std::endl;
-                std::cout << "  Date: " << getReviewsByRating(reference, rating)[i]->getDate() << std::endl;
+                std::cout << "  Date: " << getReviewsByRating(reference, rating)[i]->getDate() << "\n" << std::endl;
             }
             std::this_thread::sleep_for(g_timespan2);
         }
