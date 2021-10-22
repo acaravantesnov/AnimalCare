@@ -27,7 +27,8 @@ class Product
         void                    addReview(Review* review);
         Product(std::string const &name, std::string const &description, unsigned long const &reference,
         float const &price);
-        std::ostream&           operator<<(std::ostream& stream);
+        friend std::ostream&    operator<<(std::ostream& stream, Product &p);
 };
+
 
 #endif // PRODUCT_HPP

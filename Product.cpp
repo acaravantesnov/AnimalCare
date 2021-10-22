@@ -30,13 +30,13 @@ const float &price) : reference(reference)
     this->price = price;
 }
 
-std::ostream&   Product::operator<<(std::ostream& stream)
+std::ostream&   operator<<(std::ostream& stream, Product &p)
 {
-    stream << reference << " - " << name << '\n' << description << '\n' << price;
-    if (reviews.size() == 0)
+    stream << p.reference << " - " << p.name << '\n' << p.description << '\n' << p.price;
+    if (p.reviews.size() == 0)
         return (stream);
     stream << "\n\t-- User reviews --\n";
-    for(long unsigned int i = 0; i < reviews.size(); i++)
-        stream << "\t" << reviews[i] << "\n\t----\n";
+    for(long unsigned int i = 0; i < p.reviews.size(); i++)
+        stream << "\t" << p.reviews[i] << "\n\t----\n";
     return (stream);
 }
