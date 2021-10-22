@@ -164,6 +164,11 @@ bool    Manager::addBizum(Address* _billing_address, unsigned int &_number)
 bool    Manager::addProduct(std::string &_name, std::string &_description,
 unsigned long &_reference, float &_price)
 {
+    for (long unsigned int i = 0; i < products.size(); i++)
+    {
+        if (products[i]->getReference() == _reference)
+            return (false);
+    }
     if ((isLogged() == true) && (users[current_user]->isAdmin() == true))
     {
         products.push_back(new Product(_name, _description, _reference, _price));

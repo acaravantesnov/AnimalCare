@@ -127,7 +127,6 @@ bool    interface::Icreateacc()
 void    interface::orderMenu(int _address, int _payment)
 {
     long unsigned int prod = 0;
-    getCurrentUser()->getCart() = new ShoppingCart();
     std::cout << "\n  1. Add product to cart" << std::endl;
     std::cout << "  2. Make order" << std::endl;
     std::cout << "  3. Exit" << std::endl;
@@ -136,10 +135,7 @@ void    interface::orderMenu(int _address, int _payment)
     {
         std::cout << "\n  Which product? "; std::cin >> prod;
         if ((getProducts().size() >= 1) && (prod >= 1) && (prod <= getProducts().size()))
-        {
             getCurrentUser()->getCart()->addProduct(getProducts()[prod - 1]->getReference());
-            std::this_thread::sleep_for(g_timespan);
-        }
     }
     else if (opt == "2")
     {
@@ -618,6 +614,7 @@ void    interface::makeorderMenu()
     }
     else
     {
+        getCurrentUser()->getCart() = new ShoppingCart();
         std::cout << "*------------------------------------------------*" << std::endl;
         for (long unsigned int i = 0; i < getCurrentUser()->getAddresses().size(); i++)
             std::cout << i + 1 << ".- id: " << getCurrentUser()->getAddresses()[i]->getId() << " " <<
@@ -639,8 +636,9 @@ void    interface::makeorderMenu()
         {
             std::cout << "\n*---------------------------------------------*" << std::endl;
             for (long unsigned int i = 0; i < getProducts().size(); i++)
-                std::cout << "  " << i + 1 << ".-  " << getProducts()[i]->getName() <<
-                " " << getProducts()[i]->getReference() << " " << getProducts()[i]->getPrice() << std::endl;
+            {
+                std::cout << getProducts()[i]; std::cout << std::endl;
+            }
             std::cout << "*---------------------------------------------*" << std::endl;
             std::this_thread::sleep_for(g_timespan);
             exitorderMenu = 0;
@@ -717,7 +715,7 @@ void    interface::adminMenu()
             if (addProduct(name, description, reference, price) == true)
                 std::cout << "\n  Product Added!" << std::endl;
             else
-                std::cout << "\n :-(" << std::endl;
+                std::cout << "\n  Invalid reference (already existing prod. reference?)" << std::endl;
             std::this_thread::sleep_for(g_timespan);
         }
         else if (opt == "2") //Show users

@@ -1,8 +1,8 @@
 #ifndef INTERFACE_HPP
 #define INTERFACE_HPP
 
-# include <iostream>
 # include "Manager.hpp"
+# include <iostream>
 # include <string>
 # include <chrono>
 # include <thread>
