@@ -56,7 +56,7 @@ class Manager
         bool                            deleteReview(unsigned long &_id);
 
         //Tercera entrega
-        void                            saveToFile(std::string fileAddress);
+        void                            saveToFile(std::string &fileAddress);
         void                            loadFromFile(std::string fileAddress);
 };
 

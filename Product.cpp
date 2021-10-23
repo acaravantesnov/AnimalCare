@@ -37,6 +37,6 @@ std::ostream&   operator<<(std::ostream& stream, Product &p)
         return (stream);
     stream << "\n\t-- User reviews --\n";
     for(long unsigned int i = 0; i < p.reviews.size(); i++)
-        stream << "\t" << p.reviews[i] << "\n\t----\n";
+        stream << p.reviews[i]->show() << "\n\t----\n";
     return (stream);
 }

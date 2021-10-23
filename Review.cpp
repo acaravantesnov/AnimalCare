@@ -37,7 +37,7 @@ Review::Review(const unsigned long &id, const int &rating, const std::string &te
 std::string Review::show()
 {
     std::string showstr;
-    showstr = '\t' + std::to_string(rating) + " starts on " + std::to_string(date) + " by " + getAuthor()->getUsername() + " \t" + text +
-    '\t' + std::to_string(votes) + " votes";
+    showstr = '\t' + std::to_string(rating) + " starts on " + std::to_string(date) + " by " + getAuthor()->getUsername() + "\n\t" + text +
+    "\n\t" + std::to_string(votes) + " votes";
     return (showstr);
 }

@@ -354,7 +354,7 @@ bool    Manager::deleteReview(unsigned long &_id)
 }
 
 //Tercera entrega
-void    Manager::saveToFile(std::string fileAddress)
+void    Manager::saveToFile(std::string &fileAddress)
 {
     std::ofstream   fileWrite;
     std::string     bshow, cshow;

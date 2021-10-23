@@ -285,7 +285,7 @@ void    interface::addressMenu()
     int id;
     if (getCurrentUser()->getAddresses().size() > 0)
     {
-        std::cout << "*------------------------------------------------*" << std::endl;
+        std::cout << "\n*-------------------ADDRESSES--------------------*" << std::endl;
         for (long unsigned int i = 0; i < getCurrentUser()->getAddresses().size(); i++)
             std::cout << i + 1 << ".- id: " << getCurrentUser()->getAddresses()[i]->getId() << " " <<
             getCurrentUser()->getAddresses()[i]->show() << std::endl;
@@ -331,7 +331,7 @@ void    interface::paymentMenu()
         headerLoggedUser();
     if (getCurrentUser()->getPaymentOptions().size() > 0)
     {
-        std::cout << "*------------------------------------------------*" << std::endl;
+        std::cout << "\n*----------------PAYMENT OPTIONS-----------------*" << std::endl;
         for (long unsigned int i = 0; i < getCurrentUser()->getPaymentOptions().size(); i++)
            std::cout << i + 1 << ".- " << getCurrentUser()->getPaymentOptions()[i]->show() << std::endl;
         std::cout << "*------------------------------------------------*" << std::endl;
@@ -352,7 +352,7 @@ void    interface::paymentMenu()
         std::cout << "\n  Select a valid option: "; std::cin >> opt;
         if (((opt == "1") || (opt == "2")) && (getCurrentUser()->getAddresses().size() > 0))
         {
-            std::cout << "*------------------------------------------------*" << std::endl;
+            std::cout << "\n*-------------------ADDRESSES--------------------*" << std::endl;
             for (long unsigned int i = 0; i < getCurrentUser()->getAddresses().size(); i++)
                 std::cout << i + 1 << ".-  " << getCurrentUser()->getAddresses()[i]->show() << std::endl;
             std::cout << "*------------------------------------------------*" << std::endl;
@@ -456,7 +456,7 @@ void    interface::userMenu()
             headerLoggedAdmin();
             if (getCurrentUser()->getOrders().size() > 0)
             {
-                std::cout << "\n*------------------------------------------------*" << std::endl;
+                std::cout << "\n*-------------------PRODUCTS---------------------*" << std::endl;
                 for (long unsigned int i = 0; i < getProducts().size(); i++)
                     std::cout << *getProducts()[i] << std::endl;
                 std::cout << "*------------------------------------------------*" << std::endl;
@@ -505,7 +505,7 @@ void    interface::userMenu()
             headerLoggedUser();
             if (getProducts().size() > 0)
             {
-                std::cout << "\n*------------------------------------------------*" << std::endl;
+                std::cout << "\n*-------------------PRODUCTS---------------------*" << std::endl;
                 for (long unsigned int i = 0; i < getProducts().size(); i++)
                     std::cout << *getProducts()[i] << std::endl;
                 std::cout << "*------------------------------------------------*" << std::endl;
@@ -677,14 +677,14 @@ void    interface::makeorderMenu()
     else
     {
         getCurrentUser()->getCart() = new ShoppingCart();
-        std::cout << "*------------------------------------------------*" << std::endl;
+        std::cout << "\n*-------------------ADDRESSES--------------------*" << std::endl;
         for (long unsigned int i = 0; i < getCurrentUser()->getAddresses().size(); i++)
             std::cout << i + 1 << ".- id: " << getCurrentUser()->getAddresses()[i]->getId() << " " <<
             getCurrentUser()->getAddresses()[i]->show() << std::endl;
         std::cout << "*------------------------------------------------*" << std::endl;
         std::cout << "\n  Select an address for the order [INDEX]: "; std::cin >> opt;
         int addopt = std::stoi(opt);
-        std::cout << "\n*------------------------------------------------*" << std::endl;
+        std::cout << "\n*----------------PAYMENT OPTIONS-----------------*" << std::endl;
         for (long unsigned int i = 0; i < getCurrentUser()->getPaymentOptions().size(); i++)
             std::cout << i + 1 << ".- " << getCurrentUser()->getPaymentOptions()[i]->show() << std::endl;
         std::cout << "*------------------------------------------------*" << std::endl;
@@ -696,12 +696,12 @@ void    interface::makeorderMenu()
         header();
         if (getProducts().size() > 0)
         {
-            std::cout << "\n*---------------------------------------------*" << std::endl;
+            std::cout << "\n*-------------------PRODUCTS---------------------*" << std::endl;
             for (long unsigned int i = 0; i < getProducts().size(); i++)
             {
                 std::cout << *getProducts()[i] << std::endl;
             }
-            std::cout << "*---------------------------------------------*" << std::endl;
+            std::cout << "*------------------------------------------------*" << std::endl;
             std::this_thread::sleep_for(g_timespan);
             exitorderMenu = 0;
             while(exitorderMenu != 1)
@@ -820,7 +820,7 @@ void    interface::adminMenu()
             headerLoggedAdmin();
             if (getCurrentUser()->getOrders().size() > 0)
             {
-                std::cout << "\n*------------------------------------------------*" << std::endl;
+                std::cout << "\n*-------------------PRODUCTS---------------------*" << std::endl;
                 for (long unsigned int i = 0; i < getProducts().size(); i++)
                     std::cout << *getProducts()[i] << std::endl;
                 std::cout << "*------------------------------------------------*" << std::endl;
@@ -869,7 +869,7 @@ void    interface::adminMenu()
             headerLoggedAdmin();
             if (getProducts().size() > 0)
             {
-                std::cout << "\n*------------------------------------------------*" << std::endl;
+                std::cout << "\n*-------------------PRODUCTS---------------------*" << std::endl;
                 for (long unsigned int i = 0; i < getProducts().size(); i++)
                     std::cout << *getProducts()[i] << std::endl;
                 std::cout << "*------------------------------------------------*" << std::endl;
