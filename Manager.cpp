@@ -219,7 +219,7 @@ int &_delivery_address, int &_payment_option)
 bool    Manager::createReview(unsigned long &_reference, int &_rating,
 std::string &_text)
 {
-    unsigned long id = (unsigned long)rand;
+    unsigned long id = static_cast<unsigned long>(rand());
     if (isLogged() == true)
     {
         for (long unsigned int i = 0; i < users[current_user]->getOrders().size(); i++)
@@ -441,9 +441,24 @@ void    Manager::loadFromFile(std::string fileAddress)
     std::string useroradmin;
     std::string address, city, province;
     unsigned int postal_code;
-    int id, addressid;
+    int id, addressid, revid;
     unsigned long number;
+    unsigned long reference;
     std::string cardholder;
+    std::string ord;
+    unsigned long referenceprod;
+    std::time_t date, daterev;
+    int delivery_address, payment_option;
+    std::vector<Product *> prod;
+    std::string name, description;
+    unsigned long referenceProd;
+    float total;
+    float price;
+    std::string rev;
+    int rating;
+    std::string text;
+    int votes;
+    std::string usernamerev;
 
     fileRead.open(fileAddress, std::ios::in);
     if (!fileRead)
@@ -470,11 +485,12 @@ void    Manager::loadFromFile(std::string fileAddress)
             }
             if (line == "Address:")
             {
+                fileRead >> id;
                 fileRead >> address;
                 fileRead >> city;
                 fileRead >> province;
                 fileRead >> postal_code;
-                addAddress(address, city, province, postal_code);
+                getUsers().back()->getAddresses().push_back(new Address(id, address, city, province, postal_code));
             }
             if ((line == "CreditCard:") || (line == "Bizum:"))
             {
@@ -485,12 +501,64 @@ void    Manager::loadFromFile(std::string fileAddress)
             {
                 fileRead >> number;
                 fileRead >> cardholder;
-                //addCreditCard();
+                for (long unsigned int i = 0; i < getUsers().back()->getAddresses().size(); i++)
+                {
+                    if (getUsers().back()->getAddresses()[i]->getId() == addressid)
+                        getUsers().back()->getPaymentOptions().push_back(new CreditCard(id, getUsers().back()->getAddresses()[i], number, cardholder));
+                }
             }
             if (line == "Bizum:")
             {
                 fileRead >> number;
-                //addBizum();
+                for (long unsigned int j = 0; j < getUsers().back()->getAddresses().size(); j++)
+                {
+                    if (getUsers().back()->getAddresses()[j]->getId() == addressid)
+                        getUsers().back()->getPaymentOptions().push_back(new Bizum(id, getUsers().back()->getAddresses()[j], number));
+                }
+            }
+            if (line == "Order:")
+            {
+                fileRead >> reference;
+                fileRead >> ord;
+                if (ord == "order_product:")
+                {
+                    fileRead >> referenceprod;
+                    //
+                    do
+                    {
+                        fileRead >> ord;
+                        fileRead >> referenceprod;
+                        //
+                    }while (ord == "order_product:");
+                }
+                fileRead >> date;
+                fileRead >> delivery_address;
+                fileRead >> payment_option;
+                fileRead >> total;
+                getUsers().back()->getOrders().push_back(new Order(reference, delivery_address, payment_option));
+            }
+            if (line == "Product:")
+            {
+                fileRead >> name;
+                fileRead >> description;
+                fileRead >> referenceProd;
+                fileRead >> price;
+                getProducts().push_back(new Product(name, description, referenceProd, price));
+                fileRead >> rev; //
+                if (rev == "Review:")
+                {
+                    fileRead >> revid;
+                    fileRead >> daterev;
+                    fileRead >> rating;
+                    fileRead >> text;
+                    fileRead >> votes;
+                    fileRead >> usernamerev;
+                    for (long unsigned int i = 0; i < getUsers().size(); i++)
+                    {
+                        if (getUsers()[i]->getUsername() == usernamerev)
+                            getProducts().back()->getReviews().push_back(new Review(revid, rating, text, getUsers()[i])); //
+                    }
+                }
             }
         }
     }
