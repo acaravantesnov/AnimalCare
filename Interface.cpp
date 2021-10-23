@@ -34,6 +34,19 @@ void    interface::headerLoggedAdmin()
     std::cout << "\t\t--- ADMIN ---" << std::endl;
     std::cout << "\t UserName: " << getCurrentUser()->getUsername() << std::endl;
     std::cout << "\t Email: " << getCurrentUser()->getEmail() << std::endl;
+    std::cout << "\t Worker Id: " << getCurrentWorker_Id() << std::endl;
+}
+
+std::vector<unsigned long> &interface::getWorker_Ids() {return (worker_ids);}
+
+unsigned long   interface::getCurrentWorker_Id()
+{
+    for (long unsigned int i = 0; i < getUsers().size(); i++)
+    {
+        if (getUsers()[i]->getEmail() == getCurrentUser()->getEmail())
+                return (getWorker_Ids()[i]);
+    }
+    return (0);
 }
 
 void    interface::clearscreen() {system("clear");}
@@ -82,13 +95,12 @@ bool    interface::IaddAdmin()
         std::cout << "  Invalid Email, try again\n  Email: "; std:: cin >> email;
     }
     std::cout << "  Password: "; std::cin >> password;
-    worker_id = (unsigned long)rand();
+    worker_id = static_cast<unsigned long>(rand());
+    worker_ids.push_back(worker_id);
     if (addAdmin(username, email, password, worker_id) == true)
     {
-        clearscreen();
         std::cout << "\n  Created Admin! \n" << std::endl;
-        std::cout << "  ID: " << worker_id << "\n  Keep it secret!!" << std::endl;
-        std::this_thread::sleep_for(g_timespan3);
+        std::this_thread::sleep_for(g_timespan);
         return (true);
     }
     else

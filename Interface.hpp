@@ -15,6 +15,7 @@ class interface : public Manager
 {
     private:
         std::string opt;
+        std::vector<unsigned long> worker_ids;
         int exitMenu = 0;
         int exitAdminMenu = 0;
         int exitUserMenu = 0;
@@ -44,6 +45,8 @@ class interface : public Manager
         void    addressMenu();
         void    paymentMenu();
         void    makeorderMenu();
+        std::vector<unsigned long> &getWorker_Ids();
+        unsigned long getCurrentWorker_Id();
 };
 
 #endif // INTERFACE_HPP

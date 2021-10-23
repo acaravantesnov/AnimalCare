@@ -13,7 +13,6 @@ class Admin : public User
         bool    isAdmin();
         Admin(std::string const &username, std::string const &email, std::string const &password,
         unsigned long const &worker_id);
-        unsigned long   &getworkerId();
 };
 
 #endif // ADMIN_HPP
