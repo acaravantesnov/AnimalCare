@@ -178,38 +178,81 @@ void    interface::orderMenu(int _address, int _payment)
 
 void    interface::uodMenu()
 {
-    unsigned long id;
+    unsigned long reference;
+    long unsigned int index;
     int ok = 0;
-    std::cout << "\n  Review id: "; std::cin >> id;
-    for (long unsigned int i = 0; i < getProducts().size(); i++)
+    if (getProducts().size() > 0)
     {
-        for (long unsigned int j = 0; j < getProducts()[i]->getReviews().size(); j++)
+        std::cout << "\n*-------------------PRODUCTS---------------------*" << std::endl;
+        for (long unsigned int i = 0; i < getProducts().size(); i++)
+        std::cout << *getProducts()[i] << std::endl;
+        std::cout << "*------------------------------------------------*" << std::endl;
+        do
         {
-            if (getProducts()[i]->getReviews()[j]->getId() == id)
-                ok = 1;
-        }
+            std::cout << "\n  Select a valid index: "; std::cin >> index;
+        }while (index > getProducts().size());
+
+        std::cout << "\n*--------------------REVIEWS------------------------*" <<std::endl;
+        for (long unsigned int j = 0; j < getProducts()[index - 1]->getReviews().size(); j++)
+            std::cout << getProducts()[index - 1]->getReviews()[j]->show() << std::endl;
+        std::cout << "*---------------------------------------------------*" << std::endl;
+
+            if (getProducts()[index - 1]->getReviews().size() > 0)
+            {
+                std::cout << "\n  Review id: "; std::cin >> reference;
+                while (!std::cin.good())
+                {
+                    std::cout << "  ERROR: Introduce numeric value\n";
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                    std::cout << "  Rating: "; std::cin >> reference;
+                }
+                for (long unsigned int i = 0; i < getProducts().size(); i++)
+                {
+                    for (long unsigned int j = 0; j < getProducts()[i]->getReviews().size(); j++)
+                    {
+                        if (getProducts()[i]->getReviews()[j]->getId() == reference)
+                        {
+                            ok = 1;
+                            std::cout << "\n  Up or Down vote review?" << std::endl;
+                            std::cout << "  1. Upvote" << std::endl;
+                            std::cout << "  2. Downvote" << std::endl;
+                            std::cout << "\n  Select a valid option: "; std::cin >> opt;
+                            if (opt == "1")
+                            {
+                                if (upvoteReview(reference) == true)
+                                    std::cout << "\n  Review votes changed!" << std::endl;
+                            }
+                            else if (opt == "2")
+                            {
+                                if (downvoteReview(reference) == true)
+                                    std::cout << "\n  Review votes changed!" << std::endl;
+                            }
+                            else
+                                std::cout << "\n  Review votes remain unchanged.." << std::endl;
+                            std::cout << getProducts()[index - 1]->getReviews()[j]->getVotes() << std::endl;
+                            std::this_thread::sleep_for(g_timespan3);
+                        }
+                    }
+                }
+                if (ok == 0){
+                    std::cout << "No Review with provided id found.. " << std::endl;
+                    exituodMenu = 1;
+                }
+            }
+            else
+            {
+            std::cout << "\n No Reviews for this Product.. " << std::endl;
+            std::this_thread::sleep_for(g_timespan);
+            exituodMenu = 1;
+            }
     }
-    if (ok == 0)
-        exituodMenu = 1;
     else
     {
-        std::cout << "\n  Up or Down vote review?" << std::endl;
-        std::cout << "  1. Upvote" << std::endl;
-        std::cout << "  2. Downvote" << std::endl;
-        std::cout << "\n  Select a valid option: "; std::cin >> opt;
-        if (opt == "1")
-        {
-            if (upvoteReview(id) == true)
-                std::cout << "\n  Review votes changed!" << std::endl;
-        }
-        else if (opt == "2")
-        {
-            if (downvoteReview(id) == true)
-                std::cout << "\n  Review votes changed!" << std::endl;
-        }
-        else
-            std::cout << "\n  Review votes remain unchanged.." << std::endl;
+        std::cout << "\n No Products added yet.. " << std::endl;
         std::this_thread::sleep_for(g_timespan);
+        exituodMenu = 1;
+
     }
 }
 
@@ -219,7 +262,199 @@ void    interface::modifyrevMenu()
     std::string option;
     int rating;
     std::string text;
-    std::cout << "\n  Review id: "; std::cin >> reference;
+    long unsigned int index;
+
+    //unsigned long id;
+    //int ext = 0;
+    int x = 0;
+    if (getProducts().size() > 0)
+    {
+        std::cout << "\n*-------------------PRODUCTS---------------------*" << std::endl;
+        for (long unsigned int i = 0; i < getProducts().size(); i++)
+            std::cout << *getProducts()[i] << std::endl;
+        std::cout << "*------------------------------------------------*" << std::endl;
+        do
+        {
+            std::cout << "\n  Select a valid index: "; std::cin >> index;
+        }
+        while (index > getProducts().size());
+        /*//////////////////////////////////////////////////////////////////////////////////*/
+        for (long unsigned int i = 0; i < getProducts().size(); i++)
+        if (getProducts()[i]->getReviews().size() > 0)
+        {
+            std::cout << "\n*----------------Reviews-------------------*" << std::endl;
+            for (long unsigned int j =0; j < getProducts()[index - 1]->getReviews().size(); j++)
+            std::cout << getProducts()[index - 1]->getReviews()[j] << std::endl;
+            std::cout << "*-------------------------------------------*" << std::endl;
+            while (x == 0){
+                std::cout << " Select Review ID: "; std::cin >> reference;
+
+                while (!std::cin.good())
+                {
+                    std::cout << "  ERROR: Introduce numeric value\n";
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                    std::cout << "  Rating: "; std::cin >> reference;
+                }
+                for (long unsigned int j = 0; j < getProducts()[i]->getReviews().size(); j++)
+                {
+                    if(getProducts()[i]->getReviews()[j]->getId() == reference)
+                    {
+                        std::cout << " Id Product found " << std::endl;
+                        x = 1;
+                        break;
+                    }
+                    else
+                    {
+                        std::cout << " No item with Selected Id, please chose a valid option " << std::endl;
+                        x = 0;
+                    }
+                }
+             }
+            std::cout << "  Modify [Rating], [Text], or [Both]? "; std::cin >> option;
+            if ((option == "Rating") || (option == "rating") || (option == "RATING"))
+            {
+                std::cout << "\n  New Rating [0 - 5]: "; std::cin >> rating;
+                for (long unsigned int i = 0; i < getProducts().size(); i++)
+                {
+                    for (long unsigned int j = 0; j < getProducts()[i]->getReviews().size(); j++)
+                    {
+                        if (getProducts()[i]->getReviews()[j]->getId() == reference)
+                        {
+                            if ((modifyReviewRating(reference, rating) == true) && (rating >= 0) && (rating <= 5))
+                                std::cout << "\n  Successfully changed review rating!" << std::endl;
+                            else
+                                std::cout << "\n  Wrong review id or invalid rating [0-5]" << std::endl;
+                        }
+                    }
+                }
+            }
+            else if ((option == "Text") || (option == "text") || (option == "TEXT"))
+            {
+                std::cout << "\n  New Text: "; std::cin >> text;
+                for (long unsigned int i = 0; i < getProducts().size(); i++)
+                {
+                    for (long unsigned int j = 0; j < getProducts()[i]->getReviews().size(); j++)
+                    {
+                        if (getProducts()[i]->getReviews()[j]->getId() == reference)
+                        {
+                            if (modifyReviewText(reference, text) == true)
+                                std::cout << "\n  Successfully changed review text!" << std::endl;
+                            else
+                                std::cout << "\n  Wrong review id" << std::endl;
+                        }
+                    }
+                }
+            }
+            else if ((option == "Both") || (option == "both") || (option == "BOTH"))
+            {
+                std::cout << "\n  New Rating [0 - 5]: "; std::cin >> rating;
+                std::cout << "\n  New Text: "; std::cin >> text;
+                for (long unsigned int i = 0; i < getProducts().size(); i++)
+                {
+                    for (long unsigned int j = 0; j < getProducts()[i]->getReviews().size(); j++)
+                    {
+                        if ((getProducts()[i]->getReviews()[j]->getId() == reference) && (rating >= 0) && (rating <= 5))
+                        {
+                            modifyReviewRating(reference, rating);
+                            modifyReviewText(reference, text);
+                        }
+                        else
+                            std::cout << "\n  Wrong review id or invalid rating [0-5]" << std::endl;
+                    }
+                }
+            }
+            else
+                std::cout << "  Introduce a valid command!" << std::endl;
+            std::this_thread::sleep_for(g_timespan);
+        }
+        else
+        {
+            std::cout << "  No Reviews for this product..." << std::endl;
+            std::this_thread::sleep_for(g_timespan);
+            exitmodifyrevMenu = 1;
+        }
+
+    }
+    else
+    {
+        std::cout << " No products added yet..." << std::endl;
+        std::this_thread::sleep_for(g_timespan);
+        exitmodifyrevMenu = 1;
+    }
+
+        //pillar id, y que lo reconozca con el loop for revisando todos los ids y cuando coincida que de señal y haga break
+        //puedo usar el inicio del programa original más abajo
+        // while
+
+       // std::cout << "  Rating: "; std::cin >> rating;
+        /*while (!std::cin.good())
+        {
+            std::cout << "  ERROR: Introduce numeric value\n";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+            std::cout << "  Rating: "; std::cin >> rating;
+        }
+        std::cout << "\n  REVIEWS: \n" << std::endl;
+        for(long unsigned int i = 0; i < getReviewsByRating(getProducts()[index - 1]->getReference(), rating).size(); i++)
+        {
+            std::cout << "  Id: " << getReviewsByRating(getProducts()[index - 1]->getReference(), rating)[i]->getId() << std::endl;
+            std::cout << "  Rating: " << getReviewsByRating(getProducts()[index - 1]->getReference(), rating)[i]->getRating() << std::endl;
+            std::cout << "  Text: " << getReviewsByRating(getProducts()[index - 1]->getReference(), rating)[i]->getText() << std::endl;
+            std::cout << "  Author: " << getReviewsByRating(getProducts()[index - 1]->getReference(), rating)[i]->getAuthor()->getUsername() << std::endl;
+            std::cout << "  Votes: " << getReviewsByRating(getProducts()[index - 1]->getReference(), rating)[i]->getVotes() << std::endl;
+            std::cout << "  Date: " << getReviewsByRating(getProducts()[index - 1]->getReference(), rating)[i]->getDate() << "\n" << std::endl;
+        }
+        std::cout << " Select any number to Exit: " ; std::cin >> ext;
+        while (!std::cin.good())
+        {
+            std::cout << "  ERROR: Introduce numeric value\n";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+            std::cout << " Select any number to exit: "; std::cin >> ext;
+        }
+        if((ext > 10)&&(ext < 0)){
+        std::this_thread::sleep_for(g_timespan2);
+    }
+        //std::this_thread::sleep_for(g_timespan2);
+    }
+    else
+    {
+        std::cout << "  No products online.." << std::endl;
+        std::this_thread::sleep_for(g_timespan);
+        exitmodifyrevMenu = 1;
+    }
+*///
+
+
+
+   /*/
+    clearscreen();
+    header();
+    if (getProducts().size() > 0)
+    {
+        std::cout << "\n*-------------------PRODUCTS---------------------*" << std::endl;
+        for (long unsigned int i = 0; i < getProducts().size(); i++)
+        {
+            std::cout << *getProducts()[i] << std::endl;
+        }
+        std::cout << "*------------------------------------------------*" << std::endl;
+        std::this_thread::sleep_for(g_timespan);
+        exitorderMenu = 0;
+        while(exitorderMenu != 1)
+            orderMenu(addopt - 1, delopt - 1);
+    }
+    else
+    {
+        std::cout << "\n No products available!" << std::endl;
+        std::this_thread::sleep_for(g_timespan);
+        exitmakeorderMenu = 1;
+    }
+
+    /*/
+    /*///////////////////////////////////////////////////////////////////////////////
+
+        std::cout << "\n  Review id: "; std::cin >> reference;
     std::cout << "  Modify [Rating], [Text], or [Both]? "; std::cin >> option;
     if ((option == "Rating") || (option == "rating") || (option == "RATING"))
     {
@@ -276,6 +511,7 @@ void    interface::modifyrevMenu()
     else
         std::cout << "  Introduce a valid command!" << std::endl;
     std::this_thread::sleep_for(g_timespan);
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 }
 
 void    interface::addressMenu()
@@ -503,6 +739,7 @@ void    interface::userMenu()
         {
             clearscreen();
             headerLoggedUser();
+            int ext = 0;
             if (getProducts().size() > 0)
             {
                 std::cout << "\n*-------------------PRODUCTS---------------------*" << std::endl;
@@ -531,7 +768,17 @@ void    interface::userMenu()
                     std::cout << "  Votes: " << getReviewsByRating(getProducts()[index - 1]->getReference(), rating)[i]->getVotes() << std::endl;
                     std::cout << "  Date: " << getReviewsByRating(getProducts()[index - 1]->getReference(), rating)[i]->getDate() << "\n" << std::endl;
                 }
+                std::cout << " Select any number to Exit:  " ; std::cin >> ext;
+                while (!std::cin.good())
+                {
+                    std::cout << "  ERROR: Introduce numeric value\n";
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                    std::cout << "  Rating: "; std::cin >> ext;
+                }
+                if((ext > 10)&&(ext < 0)){
                 std::this_thread::sleep_for(g_timespan2);
+            }
             }
         }
         else if (opt == "4") //Up/downvote review
@@ -725,6 +972,7 @@ void    interface::adminMenu()
     long unsigned int index;
     int rating = -1;
     int ex;
+    //int id; //este podria eliminarse
     std::string text;
     float price;
     while (exitAdminMenu != 1)
@@ -761,12 +1009,11 @@ void    interface::adminMenu()
             std::cout << "\n  New product name: "; std::getline(std::cin >> std::ws, name);
             std::cout << "  Brief description: "; std::getline(std::cin >> std::ws, description);
             std::cout << "  Reference: "; std::cin >> reference;
-            while (!std::cin.good())
-            {
-                std::cout << "  ERROR: Introduce numeric value\n";
+            while (!std::cin.good()){
+                std::cout << " ERROR: introduce numeric value\n";
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-                std::cout << "  Reference: "; std::cin >> reference;
+                std::cout << " Reference: "; std::cin >> price;
             }
             std::cout << "  Price (in euros): "; std::cin >> price;
             while (!std::cin.good())
@@ -867,6 +1114,7 @@ void    interface::adminMenu()
         {
             clearscreen();
             headerLoggedAdmin();
+            int ext = 0;
             if (getProducts().size() > 0)
             {
                 std::cout << "\n*-------------------PRODUCTS---------------------*" << std::endl;
@@ -895,7 +1143,18 @@ void    interface::adminMenu()
                     std::cout << "  Votes: " << getReviewsByRating(getProducts()[index - 1]->getReference(), rating)[i]->getVotes() << std::endl;
                     std::cout << "  Date: " << getReviewsByRating(getProducts()[index - 1]->getReference(), rating)[i]->getDate() << "\n" << std::endl;
                 }
+                std::cout << " Select any number to Exit: " ; std::cin >> ext;
+                while (!std::cin.good())
+                {
+                    std::cout << "  ERROR: Introduce numeric value\n";
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                    std::cout << " Select any number to exit: "; std::cin >> ext;
+                }
+                if((ext > 10)&&(ext < 0)){
                 std::this_thread::sleep_for(g_timespan2);
+            }
+                //std::this_thread::sleep_for(g_timespan2);
             }
             else
             {
